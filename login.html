@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INNER TURN — Desk login</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN</a>
+    <nav><a href="/">Public site</a></nav>
+  </header>
+
+  <main class="login-wrap">
+    <p class="kicker">Owner desk</p>
+    <h1>Sign in with email</h1>
+    <p class="lede">Only <strong>desk@innerturn.com.au</strong> (or the Gmail recovery address). Device PIN is gone.</p>
+
+    <form id="form">
+      <label>Email
+        <input id="email" type="email" autocomplete="username" value="desk@innerturn.com.au" required />
+      </label>
+      <label>Password
+        <input id="pass" type="password" autocomplete="current-password" minlength="8" required />
+      </label>
+      <p class="note" id="err" hidden></p>
+      <p class="note" id="ok" hidden></p>
+      <button type="submit">Sign in</button>
+    </form>
+    <p class="fine">Forgot password: Netlify Identity recover on this same email. New accounts are invite-only.</p>
+  </main>
+
+  <script src="/auth.js"></script>
+  <script src="/login.js"></script>
+</body>
+</html>
