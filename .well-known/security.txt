@@ -1,0 +1,4 @@
+Contact: mailto:desk@innerturn.com.au
+Expires: 2027-09-11T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://innerturn.com.au/.well-known/security.txt

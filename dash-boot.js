@@ -1,0 +1,2 @@
+initIdentity();
+requireDesk();

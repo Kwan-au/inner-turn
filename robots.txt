@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /dash.html
+Disallow: /dash.js
+Disallow: /dash-boot.js
+Disallow: /login.html
+Disallow: /login.js
+Disallow: /auth.js
+Disallow: /thanks.html
+Sitemap: https://innerturn.com.au/sitemap.xml
