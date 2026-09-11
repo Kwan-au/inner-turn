@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inner Turn — Melbourne changeover desk</title>
+  <meta name="description" content="90-minute short-stay changeovers for Melbourne property managers. Contractor-delivered. Photo report before the next guest." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN</a>
+    <nav>
+      <a href="#pricing">Pricing</a>
+      <a href="#areas">Areas</a>
+      <a href="#enquire">Enquire</a>
+      <a class="ghost" href="/dash.html">Desk</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <p class="kicker">Melbourne · short-stay overflow</p>
+      <h1>Turns only. Guest thread stays with you.</h1>
+      <p class="lede">Inner Turn is a changeover desk for inner-Melbourne portfolios. We coordinate an insured contractor crew. Photo report before the next guest is messaged. We do not take management commission and we do not send the owner on site with a mop.</p>
+      <div class="cta-row">
+        <a class="btn" href="#enquire">Book overflow</a>
+        <a class="btn secondary" href="mailto:desk@innerturn.com.au">desk@innerturn.com.au</a>
+      </div>
+      <p class="fine">ABN 20 235 092 068 · 0451 224 857</p>
+    </section>
+    <section id="pricing">
+      <h2>Live card</h2>
+      <p class="note">Ex GST. Contractor-delivered. Event weeks (GF 26 Sep, Cup 3 Nov) +25%.</p>
+      <div class="cards">
+        <article><h3>1 bed</h3><p class="price">$149</p><p>90-min target · linen · restock · photos</p></article>
+        <article><h3>2 bed</h3><p class="price">$189</p><p>Same scope. More room on the turn.</p></article>
+        <article><h3>3 bed</h3><p class="price">$229</p><p>Same scope. Extra time built in.</p></article>
+      </div>
+      <p class="note">Trial = card minus $20 only if the cleaner rate still leaves $20 net.</p>
+    </section>
+    <section id="areas">
+      <h2>Coverage</h2>
+      <p>Richmond · South Yarra · Southbank · Docklands · Fitzroy · Collingwood · St Kilda · inner-south overflow</p>
+    </section>
+    <section id="enquire">
+      <h2>Send a lot</h2>
+      <form name="manager-enquire" method="POST" data-netlify="true" netlify-honeypot="bot">
+        <input type="hidden" name="form-name" value="manager-enquire" />
+        <p class="hidden"><label>Leave blank <input name="bot" /></label></p>
+        <label>Name<input name="name" required /></label>
+        <label>Company<input name="company" required /></label>
+        <label>Email<input type="email" name="email" required /></label>
+        <label>Beds
+          <select name="beds">
+            <option>1</option><option>2</option><option>3</option>
+          </select>
+        </label>
+        <label>Suburb + checkout window<textarea name="details" rows="4" required></textarea></label>
+        <button type="submit">Send to desk</button>
+      </form>
+      <p class="fine">Forms go to the Netlify inbox. We also watch desk@innerturn.com.au.</p>
+    </section>
+  </main>
+  <footer>
+    <p>Inner Turn · desk@innerturn.com.au · 0451 224 857</p>
+    <p>Registered business name on ABN 20 235 092 068 · innerturn.com.au</p>
+  </footer>
+</body>
+</html>

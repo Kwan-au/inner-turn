@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inner Turn desk</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN</a>
+    <nav><a href="/">Public site</a></nav>
+  </header>
+  <main class="dash">
+    <p class="kicker">Owner desk · not a cleaner roster</p>
+    <h1>Margin lock</h1>
+    <table>
+      <thead><tr><th>Beds</th><th>Charge</th><th>Pay cleaner</th><th>Keep</th><th>Refuse</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>$149</td><td>$110–$129</td><td>$20–$39</td><td>≥ $130</td></tr>
+        <tr><td>2</td><td>$189</td><td>≤ $159</td><td>≥ $30</td><td>&gt; $159</td></tr>
+        <tr><td>3</td><td>$229</td><td>≤ $189</td><td>≥ $40</td><td>&gt; $189</td></tr>
+      </tbody>
+    </table>
+    <p class="note">No yes without written partner rate + ABN + CoC. Kwan does not take keys.</p>
+    <h2>Pipeline</h2>
+    <form id="add">
+      <label>Who<input id="who" required placeholder="MadeComfy / O2O" /></label>
+      <label>Type
+        <select id="kind"><option>manager</option><option>cleaner</option></select>
+      </label>
+      <label>Note<input id="note" placeholder="quoted $120 1-bed" /></label>
+      <button type="submit">Log</button>
+    </form>
+    <ul id="list"></ul>
+  </main>
+  <script>
+    const KEY = "inner-turn-pipeline";
+    const list = document.getElementById("list");
+    function read(){ try { return JSON.parse(localStorage.getItem(KEY)||"[]"); } catch { return []; } }
+    function draw(){
+      const rows = read();
+      list.innerHTML = rows.map((r,i)=>`<li><strong>${r.kind}</strong> ${r.who}<br><span>${r.note||""}</span> <button data-i="${i}">x</button></li>`).join("") || "<li>Empty. Log the first reply.</li>";
+    }
+    document.getElementById("add").onsubmit = (e)=>{
+      e.preventDefault();
+      const rows = read();
+      rows.unshift({who:who.value.trim(), kind:kind.value, note:note.value.trim(), at:new Date().toISOString()});
+      localStorage.setItem(KEY, JSON.stringify(rows));
+      e.target.reset(); draw();
+    };
+    list.onclick = (e)=>{
+      if(e.target.dataset.i==null) return;
+      const rows = read(); rows.splice(+e.target.dataset.i,1);
+      localStorage.setItem(KEY, JSON.stringify(rows)); draw();
+    };
+    draw();
+  </script>
+</body>
+</html>
