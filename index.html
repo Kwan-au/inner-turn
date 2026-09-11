@@ -1,65 +1,42 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Airbnb changeover Melbourne | Inner Turn</title>
-  <meta name="description" content="Inner-Melbourne short-stay changeovers including 4-bed and houses." />
-  <link rel="canonical" href="https://inner-turn.netlify.app/" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Airbnb changeover Melbourne | Inner Turn</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 </head>
 <body>
-  <header class="nav">
-    <a class="logo" href="/">INNER TURN</a>
-    <button class="menu" type="button" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-    <nav>
-      <a href="#book">Book</a>
-      <a href="#run">Run a job</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#areas">Areas</a>
-      <a href="#faq">FAQ</a>
-      <a class="ghost" href="#enquire">Enquire</a>
-    </nav>
-  </header>
-  <main>
-    <section class="hero">
-      <p class="kicker">Melbourne · changeover desk</p>
-      <h1>Book the lot. We run the turn. You keep the guest thread.</h1>
-      <p class="lede">1-bed through houses. Written cleaner rate on file. Photo pack before the next check-in. Desk does not take keys.</p>
-      <div class="cta-row">
-        <a class="btn" href="#pricing">See the card</a>
-        <a class="btn secondary" href="#enquire">Send a lot</a>
-      </div>
-      <p class="fine">desk@innerturn.com.au · 0451 224 857 · ABN 20 235 092 068</p>
-    </section>
-    <section id="pricing">
-      <h2>Live card</h2>
-      <p class="note">Ex GST. Contractor-delivered. Event weeks +25%.</p>
-      <div class="cards">
-        <article><h3>1 bed</h3><p class="price">$149</p><p>90-min · linen · restock · photos</p></article>
-        <article><h3>2 bed</h3><p class="price">$189</p><p>Same scope</p></article>
-        <article><h3>3 bed</h3><p class="price">$229</p><p>Same scope</p></article>
-        <article><h3>4 bed</h3><p class="price">$279</p><p>Same scope · extra time</p></article>
-        <article><h3>5+ / house</h3><p class="price">Quote</p><p>Keep ≥ $60 or refuse</p></article>
-      </div>
-    </section>
-    <section id="book"><h2>Book</h2><p class="note">Email desk@innerturn.com.au with suburb, beds, window, access.</p></section>
-    <section id="run"><h2>Run</h2><p class="note">Margin: 4-bed pay ≤ $229 keep ≥ $50. Houses keep ≥ $60. Kwan stays off site.</p></section>
-    <section id="areas"><h2>Areas</h2><p>Richmond · South Yarra · Southbank · Docklands · Fitzroy · Collingwood · St Kilda</p></section>
-    <section id="faq"></section>
-    <section id="enquire">
-      <h2>Send a lot</h2>
-      <form name="manager-enquire" method="POST" data-netlify="true">
-        <input type="hidden" name="form-name" value="manager-enquire" />
-        <label>Name<input name="name" required /></label>
-        <label>Company<input name="company" required /></label>
-        <label>Email<input type="email" name="email" required /></label>
-        <label>Beds<select name="beds"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option><option>House</option></select></label>
-        <label>Details<textarea name="details" rows="4" required></textarea></label>
-        <button type="submit">Send to desk</button>
-      </form>
-    </section>
-  </main>
-</body>
-</html>
+<header class="nav"><a class="logo" href="/">INNER TURN</a>
+<nav><a href="#pricing">Pricing</a><a href="#enquire">Enquire</a></nav></header>
+<main>
+<section class="hero">
+<p class="kicker">Melbourne · changeover desk</p>
+<h1>Book the lot. We run the turn.</h1>
+<p class="lede">$149 / $189 / $249 / $299 ex GST. Houses quoted. Contractor + photo report. Desk does not clean.</p>
+<p class="fine">desk@innerturn.com.au · 0451 224 857 · ABN 20 235 092 068</p>
+</section>
+<section id="pricing">
+<h2>Live card</h2>
+<p class="note">Ex GST. Event weeks +25%. Same-day extra on the card.</p>
+<div class="cards">
+<article><h3>1 bed</h3><p class="price">$149</p></article>
+<article><h3>2 bed</h3><p class="price">$189</p></article>
+<article><h3>3 bed</h3><p class="price">$249</p></article>
+<article><h3>4 bed</h3><p class="price">$299</p></article>
+<article><h3>5+ / house</h3><p class="price">Quote</p><p>Keep ≥ $70</p></article>
+</div>
+</section>
+<section id="enquire">
+<h2>Send a lot</h2>
+<form name="manager-enquire" method="POST" data-netlify="true">
+<input type="hidden" name="form-name" value="manager-enquire" />
+<label>Name<input name="name" required /></label>
+<label>Company<input name="company" required /></label>
+<label>Email<input type="email" name="email" required /></label>
+<label>Beds<select name="beds"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option><option>House</option></select></label>
+<label>Details<textarea name="details" required></textarea></label>
+<button type="submit">Send to desk</button>
+</form>
+</section>
+</main></body></html>
