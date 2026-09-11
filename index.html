@@ -1,42 +1,229 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Airbnb changeover Melbourne | Inner Turn</title>
-<link rel="stylesheet" href="styles.css" />
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Airbnb changeover Melbourne | Inner Turn</title>
+  <meta name="description" content="Inner-Melbourne short-stay changeovers. Send a lot pack. Desk dispatches an insured contractor. Photo report before the next guest. You keep the thread." />
+  <meta name="theme-color" content="#f4efe6" />
+  <link rel="canonical" href="https://innerturn.com.au/" />
+  <meta property="og:title" content="Inner Turn — Melbourne changeover desk" />
+  <meta property="og:description" content="1 bed $149 · 2 bed $189 · 3 bed $229 · 4 bed $279 ex GST. Turns only. Guest thread stays with you." />
+  <meta property="og:url" content="https://innerturn.com.au/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://innerturn.com.au/hero.svg" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"LocalBusiness","name":"Inner Turn","url":"https://innerturn.com.au/","email":"desk@innerturn.com.au","telephone":"+61451224857","areaServed":"Melbourne","description":"Short-stay changeover desk for inner Melbourne. Contractor dispatch and photo report. Guest thread stays with the manager.","priceRange":"$149–$279","address":{"@type":"PostalAddress","addressLocality":"Melbourne","addressRegion":"VIC","addressCountry":"AU"}}
+  </script>
 </head>
-<body>
-<header class="nav"><a class="logo" href="/">INNER TURN</a>
-<nav><a href="#pricing">Pricing</a><a href="#enquire">Enquire</a></nav></header>
-<main>
-<section class="hero">
-<p class="kicker">Melbourne · changeover desk</p>
-<h1>Book the lot. We run the turn.</h1>
-<p class="lede">$149 / $189 / $249 / $299 ex GST. Houses quoted. Contractor + photo report. Desk does not clean.</p>
-<p class="fine">desk@innerturn.com.au · 0451 224 857 · ABN 20 235 092 068</p>
-</section>
-<section id="pricing">
-<h2>Live card</h2>
-<p class="note">Ex GST. Event weeks +25%. Same-day extra on the card.</p>
-<div class="cards">
-<article><h3>1 bed</h3><p class="price">$149</p></article>
-<article><h3>2 bed</h3><p class="price">$189</p></article>
-<article><h3>3 bed</h3><p class="price">$249</p></article>
-<article><h3>4 bed</h3><p class="price">$299</p></article>
-<article><h3>5+ / house</h3><p class="price">Quote</p><p>Keep ≥ $70</p></article>
-</div>
-</section>
-<section id="enquire">
-<h2>Send a lot</h2>
-<form name="manager-enquire" method="POST" data-netlify="true">
-<input type="hidden" name="form-name" value="manager-enquire" />
-<label>Name<input name="name" required /></label>
-<label>Company<input name="company" required /></label>
-<label>Email<input type="email" name="email" required /></label>
-<label>Beds<select name="beds"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option><option>House</option></select></label>
-<label>Details<textarea name="details" required></textarea></label>
-<button type="submit">Send to desk</button>
-</form>
-</section>
-</main></body></html>
+<body class="public">
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN</a>
+    <button class="menu" type="button" aria-label="Menu">Menu</button>
+    <nav>
+      <a href="#start">Start</a>
+      <a href="#book">Book</a>
+      <a href="#pricing">Card</a>
+      <a href="#areas">Areas</a>
+      <a href="#partners">Cleaners</a>
+      <a href="#faq">FAQ</a>
+      <a class="ghost" href="#enquire">Send a lot</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-split">
+      <div class="hero-copy">
+        <p class="kicker">Melbourne · changeover desk</p>
+        <h1>Turns only.<br />Guest thread stays with you.</h1>
+        <p class="lede">Insured contractor. Linen. Restock. Photo pack before the next guest.</p>
+        <div class="cta-row">
+          <a class="btn" href="#enquire">Send a lot</a>
+          <a class="btn secondary" href="#pricing">Live card</a>
+        </div>
+        <p class="fine">desk@innerturn.com.au · 0451 224 857</p>
+      </div>
+      <figure class="hero-still">
+        <img src="/hero.svg" width="960" height="622" alt="Empty inner-Melbourne apartment after checkout: rumpled linen, late light, photo report on the bed." />
+      </figure>
+    </section>
+
+    <ol class="beats" aria-label="How a turn runs">
+      <li><b>01</b> Lot</li>
+      <li><b>02</b> Dispatch</li>
+      <li><b>03</b> Photo pack</li>
+    </ol>
+
+    <section id="pricing" class="rate-board">
+      <h2 class="visually-hidden">Live card</h2>
+      <div class="slabs">
+        <article>
+          <p class="price">$149</p>
+          <p>1-bed<br />ex GST</p>
+        </article>
+        <article>
+          <p class="price">$189</p>
+          <p>2-bed<br />ex GST</p>
+        </article>
+        <article>
+          <p class="price">$229</p>
+          <p>3-bed<br />ex GST</p>
+        </article>
+      </div>
+      <p class="note rate-note">4-bed $279 · 5+ and houses quoted · event weeks +25% · same-day extra on the card. Contractor-delivered. Trial minus $20 only if the desk still keeps its floor.</p>
+    </section>
+
+    <p class="ticker">GF 26 Sep · Cup 3 Nov · AO 12 Jan–1 Feb · F1 Albert Park 5–8 Mar · event weeks +25%</p>
+
+    <section id="start">
+      <h2>Start — two files, then a job</h2>
+      <p class="note">Same path for every book. Status: LEAD → FILE → LIVE.</p>
+      <div class="cards">
+        <article>
+          <h3>Managers</h3>
+          <p>Email or form. Send one lot pack (suburb, beds, window, access). You keep the guest thread. First paid turn makes the book LIVE.</p>
+        </article>
+        <article>
+          <h3>Cleaners</h3>
+          <p>ABN + certificate of currency + written 1/2/3 bed rate including photos. No job until that file exists.</p>
+        </article>
+        <article>
+          <h3>We do not</h3>
+          <p>Take over the listing. Hold keys. Clean. Run guest chat. Quote under the live card.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="book">
+      <h2>Book a turn</h2>
+      <ol class="steps">
+        <li>
+          <b>01</b>
+          <div>
+            <h3>Write the desk</h3>
+            <p>desk@innerturn.com.au or the form. Subject: suburb + beds + checkout time.</p>
+          </div>
+        </li>
+        <li>
+          <b>02</b>
+          <div>
+            <h3>Lot pack</h3>
+            <p>Address, beds, checkout / check-in, access (lockbox / app / concierge), linen, restock, damage notes.</p>
+          </div>
+        </li>
+        <li>
+          <b>03</b>
+          <div>
+            <h3>Card</h3>
+            <p>$149 / $189 / $229 / $279 ex GST. 5+ and houses quoted. Event +25%. Same-day extra on the card.</p>
+          </div>
+        </li>
+        <li>
+          <b>04</b>
+          <div>
+            <h3>Cleaner on file</h3>
+            <p>No yes until a contractor has written rate, ABN and CoC. You are not assigned an uninsured person.</p>
+          </div>
+        </li>
+        <li>
+          <b>05</b>
+          <div>
+            <h3>You confirm</h3>
+            <p>Reply confirmed with the access code. Do not tell the guest we are the host.</p>
+          </div>
+        </li>
+        <li>
+          <b>06</b>
+          <div>
+            <h3>Photo report</h3>
+            <p>Timestamped pack on the same thread before you message the next guest.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="need">
+      <h2>What we need once</h2>
+      <ul class="need">
+        <li>Access that does not need the desk operator on site</li>
+        <li>Linen: on-site set or bag + pickup window</li>
+        <li>Restock list</li>
+        <li>Invoice entity + email</li>
+        <li>Who may change the window after 8pm the night before</li>
+      </ul>
+    </section>
+
+    <section id="areas">
+      <h2>Inner ring</h2>
+      <ul class="subs">
+        <li>Richmond</li><li>South Yarra</li><li>Southbank</li><li>Docklands</li>
+        <li>East Melbourne</li><li>Fitzroy</li><li>Collingwood</li><li>St Kilda</li>
+      </ul>
+      <p class="note">Quoted outside that ring. No lot with an OC short-stay ban.</p>
+    </section>
+
+    <section id="partners">
+      <h2>Cleaners — get on the file</h2>
+      <p class="note">We dispatch. You take the lot. We keep the manager. Reply with ABN, CoC and 1/2/3 rates including photos.</p>
+      <form name="cleaner-file" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-c">
+        <input type="hidden" name="form-name" value="cleaner-file" />
+        <p class="hidden"><label>Leave blank <input name="bot-c" autocomplete="off" tabindex="-1" /></label></p>
+        <p class="hidden"><label>Website <input name="website" autocomplete="off" tabindex="-1" /></label></p>
+        <label>Name / company<input name="name" required maxlength="80" autocomplete="organization" /></label>
+        <label>Email<input type="email" name="email" required maxlength="120" autocomplete="email" /></label>
+        <label>Mobile<input type="tel" name="mobile" maxlength="24" inputmode="tel" autocomplete="tel" /></label>
+        <label>ABN<input name="abn" maxlength="14" inputmode="numeric" /></label>
+        <label>1 / 2 / 3 bed rate + CoC expiry<textarea name="rates" rows="3" required maxlength="800" placeholder="1-bed $120 · 2-bed $150 · 3-bed $175 · CoC Mar 2027 · photos included"></textarea></label>
+        <button type="submit">Send rate file</button>
+      </form>
+    </section>
+
+    <section id="faq">
+      <h2>Managers ask</h2>
+      <details><summary>Do you take over the listing?</summary><p>No. You keep the guest thread, the PMS and the owner.</p></details>
+      <details><summary>Who is in the lot?</summary><p>A contractor with ABN and certificate of currency. The desk operator does not attend.</p></details>
+      <details><summary>How fast can you take a job?</summary><p>Next-day if a cleaner is already on the file. Same-day only with the extra on the card and a written yes from the cleaner.</p></details>
+      <details><summary>What is the levy?</summary><p>The VIC 7.5% short-stay levy stays with the owner / platform. It is not on this card.</p></details>
+    </section>
+
+    <section id="enquire">
+      <h2>Send a lot</h2>
+      <form name="manager-enquire" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot">
+        <input type="hidden" name="form-name" value="manager-enquire" />
+        <p class="hidden"><label>Leave blank <input name="bot" autocomplete="off" tabindex="-1" /></label></p>
+        <p class="hidden"><label>Website <input name="website" autocomplete="off" tabindex="-1" /></label></p>
+        <label>Name<input name="name" required maxlength="80" autocomplete="name" /></label>
+        <label>Company<input name="company" required maxlength="80" autocomplete="organization" /></label>
+        <label>Email<input type="email" name="email" required maxlength="120" autocomplete="email" /></label>
+        <label>Mobile<input type="tel" name="mobile" inputmode="tel" maxlength="24" autocomplete="tel" /></label>
+        <label>Beds
+          <select name="beds"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option><option>House</option></select>
+        </label>
+        <label>Suburb, window, access<textarea name="details" rows="4" required maxlength="800" placeholder="Richmond · Sat 11:00 out / 15:00 in · lockbox · white linen"></textarea></label>
+        <button type="submit">Send to desk</button>
+      </form>
+      <p class="fine">Same thread: desk@innerturn.com.au · 0451 224 857</p>
+    </section>
+  </main>
+  <footer>
+    <div class="foot-map" aria-hidden="true">
+      <svg viewBox="0 0 280 120" width="280" height="120">
+        <path d="M20 78 C48 40, 90 28, 128 36 C168 44, 198 22, 248 30" fill="none" stroke="currentColor" stroke-width="0.8"/>
+        <path d="M36 96 C70 62, 110 54, 150 66 C186 76, 214 52, 260 64" fill="none" stroke="currentColor" stroke-width="0.8"/>
+        <circle cx="142" cy="58" r="3.2" fill="#b85a38"/>
+        <text x="152" y="54" font-size="8" fill="currentColor">inner ring</text>
+      </svg>
+    </div>
+    <div class="foot-mark">
+      <p class="logo">INNER TURN</p>
+      <p>desk@innerturn.com.au · 0451 224 857</p>
+      <p>ABN 20 235 092 068 · innerturn.com.au</p>
+      <p class="fine"><a href="/login.html">Desk login</a></p>
+    </div>
+  </footer>
+  <script src="/site.js"></script>
+</body>
+</html>
