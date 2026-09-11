@@ -1,14 +1,144 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Inner Turn desk</title><link rel="stylesheet" href="styles.css" /></head>
-<body><header class="nav"><a class="logo" href="/">INNER TURN</a></header>
-<main class="dash"><h1>Margin lock</h1>
-<table><thead><tr><th>Beds</th><th>Charge</th><th>Pay</th><th>Keep</th><th>Refuse</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>$149</td><td>$110–129</td><td>$20–39</td><td>≥$130</td></tr>
-<tr><td>2</td><td>$189</td><td>≤$159</td><td>≥$30</td><td>&gt;$159</td></tr>
-<tr><td>3</td><td>$249</td><td>≤$199</td><td>≥$50</td><td>&gt;$199</td></tr>
-<tr><td>4</td><td>$299</td><td>≤$239</td><td>≥$60</td><td>&gt;$239</td></tr>
-<tr><td>5+/house</td><td>quote</td><td>quote−70</td><td>≥$70</td><td>keep &lt;$70</td></tr>
-</tbody></table>
-<p class="note">Trial −$15 once if floor holds. Event +25%. Kwan does not take keys.</p>
-</main></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INNER TURN — Desk</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="/auth.js"></script>
+  <script src="/dash-boot.js"></script>
+</head>
+<body class="desk-body">
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN</a>
+    <nav>
+      <a href="#lock">Margin</a>
+      <a href="#quota">Quota</a>
+      <a href="#pipe">Pipeline</a>
+      <a class="ghost" href="/">Public site</a>
+      <button type="button" class="text-btn" id="logout">Log out</button>
+    </nav>
+  </header>
+
+  <main class="desk" id="desk-root" hidden>
+    <section class="desk-head">
+      <p class="kicker">INNER TURN · CBD + INNER RING · FY2026</p>
+      <h1>Owner desk</h1>
+      <p class="lede">Sales and dispatch only. Kwan does not take keys. No job without cleaner ABN + CoC + written rate.</p>
+    </section>
+
+    <div class="ticker" aria-label="Event weeks">
+      AFL Grand Final 26 Sep · Spring Racing → Cup 3 Nov · Boxing Day Test · AO 12 Jan–1 Feb 2027 · F1 Albert Park 5–8 Mar
+    </div>
+
+    <section class="kpis">
+      <article><span>Y1 profit</span><strong>$30–75k</strong><em>Conservative · owner-op</em></article>
+      <article><span>Capex</span><strong>$25–55k</strong><em>No café fit-out</em></article>
+      <article><span>Hours</span><strong>25–40/wk</strong><em>Desk only</em></article>
+      <article><span>Risk</span><strong>MEDIUM</strong><em>Levy stays with owner</em></article>
+    </section>
+
+    <section>
+      <p class="kicker">Ranked this year</p>
+      <ol class="rank">
+        <li><b>01</b> STR linen + restock</li>
+        <li><b>02</b> Event-week concierge ops</li>
+        <li><b>03</b> Specialty coffee cart — after 8 paying doors</li>
+      </ol>
+    </section>
+
+    <section id="lock">
+      <h2>Margin lock</h2>
+      <p class="note">Live manager card. Trial = card minus $20 only if keep still clears the floor.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Beds</th><th>Charge</th><th>Pay cleaner</th><th>Keep</th><th>Refuse</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>$149</td><td>$110–$129</td><td>$20–$39</td><td>≥ $130</td></tr>
+            <tr><td>2</td><td>$189</td><td>≤ $159</td><td>≥ $30</td><td>&gt; $159</td></tr>
+            <tr><td>3</td><td>$229</td><td>≤ $189</td><td>≥ $40</td><td>&gt; $189</td></tr>
+            <tr><td>4</td><td>$279</td><td>≤ $229</td><td>≥ $50</td><td>&gt; $229</td></tr>
+            <tr><td>5+ / house</td><td>quote</td><td>quote − $60 min</td><td>≥ $60</td><td>if keep &lt; $60</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine">Same-day +$35 / +$45 / +$55. Event week +25%. Co-host lite 12% or $90 min after five clean turns.</p>
+    </section>
+
+    <section>
+      <h2>Inner ring</h2>
+      <ul class="subs">
+        <li>Richmond</li>
+        <li>South Yarra</li>
+        <li>Southbank</li>
+        <li>Docklands</li>
+        <li>East Melbourne</li>
+        <li>Fitzroy</li>
+        <li>Collingwood</li>
+        <li>St Kilda</li>
+      </ul>
+      <p class="note">8 km of Richmond / South Yarra base. Quoted run outside. No OC short-stay ban. VIC 7.5% levy is not ours.</p>
+    </section>
+
+    <section>
+      <h2>90-day launch</h2>
+      <ol class="gantt">
+        <li><span>D1–14</span> Legal · ABN live · agreement · PL $20m on request</li>
+        <li><span>D15–45</span> First 15 doors · partner file full</li>
+        <li><span>D46–90</span> AO proof · event calendar holds</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Regulation rail</h2>
+      <ul class="rail">
+        <li>VIC short stay levy 7.5% — owner / platform</li>
+        <li>FoodTrader — only if Tuesday lunch ever opens</li>
+        <li>OC 75% ban rule — walk away</li>
+      </ul>
+    </section>
+
+    <section id="quota">
+      <h2>Today’s quota</h2>
+      <p class="note">Stop at 8 paying doors or a clear path to 12 before lunch boxes or glass.</p>
+      <div class="quota" id="quota-box"></div>
+    </section>
+
+    <section id="pipe">
+      <h2>Pipeline</h2>
+      <form id="add">
+        <label>Who<input id="who" required placeholder="MadeComfy / O2O" /></label>
+        <label>Type
+          <select id="kind">
+            <option>manager</option>
+            <option>cleaner</option>
+          </select>
+        </label>
+        <label>Stage
+          <select id="stage">
+            <option>LEAD</option>
+            <option>FILE</option>
+            <option>LIVE</option>
+            <option>HOLD</option>
+            <option>DEAD</option>
+          </select>
+        </label>
+        <label>Note<input id="note" placeholder="quoted $120 1-bed / bounce" /></label>
+        <button type="submit">Log</button>
+      </form>
+      <ul id="list"></ul>
+    </section>
+
+    <section class="contact-strip">
+      <p>Kwan Ajak · 0451 224 857 · desk@innerturn.com.au · ABN 20 235 092 068</p>
+      <p class="fine">Conservative year-1 · Owner-operated · No café fit-out</p>
+    </section>
+  </main>
+
+  <script src="/dash.js"></script>
+</body>
+</html>
