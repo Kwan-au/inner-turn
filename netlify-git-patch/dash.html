@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>INNER TURN — Desk</title>
   <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="inner-turn.css" />
-  <link rel="stylesheet" href="desk-today.css" />
-  <script type="module" src="/dash-boot.js"></script>
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <link rel="stylesheet" href="/inner-turn.css?v=desk2" />
+  <link rel="stylesheet" href="/styles.v7.css" />
+  <link rel="stylesheet" href="/desk-today.css?v=desk3" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="/auth.js?v=desk2"></script>
+  <script src="/dash-boot.v2.js"></script>
 </head>
 <body class="desk-body">
   <header class="nav">
@@ -26,18 +30,31 @@
     </nav>
   </header>
 
-  <main class="login-wrap" id="desk-lock" hidden>
+  <main class="login-wrap" id="desk-lock">
     <p class="kicker">Second lock</p>
-    <h1>Desk unlock</h1>
-    <p class="lede">Identity passed. The pipeline stays hidden until the unlock phrase is accepted.</p>
-    <p class="fine"><a href="/login">Back to both locks</a></p>
+    <h1 id="desk-lock-title">Set a new desk phrase</h1>
+    <p class="lede" id="desk-lock-copy">Identity is signed in. Type the same phrase twice (12+ characters). This replaces any old phrase and opens the pipeline. It is not emailed.</p>
+    <form id="desk-unlock-form" data-mode="reset">
+      <label>New phrase
+        <input id="desk-phrase" type="password" autocomplete="new-password" minlength="12" required />
+      </label>
+      <label id="desk-phrase-2-wrap">Type it again
+        <input id="desk-phrase-2" type="password" autocomplete="new-password" minlength="12" required />
+      </label>
+      <button type="submit" id="desk-unlock-btn">Save phrase and open desk</button>
+    </form>
+    <p class="note" id="desk-lock-msg" hidden></p>
+    <p class="fine">
+      <button type="button" class="text-btn" id="desk-reset">I already have a phrase — unlock instead</button>
+      · <a href='/login'>Back to both locks</a>
+    </p>
   </main>
 
   <main class="desk" id="desk-root" hidden>
     <section class="desk-head">
-      <p class="kicker">INNER TURN · VICTORIA INTAKE · FY2026</p>
+      <p class="kicker">INNER TURN · CBD + INNER RING · FY2027</p>
       <h1>Owner desk</h1>
-      <p class="lede">Sales and dispatch only. Kwan does not take keys. No job without cleaner ABN + CoC + written rate.</p>
+      <p class="lede">Sales and dispatch only. Kwan does not take keys. No job without cleaner ABN + CoC + written rate. Import the hunt JSON to refresh the Pipeline.</p>
     </section>
 
     <div class="ticker" aria-label="Event weeks">
@@ -81,7 +98,7 @@
             <tr><th>Beds</th><th>Charge</th><th>Pay cleaner</th><th>Keep</th><th>Refuse</th></tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td>$149</td><td>$110–$129</td><td>$20–$39</td><td>≥ $130</td></tr>
+            <tr><td>1</td><td>$149</td><td>$110–$129</td><td>≥ $20</td><td>≥ $130</td></tr>
             <tr><td>2</td><td>$189</td><td>≤ $159</td><td>≥ $30</td><td>&gt; $159</td></tr>
             <tr><td>3</td><td>$229</td><td>≤ $189</td><td>≥ $40</td><td>&gt; $189</td></tr>
             <tr><td>4</td><td>$279</td><td>≤ $229</td><td>≥ $50</td><td>&gt; $229</td></tr>
@@ -89,7 +106,7 @@
           </tbody>
         </table>
       </div>
-      <p class="fine">Same-day +$40 / +$50 / +$60 / +$70. Event week +25%. Trial −$15 once if keep still clears the floor. Co-host lite 12% or $90 min after five clean turns.</p>
+      <p class="fine">Same-day +$40 / +$50 / +$60 / +$70. Event week +25%. Trial −$15 once if keep still clears the floor. Do not pay a 1-bed under $110.</p>
     </section>
 
     <section id="quota">
@@ -101,11 +118,14 @@
     <section id="pipe">
       <h2>Pipeline</h2>
       <p class="note" id="bench-count">Cleaner file empty. No dispatch until ABN + CoC + written 1/2/3 rate.</p>
-      <p class="fine">Site and /app forms write a LEAD row here when Netlify delivers the submission.</p>
+      <div id="pipe-board" class="pipe-board" aria-label="Pipeline filters"></div>
+      <p class="fine">Site and /app forms write a LEAD row when Netlify delivers the submission. Hunt JSON from the bot merges by name + lane.</p>
       <p class="fine" id="desk-sync">Checking Blobs…</p>
-      <p class="fine">
+      <p class="fine pipe-tools">
+        <input id="pipe-search" type="search" placeholder="Search party or note" maxlength="80" />
         <button type="button" id="desk-export">Export JSON</button>
         <label class="text-btn">Import JSON<input id="desk-import" type="file" accept="application/json" hidden /></label>
+        <label class="merge-lab"><input id="pipe-merge" type="checkbox" checked /> Merge on import</label>
       </p>
       <form id="add">
         <label>Who<input id="who" required placeholder="MadeComfy / O2O" /></label>
@@ -128,14 +148,6 @@
         <button type="submit">Log</button>
       </form>
       <ul id="list"></ul>
-    </section>
-
-    <section id="agent">
-      <p class="kicker">Human-reviewed automation</p>
-      <h2>Intake agent</h2>
-      <p class="note">Qualification, priority, draft replies and coverage matches. Drafts are never sent automatically; a match is not a booking.</p>
-      <p class="fine" id="agent-status">Loading intake records…</p>
-      <div class="agent-list" id="agent-list" aria-live="polite"></div>
     </section>
 
     <details class="desk-static">
@@ -208,8 +220,7 @@
     <p class="ruler-line">These pages are the rules. Desk and dispatch only. Guest thread stays with the manager.</p>
   </footer>
 
-  <script src="/site.v6.js"></script>
-  <script type="module" src="/dash.js"></script>
-  <script src="site.v7.js" defer></script>
+  <script src="/dash.js?v=desk3"></script>
+  <script src="/inner-turn.js" defer></script>
 </body>
 </html>
