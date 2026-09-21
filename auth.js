@@ -1,5 +1,6 @@
 const ALLOWED = ["desk@innerturn.com.au", "kwan.ajak87@gmail.com"];
 const API = "https://innerturn.com.au/.netlify/identity";
+const SESSION_KEY = "inner-turn-desk-session";
 
 function allowedEmail(email) {
   return ALLOWED.includes(String(email || "").trim().toLowerCase());
@@ -11,6 +12,43 @@ function identityUser() {
   } catch {
     return null;
   }
+}
+
+function deskSession() {
+  try {
+    return sessionStorage.getItem(SESSION_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+function setDeskSession(token) {
+  try {
+    if (token) sessionStorage.setItem(SESSION_KEY, token);
+    else sessionStorage.removeItem(SESSION_KEY);
+  } catch {
+    // Private mode can block sessionStorage.
+  }
+}
+
+async function identityToken() {
+  const user = identityUser();
+  if (!user) return "";
+  try {
+    if (typeof user.jwt === "function") return await user.jwt();
+  } catch {
+    // Fall through to the cached access token.
+  }
+  return user.token?.access_token || "";
+}
+
+async function deskHeaders() {
+  const headers = {};
+  const identity = await identityToken();
+  const lock = deskSession();
+  if (identity) headers.Authorization = "Bearer " + identity;
+  if (lock) headers["X-Desk-Session"] = lock;
+  return headers;
 }
 
 function identityReady() {
@@ -39,10 +77,17 @@ async function requireDesk() {
     return user;
   }
   if (user && !allowedEmail(user.email)) {
+    setDeskSession("");
     try { netlifyIdentity.logout(); } catch {}
   }
   goLogin();
   return null;
+}
+
+function signOutDesk() {
+  setDeskSession("");
+  if (window.netlifyIdentity && netlifyIdentity.currentUser()) netlifyIdentity.logout();
+  goLogin();
 }
 
 function initIdentity() {

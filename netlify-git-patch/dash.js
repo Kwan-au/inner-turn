@@ -8,17 +8,27 @@ function esc(s) {
 const PIPE = "inner-turn-pipeline";
 const QUOTA = "inner-turn-quota";
 const STATUSES = ["LEAD", "FILE", "LIVE", "HOLD", "DEAD"];
+const GRAND_FINAL_YMD = "2026-09-26";
 const list = document.getElementById("list");
 const syncEl = document.getElementById("desk-sync");
+const searchEl = document.getElementById("pipe-search");
+const mergeEl = document.getElementById("pipe-merge");
+
+let filter = "ALL";
 let boardData = null;
 let statusFilter = "ALL";
 let boardTimer = 0;
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Australia/Melbourne" });
 }
+
 function readPipe() {
-  try { return JSON.parse(localStorage.getItem(PIPE) || "[]"); } catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(PIPE) || "[]");
+  } catch {
+    return [];
+  }
 }
 function writePipe(rows) {
   localStorage.setItem(PIPE, JSON.stringify(rows));
@@ -36,16 +46,40 @@ function setSync(text) {
   if (syncEl) syncEl.textContent = text;
 }
 
-async function apiHeaders() {
-  if (typeof deskHeaders === "function") return deskHeaders();
-  return {};
+function token() {
+  try {
+    return window.netlifyIdentity?.currentUser()?.token?.access_token || "";
+  } catch {
+    return "";
+  }
+}
+
+function rowKey(r) {
+  return String(r.email || r.who || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim() + "|" + (r.kind || "manager");
+}
+
+function mergeRows(existing, incoming) {
+  const map = new Map();
+  for (const r of existing) map.set(rowKey(r), r);
+  for (const r of incoming) {
+    const k = rowKey(r);
+    const prev = map.get(k);
+    map.set(k, prev ? { ...prev, ...r, note: r.note || prev.note, at: r.at || prev.at } : r);
+  }
+  return [...map.values()].sort((a, b) => Date.parse(b.at || 0) - Date.parse(a.at || 0)).slice(0, 200);
 }
 
 async function pullRemote() {
+  const t = token();
+  if (!t) {
+    setSync("Local only — sign-in token missing. Export JSON before you change machines.");
+    return null;
+  }
   try {
-    const res = await fetch("/api/desk-state", {
-      headers: await apiHeaders()
-    });
+    const res = await fetch("/api/desk-state", { headers: await deskHeaders() });
     if (!res.ok) throw new Error(String(res.status));
     const data = await res.json();
     return data.state || null;
@@ -55,15 +89,21 @@ async function pullRemote() {
   }
 }
 
-async function pushRemote() {
+async function pushRemote(merge) {
+  const t = token();
+  if (!t) return;
   try {
     const res = await fetch("/api/desk-state", {
       method: "POST",
       headers: {
-        ...(await apiHeaders()),
+        ...(await deskHeaders()),
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ pipe: readPipe(), quota: readQuota() })
+      body: JSON.stringify({
+        pipe: readPipe(),
+        quota: readQuota(),
+        merge: merge !== false
+      })
     });
     if (!res.ok) throw new Error(String(res.status));
     setSync("Synced to Netlify Blobs. Survives a new browser.");
@@ -79,29 +119,83 @@ function drawQuota() {
     { key: "li", label: "LinkedIn DMs", cap: 5 },
     { key: "walk", label: "Walk-ins / calls", cap: 2 }
   ];
-  document.getElementById("quota-box").innerHTML = items.map((it) => {
-    const n = q[it.key] || 0;
-    return `<div class="q-card"><span>${esc(it.label)}</span><strong>${n} / ${it.cap}</strong><button type="button" data-q="${it.key}">+1</button></div>`;
-  }).join("");
+  const box = document.getElementById("quota-box");
+  if (!box) return;
+  box.innerHTML = items
+    .map((it) => {
+      const n = q[it.key] || 0;
+      return `<div class="q-card"><span>${esc(it.label)}</span><strong>${n} / ${it.cap}</strong><button type="button" data-q="${it.key}">+1</button></div>`;
+    })
+    .join("");
 }
 
 function drawBench() {
   const el = document.getElementById("bench-count");
-  if (!el) return;
+  const board = document.getElementById("pipe-board");
   const rows = readPipe();
   const file = rows.filter((r) => r.kind === "cleaner" && (r.stage === "FILE" || r.stage === "LIVE")).length;
   const live = rows.filter((r) => r.kind === "manager" && r.stage === "LIVE").length;
-  el.textContent = file
-    ? file + " cleaner(s) on FILE/LIVE · " + live + " manager book(s) LIVE"
-    : "Cleaner file empty. No dispatch until ABN + CoC + written 1/2/3 rate.";
+  const lead = rows.filter((r) => r.stage === "LEAD").length;
+  const hold = rows.filter((r) => r.stage === "HOLD").length;
+  if (el) {
+    el.textContent = file
+      ? file + " cleaner(s) on FILE/LIVE · " + live + " manager book(s) LIVE · " + lead + " LEAD"
+      : "Cleaner file empty on this board. No dispatch until ABN + CoC + written 1/2/3 rate.";
+  }
+  if (board) {
+    board.innerHTML = [
+      ["LIVE", live],
+      ["FILE", file],
+      ["LEAD", lead],
+      ["HOLD", hold],
+      ["ALL", rows.length]
+    ]
+      .map(([k, n]) => `<button type="button" class="chip${filter === k ? " on" : ""}" data-filter="${k}">${k} ${n}</button>`)
+      .join("");
+  }
 }
 
 function drawPipe() {
+  if (!list) return;
   const rows = readPipe();
-  list.innerHTML = rows.map((r, i) =>
-    `<li><strong>${esc(r.kind)}</strong> · ${esc(r.stage || "LEAD")} · ${esc(r.who)}<br><span>${esc(r.note || "")}</span><button type="button" data-i="${i}">x</button></li>`
-  ).join("") || "<li>Empty. Log the first reply.</li>";
+  const q = (searchEl && searchEl.value ? searchEl.value : "").toLowerCase().trim();
+  const shown = rows.filter((r) => {
+    if (filter === "FILE") return r.kind === "cleaner" && (r.stage === "FILE" || r.stage === "LIVE");
+    if (filter === "LIVE") return r.kind === "manager" && r.stage === "LIVE";
+    if (filter !== "ALL" && r.stage !== filter) return false;
+    if (!q) return true;
+    return (r.who + " " + (r.note || "") + " " + (r.email || "")).toLowerCase().includes(q);
+  });
+  list.innerHTML =
+    shown
+      .map((r) => {
+        const i = rows.indexOf(r);
+        return `<li data-i="${i}" class="pipe-row stage-${esc(r.stage || "LEAD")}">
+          <div class="pipe-meta">
+            <strong>${esc(r.kind)}</strong>
+            <select data-stage="${i}" aria-label="Stage">
+              ${STATUSES.map((s) => `<option${(r.stage || "LEAD") === s ? " selected" : ""}>${s}</option>`).join("")}
+            </select>
+            <span>${esc(r.who)}</span>
+          </div>
+          <span class="pipe-note">${esc(r.note || "")}</span>
+          <button type="button" data-i="${i}" class="pipe-x" aria-label="Remove">x</button>
+        </li>`;
+      })
+      .join("") || "<li class='pipe-empty'>No rows in this filter. Log a reply or Import JSON.</li>";
   drawBench();
+}
+
+function statusChip(status) {
+  const s = String(status || "LEAD").toUpperCase();
+  const cls = {
+    LEAD: "chip-lead",
+    FILE: "chip-file",
+    LIVE: "chip-live",
+    HOLD: "chip-hold",
+    DEAD: "chip-dead"
+  }[s] || "chip-lead";
+  return `<span class="${cls}">${esc(s)}</span>`;
 }
 
 function statusSelect(table, id, current) {
@@ -125,8 +219,38 @@ function matchesFilter(row) {
   return String(row?.status || "LEAD") === statusFilter;
 }
 
+function melbourneYmd(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Australia/Melbourne",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(now);
+}
+
+function daysToGrandFinal(now = new Date()) {
+  const today = melbourneYmd(now);
+  const a = Date.parse(`${today}T00:00:00+10:00`);
+  const b = Date.parse(`${GRAND_FINAL_YMD}T00:00:00+10:00`);
+  return Math.round((b - a) / 86400000);
+}
+
+function todayFromBoard(data) {
+  if (data.today && typeof data.today === "object") return data.today;
+  const summary = data.summary || {};
+  const executablePacks = summary.executablePacks || 0;
+  const fileReady = summary.fileReady || 0;
+  return {
+    executablePacks,
+    fileReady,
+    canDispatch: executablePacks >= 1 && fileReady >= 1,
+    daysToGrandFinal: daysToGrandFinal(),
+    answerLine: executablePacks < 1 ? "Need lot pack" : fileReady < 1 ? "Need FILE cleaner" : "Ready to book"
+  };
+}
+
 function drawToday(data) {
-  const today = data.today || {};
+  const today = todayFromBoard(data);
   const answer = document.getElementById("today-answer");
   const metrics = document.getElementById("today-metrics");
   const actions = document.getElementById("today-actions");
@@ -183,7 +307,7 @@ function drawBoard(data) {
   ]
     .map(
       ([label, n]) =>
-        `<article><span>${esc(label)}</span><strong>${esc(n ?? 0)}</strong><em>From desk records</em></article>`
+        `<article><span>${esc(label)}</span><strong>${esc(n ?? 0)}</strong><em>From desk DB</em></article>`
     )
     .join("");
 
@@ -194,7 +318,7 @@ function drawBoard(data) {
         const title = row.contactName || row.companyName || row.email || "Unnamed lot pack";
         const place = [row.suburb, row.beds ? `${row.beds} bed` : ""].filter(Boolean).join(" · ");
         return `<article class="agent-card">
-      <div class="agent-meta"><strong>lot pack</strong><span>${esc(row.status)}</span>${
+      <div class="agent-meta"><strong>lot pack</strong>${statusChip(row.status)}${
           row.executable ? "<b>executable</b>" : "<span>incomplete</span>"
         }</div>
       <h3>${esc(title)}</h3>
@@ -220,7 +344,7 @@ function drawBoard(data) {
           .filter(Boolean)
           .join(" · ");
         return `<article class="agent-card">
-      <div class="agent-meta"><strong>cleaner</strong><span>${esc(row.status)}</span>${
+      <div class="agent-meta"><strong>cleaner</strong>${statusChip(row.status)}${
           row.payLockOk ? "<b>pay lock ok</b>" : "<span>pay lock</span>"
         }</div>
       <h3>${esc(title)}</h3>
@@ -228,7 +352,9 @@ function drawBoard(data) {
           row.abn ? ` · ABN ${esc(row.abn)}` : ""
         }</p>
       ${rates ? `<p>${esc(rates)}</p>` : ""}
-      ${missingList(row) || `<p class="agent-clear">No blocking gaps listed.</p>`}
+      ${
+        missingList(row) || `<p class="agent-clear">No blocking gaps listed.</p>`
+      }
       ${statusSelect("cleaner_files", row.id, row.status)}
     </article>`;
       })
@@ -242,7 +368,7 @@ function drawBoard(data) {
         return `<article class="agent-card">
       <div class="agent-meta"><strong>party</strong>${
           row.lane ? `<span>${esc(row.lane)}</span>` : "<span>no lane</span>"
-        }<span>${esc(row.status || "LEAD")}</span></div>
+        }${statusChip(row.status || "LEAD")}</div>
       <h3>${esc(title)}</h3>
       <p>${esc(row.email || "")}</p>
       ${row.note ? `<p>${esc(row.note)}</p>` : ""}
@@ -258,7 +384,7 @@ async function loadBoard() {
   const answer = document.getElementById("today-answer");
   if (!sumEl) return;
   try {
-    const res = await fetch("/api/desk-board", { headers: await apiHeaders() });
+    const res = await fetch("/api/desk-board", { headers: await deskHeaders() });
     if (!res.ok) throw new Error(String(res.status));
     const data = await res.json();
     drawBoard(data);
@@ -276,7 +402,7 @@ async function setRowStatus(table, id, status, selectEl) {
     const res = await fetch("/api/desk-status", {
       method: "POST",
       headers: {
-        ...(await apiHeaders()),
+        ...(await deskHeaders()),
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ table, id, status })
@@ -286,7 +412,7 @@ async function setRowStatus(table, id, status, selectEl) {
   } catch {
     selectEl.disabled = false;
     const sumEl = document.getElementById("board-summary");
-    if (sumEl) sumEl.textContent = "Status update failed. Sign in again and retry.";
+    if (sumEl) sumEl.textContent = "Status update failed. Check unlock session and try again.";
   }
 }
 
@@ -296,6 +422,27 @@ function startBoardRefresh() {
     if (document.visibilityState === "visible") loadBoard();
   }, 60000);
 }
+
+document.getElementById("quota-box")?.addEventListener("click", (e) => {
+  const key = e.target.dataset.q;
+  if (!key) return;
+  const q = readQuota();
+  q[key] = (q[key] || 0) + 1;
+  saveQuota(q);
+  drawQuota();
+  pushRemote(true);
+});
+
+const pipeBoard = document.getElementById("pipe-board");
+if (pipeBoard) {
+  pipeBoard.addEventListener("click", (e) => {
+    const f = e.target.dataset.filter;
+    if (!f) return;
+    filter = f;
+    drawPipe();
+  });
+}
+if (searchEl) searchEl.addEventListener("input", drawPipe);
 
 document.getElementById("board")?.addEventListener("change", (e) => {
   const sel = e.target.closest("select[data-status-table]");
@@ -317,17 +464,7 @@ document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") loadBoard();
 });
 
-document.getElementById("quota-box").addEventListener("click", (e) => {
-  const key = e.target.dataset.q;
-  if (!key) return;
-  const q = readQuota();
-  q[key] = (q[key] || 0) + 1;
-  saveQuota(q);
-  drawQuota();
-  pushRemote();
-});
-
-document.getElementById("add").addEventListener("submit", (e) => {
+document.getElementById("add")?.addEventListener("submit", (e) => {
   e.preventDefault();
   const rows = readPipe();
   rows.unshift({
@@ -340,20 +477,35 @@ document.getElementById("add").addEventListener("submit", (e) => {
   writePipe(rows);
   e.target.reset();
   drawPipe();
-  pushRemote();
+  pushRemote(true);
 });
 
-list.addEventListener("click", (e) => {
-  if (e.target.dataset.i == null) return;
-  const rows = readPipe();
-  rows.splice(+e.target.dataset.i, 1);
-  writePipe(rows);
-  drawPipe();
-  pushRemote();
-});
+if (list) {
+  list.addEventListener("click", (e) => {
+    if (e.target.dataset.i == null || e.target.tagName !== "BUTTON") return;
+    if (!confirm("Remove this row from the board?")) return;
+    const rows = readPipe();
+    rows.splice(+e.target.dataset.i, 1);
+    writePipe(rows);
+    drawPipe();
+    pushRemote(true);
+  });
 
-document.getElementById("logout").addEventListener("click", () => {
-  if (typeof signOutDesk === "function") return signOutDesk();
+  list.addEventListener("change", (e) => {
+    const i = e.target.dataset.stage;
+    if (i == null) return;
+    const rows = readPipe();
+    if (!rows[+i]) return;
+    rows[+i].stage = e.target.value;
+    rows[+i].at = new Date().toISOString();
+    writePipe(rows);
+    drawPipe();
+    pushRemote(true);
+  });
+}
+
+document.getElementById("logout")?.addEventListener("click", () => {
+  setDeskSession("");
   if (window.netlifyIdentity && netlifyIdentity.currentUser()) netlifyIdentity.logout();
   location.replace("/login.html");
 });
@@ -377,11 +529,15 @@ if (imp) {
     if (!file) return;
     try {
       const data = JSON.parse(await file.text());
-      if (Array.isArray(data.pipe)) writePipe(data.pipe);
+      if (Array.isArray(data.pipe)) {
+        const merge = !mergeEl || mergeEl.checked;
+        writePipe(merge ? mergeRows(readPipe(), data.pipe) : data.pipe);
+      }
       if (data.quota && typeof data.quota === "object") saveQuota(data.quota);
       drawQuota();
       drawPipe();
-      pushRemote();
+      pushRemote(true);
+      setSync("Imported " + readPipe().length + " rows. Synced if unlock is live.");
     } catch {
       setSync("Import failed. Need inner-turn-desk.json.");
     }
@@ -390,18 +546,18 @@ if (imp) {
 }
 
 async function boot() {
-  if (typeof identityReady === "function") await identityReady();
   drawQuota();
   drawPipe();
   const remote = await pullRemote();
   if (remote) {
-    if (Array.isArray(remote.pipe) && remote.pipe.length >= readPipe().length) writePipe(remote.pipe);
-    else if (Array.isArray(remote.pipe) && remote.pipe.length && !readPipe().length) writePipe(remote.pipe);
+    if (Array.isArray(remote.pipe) && remote.pipe.length) {
+      writePipe(mergeRows(readPipe(), remote.pipe));
+    }
     if (remote.quota && remote.quota.day === todayKey()) saveQuota(remote.quota);
     drawQuota();
     drawPipe();
-    if (readPipe().length && (!remote.pipe || remote.pipe.length < readPipe().length)) pushRemote();
-    else setSync("Synced to Netlify Blobs. Survives a new browser.");
+    if (readPipe().length) pushRemote(true);
+    else setSync("Synced to Netlify Blobs. Board empty.");
   }
   await loadBoard();
   startBoardRefresh();

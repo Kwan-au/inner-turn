@@ -1,0 +1,60 @@
+/* Additive desk-ops styles for the live desk2 tree. Do not replace inner-turn.css. */
+
+:root{--gold:var(--gold,#c4a35a)}
+.desk section{scroll-margin-top:88px}
+.today-strip{
+  border:1px solid #2c323a;
+  border-left:5px solid #c4a35a;
+  background:#14181d;
+  padding:22px 22px 18px;
+  margin:8px 0 28px;
+  border-radius:10px;
+}
+.today-answer{
+  font:500 clamp(28px,4vw,44px)/1.08 var(--display,Helvetica,sans-serif);
+  letter-spacing:-.04em;
+  margin:0 0 16px;
+  color:#f3efe4;
+}
+.today-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:0 0 14px}
+.today-metrics article,.kpis article{
+  border:1px solid #2c323a;
+  padding:12px 14px;
+  background:#161b21;
+  border-radius:8px;
+}
+.today-metrics span,.today-metrics em,.kpis span,.kpis em{
+  display:block;color:#9aa3ad;font-size:12px;font-style:normal;
+}
+.today-metrics strong,.kpis strong{display:block;font:600 22px var(--display,Helvetica,sans-serif);margin:6px 0;color:#f3efe4}
+.today-actions{margin:0;padding-left:18px;color:#9aa3ad}
+.today-actions li{margin:6px 0}
+.board-filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+.board-filters button{
+  background:#161b21;color:#d7d2c6;border:1px solid #3a3f46;
+  font-weight:600;padding:6px 12px;border-radius:999px;
+}
+.board-filters button.on{background:#c4a35a;color:#161616;border-color:#c4a35a}
+.agent-list{display:grid;gap:12px;margin:0 0 22px}
+.agent-card{
+  border:1px solid #2c323a;background:#14181d;padding:14px 16px;border-radius:10px;
+}
+.agent-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.agent-meta strong{text-transform:uppercase;font-size:11px;letter-spacing:.08em;color:#c4a35a}
+.agent-meta span,.agent-meta b{font-size:12px;color:#d7d2c6}
+.agent-meta b{color:#c4a35a;font-weight:650}
+.agent-card ul{margin:8px 0 0;padding-left:18px;color:#9aa3ad}
+.agent-clear{color:#7dba8a}
+.board-status{display:grid;gap:6px;margin-top:10px;font-size:12px;color:#9aa3ad}
+.board-status select{background:#0f1216;color:#e8e4da;border:1px solid #3a3f46;border-radius:6px;padding:6px 8px}
+.desk-static{margin:36px 0;border:1px solid #2c323a;padding:12px 16px;background:#14181d;border-radius:10px}
+.desk-static summary{cursor:pointer;font-weight:600;color:#e8e4da}
+.desk-static section{margin:18px 0}
+.chip-lead,.chip-file,.chip-live,.chip-hold,.chip-dead{
+  display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;letter-spacing:.04em;
+}
+.chip-lead{border:1px solid #4a6a8a;color:#9ec0e0}
+.chip-file{border:1px solid #7dba8a;color:#7dba8a}
+.chip-live{border:1px solid #c4a35a;color:#c4a35a}
+.chip-hold{border:1px solid #d4a24a;color:#d4a24a}
+.chip-dead{border:1px solid #8a4a4a;color:#c98a8a}

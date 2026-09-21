@@ -5,31 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>INNER TURN — Desk</title>
   <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <link rel="stylesheet" href="/inner-turn.css?v=desk2" />
+  <link rel="stylesheet" href="/styles.v7.css" />
+  <link rel="stylesheet" href="/desk-today.css?v=desk3" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/auth.js"></script>
-  <script src="/dash-boot.js"></script>
+  <script src="/auth.js?v=desk2"></script>
+  <script src="/dash-boot.v2.js"></script>
 </head>
 <body class="desk-body">
   <header class="nav">
     <a class="logo" href="/">INNER TURN</a>
-    <button class="menu" type="button" aria-label="Menu">Menu</button>
-    <nav>
+    <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav">
       <a href="#today">Today</a>
       <a href="#board">Board</a>
       <a href="#lock">Margin</a>
       <a href="#quota">Quota</a>
       <a href="#pipe">Pipeline</a>
+      <a href="/trust">Trust</a>
+      <a href="/policies">Rules</a>
       <a class="ghost" href="/">Public site</a>
       <button type="button" class="text-btn" id="logout">Log out</button>
     </nav>
   </header>
 
+  <main class="login-wrap" id="desk-lock">
+    <p class="kicker">Second lock</p>
+    <h1 id="desk-lock-title">Set a new desk phrase</h1>
+    <p class="lede" id="desk-lock-copy">Identity is signed in. Type the same phrase twice (12+ characters). This replaces any old phrase and opens the pipeline. It is not emailed.</p>
+    <form id="desk-unlock-form" data-mode="reset">
+      <label>New phrase
+        <input id="desk-phrase" type="password" autocomplete="new-password" minlength="12" required />
+      </label>
+      <label id="desk-phrase-2-wrap">Type it again
+        <input id="desk-phrase-2" type="password" autocomplete="new-password" minlength="12" required />
+      </label>
+      <button type="submit" id="desk-unlock-btn">Save phrase and open desk</button>
+    </form>
+    <p class="note" id="desk-lock-msg" hidden></p>
+    <p class="fine">
+      <button type="button" class="text-btn" id="desk-reset">I already have a phrase — unlock instead</button>
+      · <a href='/login'>Back to both locks</a>
+    </p>
+  </main>
+
   <main class="desk" id="desk-root" hidden>
     <section class="desk-head">
-      <p class="kicker">INNER TURN · CBD + INNER RING · FY2026</p>
+      <p class="kicker">INNER TURN · CBD + INNER RING · FY2027</p>
       <h1>Owner desk</h1>
-      <p class="lede">Sales and dispatch only. Kwan does not take keys. No job without cleaner ABN + CoC + written rate.</p>
+      <p class="lede">Sales and dispatch only. Kwan does not take keys. No job without cleaner ABN + CoC + written rate. Import the hunt JSON to refresh the Pipeline.</p>
     </section>
 
     <div class="ticker" aria-label="Event weeks">
@@ -39,7 +64,7 @@
     <section id="today" class="today-strip">
       <p class="kicker">Today</p>
       <p class="today-answer" id="today-answer">Loading desk board…</p>
-      <div class="today-metrics" id="today-metrics" aria-live="polite"></div>
+      <div class="today-metrics kpis" id="today-metrics" aria-live="polite"></div>
       <ol class="today-actions" id="today-actions"></ol>
     </section>
 
@@ -66,14 +91,14 @@
 
     <section id="lock">
       <h2>Margin lock</h2>
-      <p class="note">Live manager card. Trial = card minus $20 only if keep still clears the floor.</p>
+      <p class="note">Live manager card. Trial = card minus $15 only if keep still clears the floor.</p>
       <div class="table-wrap">
         <table>
           <thead>
             <tr><th>Beds</th><th>Charge</th><th>Pay cleaner</th><th>Keep</th><th>Refuse</th></tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td>$149</td><td>$110–$129</td><td>$20–$39</td><td>≥ $130</td></tr>
+            <tr><td>1</td><td>$149</td><td>$110–$129</td><td>≥ $20</td><td>≥ $130</td></tr>
             <tr><td>2</td><td>$189</td><td>≤ $159</td><td>≥ $30</td><td>&gt; $159</td></tr>
             <tr><td>3</td><td>$229</td><td>≤ $189</td><td>≥ $40</td><td>&gt; $189</td></tr>
             <tr><td>4</td><td>$279</td><td>≤ $229</td><td>≥ $50</td><td>&gt; $229</td></tr>
@@ -81,7 +106,7 @@
           </tbody>
         </table>
       </div>
-      <p class="fine">Same-day +$35 / +$45 / +$55. Event week +25%. Co-host lite 12% or $90 min after five clean turns.</p>
+      <p class="fine">Same-day +$40 / +$50 / +$60 / +$70. Event week +25%. Trial −$15 once if keep still clears the floor. Do not pay a 1-bed under $110.</p>
     </section>
 
     <section id="quota">
@@ -93,11 +118,14 @@
     <section id="pipe">
       <h2>Pipeline</h2>
       <p class="note" id="bench-count">Cleaner file empty. No dispatch until ABN + CoC + written 1/2/3 rate.</p>
-      <p class="fine">Manual log plus Blobs sync. Site forms still land as LEAD when Netlify delivers the submission.</p>
+      <div id="pipe-board" class="pipe-board" aria-label="Pipeline filters"></div>
+      <p class="fine">Site and /app forms write a LEAD row when Netlify delivers the submission. Hunt JSON from the bot merges by name + lane.</p>
       <p class="fine" id="desk-sync">Checking Blobs…</p>
-      <p class="fine">
+      <p class="fine pipe-tools">
+        <input id="pipe-search" type="search" placeholder="Search party or note" maxlength="80" />
         <button type="button" id="desk-export">Export JSON</button>
         <label class="text-btn">Import JSON<input id="desk-import" type="file" accept="application/json" hidden /></label>
+        <label class="merge-lab"><input id="pipe-merge" type="checkbox" checked /> Merge on import</label>
       </p>
       <form id="add">
         <label>Who<input id="who" required placeholder="MadeComfy / O2O" /></label>
@@ -172,11 +200,27 @@
 
     <section class="contact-strip">
       <p>Kwan Ajak · 0451 224 857 · desk@innerturn.com.au · ABN 20 235 092 068</p>
-      <p class="fine">Conservative year-1 · Owner-operated · No café fit-out</p>
+      <p class="fine">Public rules bind the book: <a href="/terms">terms</a> · <a href="/privacy">privacy</a> · <a href="/policies">policies</a>. Do not quote under the live card.</p>
     </section>
   </main>
 
-  <script src="/site.js"></script>
-  <script src="/dash.js"></script>
+  <footer class="site-ruler">
+    <div class="ruler-inner">
+      <div class="foot-mark">
+        <p class="logo">INNER TURN</p>
+        <p>desk@innerturn.com.au · 0451 224 857</p>
+        <p>ABN 20 235 092 068 · Melbourne VIC</p>
+      </div>
+      <nav class="foot-legal" aria-label="Legal">
+        <a href="/terms">Terms of service</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/policies">Policies</a>
+      </nav>
+    </div>
+    <p class="ruler-line">These pages are the rules. Desk and dispatch only. Guest thread stays with the manager.</p>
+  </footer>
+
+  <script src="/dash.js?v=desk3"></script>
+  <script src="/inner-turn.js" defer></script>
 </body>
 </html>
