@@ -24,9 +24,8 @@ Covers next-action derivation, FILE-ready / dispatch rules, status allow-list, I
 
 ## Deploy note (www.innerturn.com.au)
 
-GitHub merge alone **does not currently ship production**.
+**Production deploys from Netlify git, not GitHub merge:** `git.netlify.com/innerturn-melbourne/inner-turn`.
 
-- `www.innerturn.com.au` already runs a **manual / historically Git-linked Netlify deploy** that is **ahead of GitHub `main`**: live `dash.html` / `dash.js` talk to `/api/desk-board`, `/api/desk-status`, `/api/desk-state`, `/api/desk-unlock`, `/api/desk-intakes`. GitHub `main` was an editorial publish and did not contain those functions.
-- Confirm the Netlify site is linked to this repo and that production deploys from the GitHub production branch (or a successful merge + production publish). If the site is still on a locked manual deploy, merge this PR then **trigger a production deploy in Netlify** (or `npx netlify deploy --prod` from a machine with site credentials).
-- After this lands, production `dash.html` must be **this** file (Today → board → margin → quota → pipeline). Do not leave the live page on the old `inner-turn.css` copy that still loads leftover `film.js` / `site.v7.js`.
-- Identity stays Invite-only. Desk APIs return `{"ok":false,"error":"identity"}` without an allow-listed bearer token.
+GitHub `main` is the editorial parchment site and is behind the live ops tree (`inner-turn.css`, `vendor/netlify-identity.js`, `/api/desk-board`). Merging this GitHub PR will not ship `www.innerturn.com.au`.
+
+To ship the Today strip and live board, overlay **`netlify-git-patch/`** onto the live Netlify git checkout (see `netlify-git-patch/APPLY.md`) and push that remote. Do not copy GitHub parchment files onto production.

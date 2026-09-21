@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INNER TURN — Desk</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="inner-turn.css" />
+  <link rel="stylesheet" href="desk-today.css" />
+  <script type="module" src="/dash-boot.js"></script>
+</head>
+<body class="desk-body">
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN</a>
+    <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav">
+      <a href="#today">Today</a>
+      <a href="#board">Board</a>
+      <a href="#lock">Margin</a>
+      <a href="#quota">Quota</a>
+      <a href="#pipe">Pipeline</a>
+      <a href="/trust">Trust</a>
+      <a href="/policies">Rules</a>
+      <a class="ghost" href="/">Public site</a>
+      <button type="button" class="text-btn" id="logout">Log out</button>
+    </nav>
+  </header>
+
+  <main class="login-wrap" id="desk-lock" hidden>
+    <p class="kicker">Second lock</p>
+    <h1>Desk unlock</h1>
+    <p class="lede">Identity passed. The pipeline stays hidden until the unlock phrase is accepted.</p>
+    <p class="fine"><a href="/login">Back to both locks</a></p>
+  </main>
+
+  <main class="desk" id="desk-root" hidden>
+    <section class="desk-head">
+      <p class="kicker">INNER TURN · VICTORIA INTAKE · FY2026</p>
+      <h1>Owner desk</h1>
+      <p class="lede">Sales and dispatch only. Kwan does not take keys. No job without cleaner ABN + CoC + written rate.</p>
+    </section>
+
+    <div class="ticker" aria-label="Event weeks">
+      AFL Grand Final 26 Sep · Spring Racing → Cup 3 Nov · Boxing Day Test · AO 12 Jan–1 Feb 2027 · F1 Albert Park 5–8 Mar
+    </div>
+
+    <section id="today" class="today-strip">
+      <p class="kicker">Today</p>
+      <p class="today-answer" id="today-answer">Loading desk board…</p>
+      <div class="today-metrics kpis" id="today-metrics" aria-live="polite"></div>
+      <ol class="today-actions" id="today-actions"></ol>
+    </section>
+
+    <section id="board">
+      <p class="kicker">Database board</p>
+      <h2>Live board</h2>
+      <p class="note" id="board-summary">Loading lot packs, cleaner files and parties…</p>
+      <div class="kpis" id="board-kpis" aria-live="polite"></div>
+      <div class="board-filters" role="group" aria-label="Status filter">
+        <button type="button" class="on" data-filter="ALL">All</button>
+        <button type="button" data-filter="LEAD">LEAD</button>
+        <button type="button" data-filter="FILE">FILE</button>
+        <button type="button" data-filter="LIVE">LIVE</button>
+        <button type="button" data-filter="HOLD">HOLD</button>
+        <button type="button" data-filter="DEAD">DEAD</button>
+      </div>
+      <h3>Lot packs</h3>
+      <div class="agent-list" id="board-lots"></div>
+      <h3>Cleaner files</h3>
+      <div class="agent-list" id="board-cleaners"></div>
+      <h3>Parties</h3>
+      <div class="agent-list" id="board-parties"></div>
+    </section>
+
+    <section id="lock">
+      <h2>Margin lock</h2>
+      <p class="note">Live manager card. Trial = card minus $15 only if keep still clears the floor.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Beds</th><th>Charge</th><th>Pay cleaner</th><th>Keep</th><th>Refuse</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>$149</td><td>$110–$129</td><td>$20–$39</td><td>≥ $130</td></tr>
+            <tr><td>2</td><td>$189</td><td>≤ $159</td><td>≥ $30</td><td>&gt; $159</td></tr>
+            <tr><td>3</td><td>$229</td><td>≤ $189</td><td>≥ $40</td><td>&gt; $189</td></tr>
+            <tr><td>4</td><td>$279</td><td>≤ $229</td><td>≥ $50</td><td>&gt; $229</td></tr>
+            <tr><td>5+ / house</td><td>quote</td><td>quote − $60 min</td><td>≥ $60</td><td>if keep &lt; $60</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine">Same-day +$40 / +$50 / +$60 / +$70. Event week +25%. Trial −$15 once if keep still clears the floor. Co-host lite 12% or $90 min after five clean turns.</p>
+    </section>
+
+    <section id="quota">
+      <h2>Today’s quota</h2>
+      <p class="note">Stop at 8 paying doors or a clear path to 12 before lunch boxes or glass.</p>
+      <div class="quota" id="quota-box"></div>
+    </section>
+
+    <section id="pipe">
+      <h2>Pipeline</h2>
+      <p class="note" id="bench-count">Cleaner file empty. No dispatch until ABN + CoC + written 1/2/3 rate.</p>
+      <p class="fine">Site and /app forms write a LEAD row here when Netlify delivers the submission.</p>
+      <p class="fine" id="desk-sync">Checking Blobs…</p>
+      <p class="fine">
+        <button type="button" id="desk-export">Export JSON</button>
+        <label class="text-btn">Import JSON<input id="desk-import" type="file" accept="application/json" hidden /></label>
+      </p>
+      <form id="add">
+        <label>Who<input id="who" required placeholder="MadeComfy / O2O" /></label>
+        <label>Type
+          <select id="kind">
+            <option>manager</option>
+            <option>cleaner</option>
+          </select>
+        </label>
+        <label>Stage
+          <select id="stage">
+            <option>LEAD</option>
+            <option>FILE</option>
+            <option>LIVE</option>
+            <option>HOLD</option>
+            <option>DEAD</option>
+          </select>
+        </label>
+        <label>Note<input id="note" placeholder="quoted $120 1-bed / bounce" /></label>
+        <button type="submit">Log</button>
+      </form>
+      <ul id="list"></ul>
+    </section>
+
+    <section id="agent">
+      <p class="kicker">Human-reviewed automation</p>
+      <h2>Intake agent</h2>
+      <p class="note">Qualification, priority, draft replies and coverage matches. Drafts are never sent automatically; a match is not a booking.</p>
+      <p class="fine" id="agent-status">Loading intake records…</p>
+      <div class="agent-list" id="agent-list" aria-live="polite"></div>
+    </section>
+
+    <details class="desk-static">
+      <summary>Year plan · ranked · regulation</summary>
+      <section class="kpis">
+        <article><span>Y1 profit</span><strong>$30–75k</strong><em>Conservative · owner-op</em></article>
+        <article><span>Capex</span><strong>$25–55k</strong><em>No café fit-out</em></article>
+        <article><span>Hours</span><strong>25–40/wk</strong><em>Desk only</em></article>
+        <article><span>Risk</span><strong>MEDIUM</strong><em>Levy stays with owner</em></article>
+      </section>
+      <section>
+        <p class="kicker">Ranked this year</p>
+        <ol class="rank">
+          <li><b>01</b> STR linen + restock</li>
+          <li><b>02</b> Event-week concierge ops</li>
+          <li><b>03</b> Specialty coffee cart — after 8 paying doors</li>
+        </ol>
+      </section>
+      <section>
+        <h2>Inner ring</h2>
+        <ul class="subs">
+          <li>Richmond</li>
+          <li>South Yarra</li>
+          <li>Southbank</li>
+          <li>Docklands</li>
+          <li>East Melbourne</li>
+          <li>Fitzroy</li>
+          <li>Collingwood</li>
+          <li>St Kilda</li>
+        </ul>
+        <p class="note">8 km of Richmond / South Yarra base. Quoted run outside. No OC short-stay ban. VIC 7.5% levy is not ours.</p>
+      </section>
+      <section>
+        <h2>90-day launch</h2>
+        <ol class="gantt">
+          <li><span>D1–14</span> Legal · ABN live · agreement · PL $20m on request</li>
+          <li><span>D15–45</span> First 15 doors · partner file full</li>
+          <li><span>D46–90</span> AO proof · event calendar holds</li>
+        </ol>
+      </section>
+      <section>
+        <h2>Regulation rail</h2>
+        <ul class="rail">
+          <li>VIC short stay levy 7.5% — owner / platform</li>
+          <li>FoodTrader — only if Tuesday lunch ever opens</li>
+          <li>OC 75% ban rule — walk away</li>
+        </ul>
+      </section>
+    </details>
+
+    <section class="contact-strip">
+      <p>Kwan Ajak · 0451 224 857 · desk@innerturn.com.au · ABN 20 235 092 068</p>
+      <p class="fine">Public rules bind the book: <a href="/terms">terms</a> · <a href="/privacy">privacy</a> · <a href="/policies">policies</a>. Do not quote under the live card.</p>
+    </section>
+  </main>
+
+  <footer class="site-ruler">
+    <div class="ruler-inner">
+      <div class="foot-mark">
+        <p class="logo">INNER TURN</p>
+        <p>desk@innerturn.com.au · 0451 224 857</p>
+        <p>ABN 20 235 092 068 · Melbourne VIC</p>
+      </div>
+      <nav class="foot-legal" aria-label="Legal">
+        <a href="/terms">Terms of service</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/policies">Policies</a>
+      </nav>
+    </div>
+    <p class="ruler-line">These pages are the rules. Desk and dispatch only. Guest thread stays with the manager.</p>
+  </footer>
+
+  <script src="/site.v6.js"></script>
+  <script type="module" src="/dash.js"></script>
+  <script src="site.v7.js" defer></script>
+</body>
+</html>
