@@ -77,6 +77,7 @@ list.addEventListener("click", (e) => {
 });
 
 document.getElementById("logout").addEventListener("click", () => {
+  if (typeof signOutDesk === "function") return signOutDesk();
   if (window.netlifyIdentity && netlifyIdentity.currentUser()) netlifyIdentity.logout();
   location.replace("/login.html");
 });

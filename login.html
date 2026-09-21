@@ -17,20 +17,37 @@
   <main class="login-wrap">
     <p class="kicker">Owner desk</p>
     <h1>Sign in with email</h1>
-    <p class="lede">Only <strong>desk@innerturn.com.au</strong> (or the Gmail recovery address). Device PIN is gone.</p>
+    <p class="lede">Two systems: Netlify Identity, then a desk unlock phrase. Only <strong>desk@innerturn.com.au</strong> (or the Gmail recovery address). Device PIN is gone.</p>
 
     <form id="form">
+      <p class="kicker">1 · Identity</p>
       <label>Email
         <input id="email" type="email" autocomplete="username" value="desk@innerturn.com.au" required />
       </label>
       <label>Password
         <input id="pass" type="password" autocomplete="current-password" minlength="8" required />
       </label>
-      <p class="note" id="err" hidden></p>
-      <p class="note" id="ok" hidden></p>
       <button type="submit">Sign in</button>
     </form>
-    <p class="fine">Forgot password: Netlify Identity recover on this same email. New accounts are invite-only.</p>
+
+    <form id="lock-form" hidden>
+      <p class="kicker">2 · Desk unlock</p>
+      <p class="note" id="lock-hint">Enter the desk unlock phrase.</p>
+      <label id="phrase-label"><span id="phrase-caption">Unlock phrase</span>
+        <input id="phrase" type="password" autocomplete="off" minlength="12" required />
+      </label>
+      <label id="next-wrap" hidden>New phrase (12+ characters)
+        <input id="next-phrase" type="password" autocomplete="off" minlength="12" />
+      </label>
+      <button type="submit" id="lock-btn">Unlock desk</button>
+      <button type="button" class="text-btn" id="wipe-btn" hidden>Forgot unlock phrase? Reset it</button>
+      <button type="button" class="text-btn" id="change-btn" hidden>Know the current phrase? Change it</button>
+      <button type="button" class="text-btn" id="cancel-change-btn" hidden>Back to unlock</button>
+    </form>
+
+    <p class="note" id="err" hidden></p>
+    <p class="note" id="ok" hidden></p>
+    <p class="fine">Forgot Identity password: recover on this same email. Unlock phrase is never emailed. New accounts are invite-only. After a wipe you set a new 12+ character phrase.</p>
   </main>
 
   <script src="/auth.js"></script>
