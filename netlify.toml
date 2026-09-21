@@ -54,6 +54,24 @@
   [headers.values]
     Cache-Control = "no-store, max-age=0"
 
+[[headers]]
+  for = "/api/desk-board"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/api/desk-status"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/api/desk-state"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
 [[redirects]]
   from = "https://inner-turn.netlify.app/*"
   to = "https://innerturn.com.au/:splat"

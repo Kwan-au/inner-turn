@@ -175,6 +175,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
 
 .desk{max-width:980px}
 .desk-head h1{font-size:clamp(28px,5vw,44px);margin:.15em 0}
+.desk section{scroll-margin-top:72px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:0 0 28px}
 .kpis article{border:1px solid var(--line);padding:14px}
 .kpis span,.kpis em{display:block;color:var(--muted);font-size:12px;font-style:normal}
@@ -192,6 +193,29 @@ th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
 .contact-strip{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted)}
 .desk form{max-width:none;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}
 .desk form button{height:42px}
+.today-strip{border:1px solid var(--line);padding:18px 16px;margin:20px 0 8px;background:var(--paper)}
+.today-answer{font-family:var(--serif);font-size:clamp(28px,4vw,42px);margin:0 0 16px;line-height:1.1}
+.today-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:0 0 14px}
+.today-metrics article{border:1px solid var(--line);padding:12px}
+.today-metrics span,.today-metrics em{display:block;color:var(--muted);font-size:12px;font-style:normal}
+.today-metrics strong{display:block;font-size:22px;margin:6px 0}
+.today-actions{margin:0;padding-left:18px;color:var(--muted)}
+.today-actions li{margin:6px 0}
+.board-filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+.board-filters button{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600;padding:6px 10px}
+.board-filters button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.agent-list{display:grid;gap:12px;margin:0 0 22px}
+.agent-card{border:1px solid var(--line);padding:14px 16px;background:var(--paper)}
+.agent-card h3{margin:10px 0 4px;font-size:18px}
+.agent-card p{margin:6px 0}
+.agent-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;text-transform:uppercase;font-size:11px;letter-spacing:.08em}
+.agent-meta span,.agent-meta b{border:1px solid var(--line);padding:4px 7px}
+.agent-card ul{color:#c9897c;padding-left:20px}
+.agent-clear{color:#7dcea0}
+.board-status{display:block;margin-top:12px;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.board-status select{display:block;margin-top:6px;padding:8px 10px;min-width:10rem;text-transform:none;letter-spacing:0}
+.desk-static{margin:36px 0}
+.desk-static summary{cursor:pointer;font-weight:600;padding:8px 0}
 .login-wrap{max-width:420px;margin:48px auto;padding:0 20px 80px}
 nav .text-btn,.text-btn{background:transparent;color:var(--muted);border:0;padding:0;font:inherit;cursor:pointer;text-decoration:underline;font-weight:500}
 #err{color:#9a3b1e}
@@ -216,7 +240,12 @@ body.desk-body .btn{border-radius:999px}
 body.desk-body .cards article,
 body.desk-body .kpis article,
 body.desk-body .rank li,
-body.desk-body .q-card{border-radius:12px}
+body.desk-body .q-card,
+body.desk-body .today-strip,
+body.desk-body .today-metrics article,
+body.desk-body .agent-card{border-radius:12px}
+body.desk-body .today-answer{color:#e8d5a3;font-family:system-ui,sans-serif}
+body.desk-body .board-filters button{border-radius:999px}
 body.desk-body .kpis strong{color:#e8d5a3}
 body.desk-body .ticker{border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:#c9b37a}
 body.desk-body .subs li{border-radius:999px;color:#9fd3c7}

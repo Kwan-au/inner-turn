@@ -13,7 +13,10 @@
 <body class="desk-body">
   <header class="nav">
     <a class="logo" href="/">INNER TURN</a>
+    <button class="menu" type="button" aria-label="Menu">Menu</button>
     <nav>
+      <a href="#today">Today</a>
+      <a href="#board">Board</a>
       <a href="#lock">Margin</a>
       <a href="#quota">Quota</a>
       <a href="#pipe">Pipeline</a>
@@ -33,20 +36,32 @@
       AFL Grand Final 26 Sep · Spring Racing → Cup 3 Nov · Boxing Day Test · AO 12 Jan–1 Feb 2027 · F1 Albert Park 5–8 Mar
     </div>
 
-    <section class="kpis">
-      <article><span>Y1 profit</span><strong>$30–75k</strong><em>Conservative · owner-op</em></article>
-      <article><span>Capex</span><strong>$25–55k</strong><em>No café fit-out</em></article>
-      <article><span>Hours</span><strong>25–40/wk</strong><em>Desk only</em></article>
-      <article><span>Risk</span><strong>MEDIUM</strong><em>Levy stays with owner</em></article>
+    <section id="today" class="today-strip">
+      <p class="kicker">Today</p>
+      <p class="today-answer" id="today-answer">Loading desk board…</p>
+      <div class="today-metrics" id="today-metrics" aria-live="polite"></div>
+      <ol class="today-actions" id="today-actions"></ol>
     </section>
 
-    <section>
-      <p class="kicker">Ranked this year</p>
-      <ol class="rank">
-        <li><b>01</b> STR linen + restock</li>
-        <li><b>02</b> Event-week concierge ops</li>
-        <li><b>03</b> Specialty coffee cart — after 8 paying doors</li>
-      </ol>
+    <section id="board">
+      <p class="kicker">Database board</p>
+      <h2>Live board</h2>
+      <p class="note" id="board-summary">Loading lot packs, cleaner files and parties…</p>
+      <div class="kpis" id="board-kpis" aria-live="polite"></div>
+      <div class="board-filters" role="group" aria-label="Status filter">
+        <button type="button" class="on" data-filter="ALL">All</button>
+        <button type="button" data-filter="LEAD">LEAD</button>
+        <button type="button" data-filter="FILE">FILE</button>
+        <button type="button" data-filter="LIVE">LIVE</button>
+        <button type="button" data-filter="HOLD">HOLD</button>
+        <button type="button" data-filter="DEAD">DEAD</button>
+      </div>
+      <h3>Lot packs</h3>
+      <div class="agent-list" id="board-lots"></div>
+      <h3>Cleaner files</h3>
+      <div class="agent-list" id="board-cleaners"></div>
+      <h3>Parties</h3>
+      <div class="agent-list" id="board-parties"></div>
     </section>
 
     <section id="lock">
@@ -69,39 +84,6 @@
       <p class="fine">Same-day +$35 / +$45 / +$55. Event week +25%. Co-host lite 12% or $90 min after five clean turns.</p>
     </section>
 
-    <section>
-      <h2>Inner ring</h2>
-      <ul class="subs">
-        <li>Richmond</li>
-        <li>South Yarra</li>
-        <li>Southbank</li>
-        <li>Docklands</li>
-        <li>East Melbourne</li>
-        <li>Fitzroy</li>
-        <li>Collingwood</li>
-        <li>St Kilda</li>
-      </ul>
-      <p class="note">8 km of Richmond / South Yarra base. Quoted run outside. No OC short-stay ban. VIC 7.5% levy is not ours.</p>
-    </section>
-
-    <section>
-      <h2>90-day launch</h2>
-      <ol class="gantt">
-        <li><span>D1–14</span> Legal · ABN live · agreement · PL $20m on request</li>
-        <li><span>D15–45</span> First 15 doors · partner file full</li>
-        <li><span>D46–90</span> AO proof · event calendar holds</li>
-      </ol>
-    </section>
-
-    <section>
-      <h2>Regulation rail</h2>
-      <ul class="rail">
-        <li>VIC short stay levy 7.5% — owner / platform</li>
-        <li>FoodTrader — only if Tuesday lunch ever opens</li>
-        <li>OC 75% ban rule — walk away</li>
-      </ul>
-    </section>
-
     <section id="quota">
       <h2>Today’s quota</h2>
       <p class="note">Stop at 8 paying doors or a clear path to 12 before lunch boxes or glass.</p>
@@ -110,6 +92,13 @@
 
     <section id="pipe">
       <h2>Pipeline</h2>
+      <p class="note" id="bench-count">Cleaner file empty. No dispatch until ABN + CoC + written 1/2/3 rate.</p>
+      <p class="fine">Manual log plus Blobs sync. Site forms still land as LEAD when Netlify delivers the submission.</p>
+      <p class="fine" id="desk-sync">Checking Blobs…</p>
+      <p class="fine">
+        <button type="button" id="desk-export">Export JSON</button>
+        <label class="text-btn">Import JSON<input id="desk-import" type="file" accept="application/json" hidden /></label>
+      </p>
       <form id="add">
         <label>Who<input id="who" required placeholder="MadeComfy / O2O" /></label>
         <label>Type
@@ -133,12 +122,61 @@
       <ul id="list"></ul>
     </section>
 
+    <details class="desk-static">
+      <summary>Year plan · ranked · regulation</summary>
+      <section class="kpis">
+        <article><span>Y1 profit</span><strong>$30–75k</strong><em>Conservative · owner-op</em></article>
+        <article><span>Capex</span><strong>$25–55k</strong><em>No café fit-out</em></article>
+        <article><span>Hours</span><strong>25–40/wk</strong><em>Desk only</em></article>
+        <article><span>Risk</span><strong>MEDIUM</strong><em>Levy stays with owner</em></article>
+      </section>
+      <section>
+        <p class="kicker">Ranked this year</p>
+        <ol class="rank">
+          <li><b>01</b> STR linen + restock</li>
+          <li><b>02</b> Event-week concierge ops</li>
+          <li><b>03</b> Specialty coffee cart — after 8 paying doors</li>
+        </ol>
+      </section>
+      <section>
+        <h2>Inner ring</h2>
+        <ul class="subs">
+          <li>Richmond</li>
+          <li>South Yarra</li>
+          <li>Southbank</li>
+          <li>Docklands</li>
+          <li>East Melbourne</li>
+          <li>Fitzroy</li>
+          <li>Collingwood</li>
+          <li>St Kilda</li>
+        </ul>
+        <p class="note">8 km of Richmond / South Yarra base. Quoted run outside. No OC short-stay ban. VIC 7.5% levy is not ours.</p>
+      </section>
+      <section>
+        <h2>90-day launch</h2>
+        <ol class="gantt">
+          <li><span>D1–14</span> Legal · ABN live · agreement · PL $20m on request</li>
+          <li><span>D15–45</span> First 15 doors · partner file full</li>
+          <li><span>D46–90</span> AO proof · event calendar holds</li>
+        </ol>
+      </section>
+      <section>
+        <h2>Regulation rail</h2>
+        <ul class="rail">
+          <li>VIC short stay levy 7.5% — owner / platform</li>
+          <li>FoodTrader — only if Tuesday lunch ever opens</li>
+          <li>OC 75% ban rule — walk away</li>
+        </ul>
+      </section>
+    </details>
+
     <section class="contact-strip">
       <p>Kwan Ajak · 0451 224 857 · desk@innerturn.com.au · ABN 20 235 092 068</p>
       <p class="fine">Conservative year-1 · Owner-operated · No café fit-out</p>
     </section>
   </main>
 
+  <script src="/site.js"></script>
   <script src="/dash.js"></script>
 </body>
 </html>

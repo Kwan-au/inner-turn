@@ -7,13 +7,21 @@ function esc(s) {
 
 const PIPE = "inner-turn-pipeline";
 const QUOTA = "inner-turn-quota";
+const STATUSES = ["LEAD", "FILE", "LIVE", "HOLD", "DEAD"];
 const list = document.getElementById("list");
+const syncEl = document.getElementById("desk-sync");
+let boardData = null;
+let statusFilter = "ALL";
+let boardTimer = 0;
 
 function todayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 function readPipe() {
   try { return JSON.parse(localStorage.getItem(PIPE) || "[]"); } catch { return []; }
+}
+function writePipe(rows) {
+  localStorage.setItem(PIPE, JSON.stringify(rows));
 }
 function readQuota() {
   const raw = JSON.parse(localStorage.getItem(QUOTA) || "{}");
@@ -22,6 +30,46 @@ function readQuota() {
 }
 function saveQuota(q) {
   localStorage.setItem(QUOTA, JSON.stringify(q));
+}
+
+function setSync(text) {
+  if (syncEl) syncEl.textContent = text;
+}
+
+async function apiHeaders() {
+  if (typeof deskHeaders === "function") return deskHeaders();
+  return {};
+}
+
+async function pullRemote() {
+  try {
+    const res = await fetch("/api/desk-state", {
+      headers: await apiHeaders()
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    const data = await res.json();
+    return data.state || null;
+  } catch {
+    setSync("Blob unreachable. Working from this browser. Export before the second live door.");
+    return null;
+  }
+}
+
+async function pushRemote() {
+  try {
+    const res = await fetch("/api/desk-state", {
+      method: "POST",
+      headers: {
+        ...(await apiHeaders()),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ pipe: readPipe(), quota: readQuota() })
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    setSync("Synced to Netlify Blobs. Survives a new browser.");
+  } catch {
+    setSync("Save failed. Row is on this device only — use Export.");
+  }
 }
 
 function drawQuota() {
@@ -37,6 +85,238 @@ function drawQuota() {
   }).join("");
 }
 
+function drawBench() {
+  const el = document.getElementById("bench-count");
+  if (!el) return;
+  const rows = readPipe();
+  const file = rows.filter((r) => r.kind === "cleaner" && (r.stage === "FILE" || r.stage === "LIVE")).length;
+  const live = rows.filter((r) => r.kind === "manager" && r.stage === "LIVE").length;
+  el.textContent = file
+    ? file + " cleaner(s) on FILE/LIVE · " + live + " manager book(s) LIVE"
+    : "Cleaner file empty. No dispatch until ABN + CoC + written 1/2/3 rate.";
+}
+
+function drawPipe() {
+  const rows = readPipe();
+  list.innerHTML = rows.map((r, i) =>
+    `<li><strong>${esc(r.kind)}</strong> · ${esc(r.stage || "LEAD")} · ${esc(r.who)}<br><span>${esc(r.note || "")}</span><button type="button" data-i="${i}">x</button></li>`
+  ).join("") || "<li>Empty. Log the first reply.</li>";
+  drawBench();
+}
+
+function statusSelect(table, id, current) {
+  const opts = STATUSES.map(
+    (s) => `<option value="${s}"${s === current ? " selected" : ""}>${s}</option>`
+  ).join("");
+  return `<label class="board-status">Status
+    <select data-status-table="${esc(table)}" data-status-id="${esc(id)}">${opts}</select>
+  </label>`;
+}
+
+function missingList(row) {
+  const missing = Array.isArray(row.missingFields) ? row.missingFields : [];
+  return missing.length
+    ? `<ul>${missing.map((f) => `<li>Missing: ${esc(f)}</li>`).join("")}</ul>`
+    : "";
+}
+
+function matchesFilter(row) {
+  if (statusFilter === "ALL") return true;
+  return String(row?.status || "LEAD") === statusFilter;
+}
+
+function drawToday(data) {
+  const today = data.today || {};
+  const answer = document.getElementById("today-answer");
+  const metrics = document.getElementById("today-metrics");
+  const actions = document.getElementById("today-actions");
+  if (!answer || !metrics || !actions) return;
+
+  const days = today.daysToGrandFinal;
+  const dayLabel = days == null
+    ? "—"
+    : days === 0
+      ? "today"
+      : days > 0
+        ? `${days} day${days === 1 ? "" : "s"}`
+        : `${Math.abs(days)} day${Math.abs(days) === 1 ? "" : "s"} ago`;
+
+  answer.textContent = today.answerLine || "Need lot pack";
+  metrics.innerHTML = [
+    ["Executable packs", today.executablePacks ?? 0, "Need ≥1 to dispatch"],
+    ["FILE-ready cleaners", today.fileReady ?? 0, "FILE or LIVE"],
+    ["Can dispatch", today.canDispatch ? "YES" : "NO", "Pack + FILE cleaner"],
+    ["Grand Final 26 Sep", dayLabel, "Melbourne calendar"]
+  ].map(([label, value, hint]) =>
+    `<article><span>${esc(label)}</span><strong>${esc(value)}</strong><em>${esc(hint)}</em></article>`
+  ).join("");
+
+  const next = Array.isArray(data.nextActions) ? data.nextActions : [];
+  actions.innerHTML = next.map((row) =>
+    `<li><strong>${esc(row.title)}</strong> · ${esc(row.reason)}</li>`
+  ).join("") || "<li>No listed gaps on the board.</li>";
+}
+
+function drawBoard(data) {
+  boardData = data;
+  const summary = data.summary || {};
+  const sumEl = document.getElementById("board-summary");
+  const kpiEl = document.getElementById("board-kpis");
+  const lotsEl = document.getElementById("board-lots");
+  const cleanEl = document.getElementById("board-cleaners");
+  const partyEl = document.getElementById("board-parties");
+  if (!sumEl || !kpiEl || !lotsEl || !cleanEl || !partyEl) return;
+
+  drawToday(data);
+
+  sumEl.textContent =
+    `${summary.executablePacks || 0} executable lot pack${summary.executablePacks === 1 ? "" : "s"} · ` +
+    `${summary.fileReady || 0} FILE-ready cleaner${summary.fileReady === 1 ? "" : "s"} · ` +
+    `${summary.parties || 0} part${summary.parties === 1 ? "y" : "ies"}`;
+
+  kpiEl.innerHTML = [
+    ["Lot packs", summary.lotPacks],
+    ["Executable", summary.executablePacks],
+    ["Cleaner files", summary.cleanerFiles],
+    ["FILE-ready", summary.fileReady],
+    ["Parties", summary.parties]
+  ]
+    .map(
+      ([label, n]) =>
+        `<article><span>${esc(label)}</span><strong>${esc(n ?? 0)}</strong><em>From desk records</em></article>`
+    )
+    .join("");
+
+  const lots = (Array.isArray(data.lotPacks) ? data.lotPacks : []).filter(matchesFilter);
+  lotsEl.innerHTML =
+    lots
+      .map((row) => {
+        const title = row.contactName || row.companyName || row.email || "Unnamed lot pack";
+        const place = [row.suburb, row.beds ? `${row.beds} bed` : ""].filter(Boolean).join(" · ");
+        return `<article class="agent-card">
+      <div class="agent-meta"><strong>lot pack</strong><span>${esc(row.status)}</span>${
+          row.executable ? "<b>executable</b>" : "<span>incomplete</span>"
+        }</div>
+      <h3>${esc(title)}</h3>
+      <p>${esc(place)}</p>
+      <p>${esc(row.email || "")}${row.phone ? ` · ${esc(row.phone)}` : ""}</p>
+      ${missingList(row)}
+      ${statusSelect("lot_packs", row.id, row.status)}
+    </article>`;
+      })
+      .join("") || `<p class="note">${statusFilter === "ALL" ? "No lot packs yet. Manager forms land here after processing." : "No lot packs in " + statusFilter + "."}</p>`;
+
+  const cleaners = (Array.isArray(data.cleanerFiles) ? data.cleanerFiles : []).filter(matchesFilter);
+  cleanEl.innerHTML =
+    cleaners
+      .map((row) => {
+        const title = row.namedPerson || row.contactName || row.companyName || row.email || "Unnamed cleaner";
+        const rates = [
+          row.rate1bed != null ? `1$${row.rate1bed}` : null,
+          row.rate2bed != null ? `2$${row.rate2bed}` : null,
+          row.rate3bed != null ? `3$${row.rate3bed}` : null,
+          row.rate4bed != null ? `4$${row.rate4bed}` : null
+        ]
+          .filter(Boolean)
+          .join(" · ");
+        return `<article class="agent-card">
+      <div class="agent-meta"><strong>cleaner</strong><span>${esc(row.status)}</span>${
+          row.payLockOk ? "<b>pay lock ok</b>" : "<span>pay lock</span>"
+        }</div>
+      <h3>${esc(title)}</h3>
+      <p>${esc(row.email || "")}${row.mobile ? ` · ${esc(row.mobile)}` : ""}${
+          row.abn ? ` · ABN ${esc(row.abn)}` : ""
+        }</p>
+      ${rates ? `<p>${esc(rates)}</p>` : ""}
+      ${missingList(row) || `<p class="agent-clear">No blocking gaps listed.</p>`}
+      ${statusSelect("cleaner_files", row.id, row.status)}
+    </article>`;
+      })
+      .join("") || `<p class="note">${statusFilter === "ALL" ? "No cleaner files yet. Cleaner applications land here after processing." : "No cleaners in " + statusFilter + "."}</p>`;
+
+  const parties = (Array.isArray(data.parties) ? data.parties : []).filter(matchesFilter);
+  partyEl.innerHTML =
+    parties
+      .map((row) => {
+        const title = row.contactName || row.name || row.email || "Unnamed party";
+        return `<article class="agent-card">
+      <div class="agent-meta"><strong>party</strong>${
+          row.lane ? `<span>${esc(row.lane)}</span>` : "<span>no lane</span>"
+        }<span>${esc(row.status || "LEAD")}</span></div>
+      <h3>${esc(title)}</h3>
+      <p>${esc(row.email || "")}</p>
+      ${row.note ? `<p>${esc(row.note)}</p>` : ""}
+      ${missingList(row)}
+      ${statusSelect("parties", row.id, row.status)}
+    </article>`;
+      })
+      .join("") || `<p class="note">${statusFilter === "ALL" ? "No parties yet." : "No parties in " + statusFilter + "."}</p>`;
+}
+
+async function loadBoard() {
+  const sumEl = document.getElementById("board-summary");
+  const answer = document.getElementById("today-answer");
+  if (!sumEl) return;
+  try {
+    const res = await fetch("/api/desk-board", { headers: await apiHeaders() });
+    if (!res.ok) throw new Error(String(res.status));
+    const data = await res.json();
+    drawBoard(data);
+  } catch {
+    sumEl.textContent = "Board database unavailable. Blob pipeline remains available.";
+    if (answer && answer.textContent === "Loading desk board…") {
+      answer.textContent = "Board unavailable";
+    }
+  }
+}
+
+async function setRowStatus(table, id, status, selectEl) {
+  selectEl.disabled = true;
+  try {
+    const res = await fetch("/api/desk-status", {
+      method: "POST",
+      headers: {
+        ...(await apiHeaders()),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ table, id, status })
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    await loadBoard();
+  } catch {
+    selectEl.disabled = false;
+    const sumEl = document.getElementById("board-summary");
+    if (sumEl) sumEl.textContent = "Status update failed. Sign in again and retry.";
+  }
+}
+
+function startBoardRefresh() {
+  if (boardTimer) clearInterval(boardTimer);
+  boardTimer = setInterval(() => {
+    if (document.visibilityState === "visible") loadBoard();
+  }, 60000);
+}
+
+document.getElementById("board")?.addEventListener("change", (e) => {
+  const sel = e.target.closest("select[data-status-table]");
+  if (!sel) return;
+  setRowStatus(sel.dataset.statusTable, sel.dataset.statusId, sel.value, sel);
+});
+
+document.querySelector(".board-filters")?.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-filter]");
+  if (!btn) return;
+  statusFilter = btn.dataset.filter;
+  document.querySelectorAll(".board-filters [data-filter]").forEach((el) => {
+    el.classList.toggle("on", el === btn);
+  });
+  if (boardData) drawBoard(boardData);
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") loadBoard();
+});
+
 document.getElementById("quota-box").addEventListener("click", (e) => {
   const key = e.target.dataset.q;
   if (!key) return;
@@ -44,14 +324,8 @@ document.getElementById("quota-box").addEventListener("click", (e) => {
   q[key] = (q[key] || 0) + 1;
   saveQuota(q);
   drawQuota();
+  pushRemote();
 });
-
-function drawPipe() {
-  const rows = readPipe();
-  list.innerHTML = rows.map((r, i) =>
-    `<li><strong>${esc(r.kind)}</strong> · ${esc(r.stage || "LEAD")} · ${esc(r.who)}<br><span>${esc(r.note || "")}</span><button type="button" data-i="${i}">x</button></li>`
-  ).join("") || "<li>Empty. Log the first reply.</li>";
-}
 
 document.getElementById("add").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -63,23 +337,74 @@ document.getElementById("add").addEventListener("submit", (e) => {
     note: note.value.trim().slice(0, 240),
     at: new Date().toISOString()
   });
-  localStorage.setItem(PIPE, JSON.stringify(rows));
+  writePipe(rows);
   e.target.reset();
   drawPipe();
+  pushRemote();
 });
 
 list.addEventListener("click", (e) => {
   if (e.target.dataset.i == null) return;
   const rows = readPipe();
   rows.splice(+e.target.dataset.i, 1);
-  localStorage.setItem(PIPE, JSON.stringify(rows));
+  writePipe(rows);
   drawPipe();
+  pushRemote();
 });
 
 document.getElementById("logout").addEventListener("click", () => {
+  if (typeof signOutDesk === "function") return signOutDesk();
   if (window.netlifyIdentity && netlifyIdentity.currentUser()) netlifyIdentity.logout();
   location.replace("/login.html");
 });
 
-drawQuota();
-drawPipe();
+const exp = document.getElementById("desk-export");
+if (exp) {
+  exp.addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify({ pipe: readPipe(), quota: readQuota() }, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "inner-turn-desk.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+}
+
+const imp = document.getElementById("desk-import");
+if (imp) {
+  imp.addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (Array.isArray(data.pipe)) writePipe(data.pipe);
+      if (data.quota && typeof data.quota === "object") saveQuota(data.quota);
+      drawQuota();
+      drawPipe();
+      pushRemote();
+    } catch {
+      setSync("Import failed. Need inner-turn-desk.json.");
+    }
+    e.target.value = "";
+  });
+}
+
+async function boot() {
+  if (typeof identityReady === "function") await identityReady();
+  drawQuota();
+  drawPipe();
+  const remote = await pullRemote();
+  if (remote) {
+    if (Array.isArray(remote.pipe) && remote.pipe.length >= readPipe().length) writePipe(remote.pipe);
+    else if (Array.isArray(remote.pipe) && remote.pipe.length && !readPipe().length) writePipe(remote.pipe);
+    if (remote.quota && remote.quota.day === todayKey()) saveQuota(remote.quota);
+    drawQuota();
+    drawPipe();
+    if (readPipe().length && (!remote.pipe || remote.pipe.length < readPipe().length)) pushRemote();
+    else setSync("Synced to Netlify Blobs. Survives a new browser.");
+  }
+  await loadBoard();
+  startBoardRefresh();
+}
+
+boot();
