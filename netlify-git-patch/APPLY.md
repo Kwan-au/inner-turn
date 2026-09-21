@@ -46,6 +46,16 @@ Create a new production deploy with:
 - current function SHA256s for `desk-state`, `desk-unlock`, `pageview`, `submission-created`
 - 12:17 function SHA256s for `desk-board`, `desk-status`, `desk-intakes` when still in Netlify storage
 
+7. **Add** `_redirects`  
+   Digest-reattached function zips do not remount `Config.path`. Keep these 200 rewrites so the live clients (`auth.js`, `dash.js`, `inner-turn.js`) still hit `/api/*`:
+
+   `/api/desk-board` `/api/desk-status` `/api/desk-state` `/api/desk-unlock` `/api/desk-intakes` `/api/pageview`
+
 ## After publish
 
-Confirm `www.innerturn.com.au/dash.html` shows Today first (after unlock), no `film.js` in the document, unlock-on-page + pipe-board still present, and `GET /api/desk-board` (allow-listed Identity + unlock session) returns `today.canDispatch` and `nextActions`.
+Live production (21 Sep 2026):
+
+- `6ab1ac12bdd64bc2da9740e2` — Today strip + board on desk2; restored board functions
+- `6ab1ac67a18d084944b53a51` — `/api` rewrites so unlock/state/board resolve again
+
+Confirm `www.innerturn.com.au/dash.html` shows Today first (after unlock), no `film.js` in the document, unlock-on-page + pipe-board still present, and `GET /api/desk-board` (allow-listed Identity + unlock session) returns `today.canDispatch` and `nextActions`. Unauthenticated `GET /api/desk-board` must be **401** JSON, not a 404 page.

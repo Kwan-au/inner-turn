@@ -1,0 +1,6 @@
+/api/desk-board     /.netlify/functions/desk-board     200
+/api/desk-status    /.netlify/functions/desk-status    200
+/api/desk-state     /.netlify/functions/desk-state     200
+/api/desk-unlock    /.netlify/functions/desk-unlock    200
+/api/desk-intakes   /.netlify/functions/desk-intakes   200
+/api/pageview       /.netlify/functions/pageview       200
