@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Desk login | Inner Turn</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#1a1a1a" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/inner-turn.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <a class="mark" href="/">Inner Turn<span>.</span></a>
+    <button class="menu" type="button" aria-expanded="false" aria-controls="drawer">Menu</button>
+    <nav id="nav">
+      <a href="/trust">Trust</a>
+      <a href="/policies">Policies</a>
+      <a class="nav-cta" href="/">Public site</a>
+    </nav>
+  </header>
+
+  <main id="main" class="section legal" style="min-height:60vh;max-width:32rem">
+    <p class="eyebrow dark"><i></i>Owner desk · two locks</p>
+    <h1>Sign in</h1>
+    <p class="lede">Two systems: Netlify Identity (email), then a desk unlock phrase. Invite-only.</p>
+
+    <form id="form">
+      <p class="eyebrow dark"><i></i>1 · Identity</p>
+      <label>Email
+        <input id="email" type="email" autocomplete="username" value="desk@innerturn.com.au" required />
+      </label>
+      <label>Password
+        <input id="pass" type="password" autocomplete="current-password" minlength="8" required />
+      </label>
+      <div class="actions" style="margin-top:1rem;gap:12px;flex-wrap:wrap">
+        <button class="btn dark-btn" type="submit">Sign in with email</button>
+        <button class="under dark-link" type="button" id="forgot-btn">Email a reset link</button>
+      </div>
+    </form>
+
+    <form id="recover-form" hidden>
+      <p class="eyebrow dark"><i></i>Set a new Identity password</p>
+      <p class="note" id="recover-hint">Recovery link accepted. Choose a new password (8+ characters).</p>
+      <label>New password
+        <input id="new-pass" type="password" autocomplete="new-password" minlength="8" required />
+      </label>
+      <label>Confirm password
+        <input id="new-pass2" type="password" autocomplete="new-password" minlength="8" required />
+      </label>
+      <button class="btn dark-btn" type="submit" style="margin-top:1rem">Save new password</button>
+    </form>
+
+    <form id="lock-form" hidden>
+      <p class="eyebrow dark"><i></i>2 · Desk unlock</p>
+      <p class="note" id="lock-hint">Enter the desk unlock phrase.</p>
+      <label>Unlock phrase
+        <input id="phrase" type="password" autocomplete="off" minlength="12" required />
+      </label>
+      <button class="btn dark-btn" type="submit" id="lock-btn" style="margin-top:1rem">Unlock desk</button>
+      <button class="under dark-link" type="button" id="wipe-btn" hidden style="margin-top:12px">Forgot unlock phrase? Reset it</button>
+    </form>
+
+    <p class="note" id="err" hidden></p>
+    <p class="note" id="ok" hidden></p>
+    <p class="fine" style="margin-top:1.5rem">Unlock phrase is never emailed. If it is forgotten, sign in with Identity then use Forgot unlock phrase? Reset it, and set a new 12+ character phrase. Eight failed unlocks lock the API for 15 minutes.</p>
+  </main>
+
+  <footer id="site-foot">
+    <div class="footer-mark">
+      <a class="mark" href="/">Inner Turn<span>.</span></a>
+      <p>Turns only. You keep the guest thread.</p>
+      <p>ABN 20 235 092 068 · Melbourne VIC</p>
+    </div>
+    <div>
+      <small>Desk</small>
+      <a href="mailto:desk@innerturn.com.au">desk@innerturn.com.au</a>
+      <a href="tel:+61451224857">0451 224 857</a>
+      <a href="/#enquire">Send a lot pack</a>
+    </div>
+    <div>
+      <small>Pages</small>
+      <a href="/pricing">Pricing</a>
+      <a href="/how-it-works">How it books</a>
+      <a href="/areas">Areas</a>
+      <a href="/cleaners">Cleaners</a>
+    </div>
+    <div>
+      <small>Legal</small>
+      <a href="/trust">Trust</a>
+      <a href="/policies">Policies</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </div>
+    <p class="copy">© 2026 Inner Turn · Desk login is invite-only.</p>
+  </footer>
+  <script src="/inner-turn.js" defer></script>
+  <script type="module" src="/login.js"></script>
+</body>
+</html>
