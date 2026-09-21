@@ -7,4 +7,5 @@ Disallow: /login.html
 Disallow: /login.js
 Disallow: /auth.js
 Disallow: /thanks.html
+Disallow: /api/desk-
 Sitemap: https://innerturn.com.au/sitemap.xml
