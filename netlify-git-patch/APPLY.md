@@ -6,9 +6,10 @@ Production (`www.innerturn.com.au`) deploys from the **Netlify remote / upload t
 
 ## What this overlay changes
 
-Site-wide `#event-bar` / `.event-bar` announcement strip only (injected by `inner-turn.js` when `sessionStorage it-event-bar` is unset).
+1. Site-wide `#event-bar` / `.event-bar` announcement strip (injected by `inner-turn.js` when `sessionStorage it-event-bar` is unset).
+2. `.map-legend` opacity sync (ring-map card).
 
-### Design
+### Event-bar design
 
 - Premium dark bar (`#1a1a1a`) with gold accent on **Event weeks +25%**
 - Clear hierarchy: surcharge rule → next windows as distinct chips → single CTA
@@ -17,10 +18,16 @@ Site-wide `#event-bar` / `.event-bar` announcement strip only (injected by `inne
 - Dismiss × and `sessionStorage` behaviour unchanged
 - Same factual content and dates (GF / Cup / AO / F1); no new rates
 
+### Map legend
+
+- `.map-legend` background `#0d0d0df2` → `#0d0d0d` (fully opaque) so suburb labels no longer show through the “For property managers” card
+- Layout and wording unchanged
+- May already be live on Netlify; mirrored here so the GitHub patch stays in sync
+
 ### Preserved
 
 - `--muted: #4a4740` and other light-surface contrast work
-- Hero, proof strip, nav, footer, and all non–event-bar layout
+- Hero, proof strip, nav, footer, and all non–event-bar / non–map-legend layout
 
 ## Copy onto the live tree
 
@@ -38,4 +45,5 @@ Optional cache bust: if HTML pins `?v=…`, bump that query after publish.
 - Mobile width — rule wraps as its own line; chips wrap as units; dismiss still works
 - Dismiss once — bar gone for the session (`it-event-bar`)
 - `/policies#events` — CTA lands on Event weeks section
+- `/` coverage map — `.map-legend` fully opaque; South Yarra / St Kilda labels do not show through the card
 - Hero / proof strip / `--muted` light surfaces unchanged

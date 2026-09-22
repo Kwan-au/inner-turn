@@ -419,7 +419,7 @@ body.desk-body .login-wrap button{background:#c4a35a;color:#161616}
 .ring-map .hot{position:absolute;display:block;z-index:2;border-radius:2px;color:transparent;font-size:0}
 .ring-map .hot:focus-visible{outline:2px solid #c4a35a;outline-offset:2px}
 .ring-map .hot:hover{box-shadow:inset 0 0 0 1px #c4a35a66}
-.map-legend{position:absolute;z-index:3;left:clamp(12px,2.2vw,24px);bottom:clamp(12px,2.2vw,24px);max-width:min(300px,86%);padding:12px 14px;background:#0d0d0df2;border:1px solid #c4a35a66;border-radius:4px;box-shadow:0 10px 32px #000a;pointer-events:none}
+.map-legend{position:absolute;z-index:3;left:clamp(12px,2.2vw,24px);bottom:clamp(12px,2.2vw,24px);max-width:min(300px,86%);padding:12px 14px;background:#0d0d0d;border:1px solid #c4a35a66;border-radius:4px;box-shadow:0 10px 32px #000a;pointer-events:none}
 .map-legend-kicker{margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#c4a35a}
 .map-legend p{margin:0 0 5px;font-size:clamp(13px,1.3vw,15px);line-height:1.35;color:#e8e4da}
 .map-legend p:last-child{margin-bottom:0}
