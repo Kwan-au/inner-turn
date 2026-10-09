@@ -1,0 +1,16 @@
+--- a/login.html	2026-09-21 11:52:52.001533491 +0000
++++ b/login.html	2026-09-21 11:53:52.845648528 +0000
+@@ -59,11 +59,12 @@
+         <input id="phrase" type="password" autocomplete="off" minlength="12" required />
+       </label>
+       <button class="btn dark-btn" type="submit" id="lock-btn" style="margin-top:1rem">Unlock desk</button>
++      <button class="under dark-link" type="button" id="wipe-btn" hidden style="margin-top:12px">Forgot unlock phrase? Reset it</button>
+     </form>
+ 
+     <p class="note" id="err" hidden></p>
+     <p class="note" id="ok" hidden></p>
+-    <p class="fine" style="margin-top:1.5rem">Reset links go to desk@ and the nominated Gmail. Unlock phrase is not emailed. Five failed Identity tries pause the form for a minute; eight failed unlocks lock the API for 15 minutes.</p>
++    <p class="fine" style="margin-top:1.5rem">Unlock phrase is never emailed. If it is forgotten, sign in with Identity then use Forgot unlock phrase? Reset it, and set a new 12+ character phrase. Eight failed unlocks lock the API for 15 minutes.</p>
+   </main>
+ 
+   <footer id="site-foot">

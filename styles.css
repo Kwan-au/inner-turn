@@ -133,6 +133,7 @@ h3{font-size:18px;margin:0 0 8px}
 
 form{display:grid;gap:10px;max-width:480px}
 label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+[hidden]{display:none!important}
 input,select,textarea,button{font:inherit;padding:10px 12px;border-radius:0;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 button{background:var(--acc);color:var(--acc-ink);border:1px solid var(--acc);font-weight:600;cursor:pointer}
 .hidden{display:none}

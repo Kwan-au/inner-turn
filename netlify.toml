@@ -45,6 +45,12 @@
     Cache-Control = "no-store, max-age=0"
 
 [[headers]]
+  for = "/api/desk-unlock"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
   for = "/dash.js"
   [headers.values]
     Cache-Control = "no-store, max-age=0"
