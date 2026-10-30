@@ -5,52 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>INNER TURN — Desk login</title>
   <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="inner-turn.css" />
+  <link rel="stylesheet" href="brand.v1.css" />
+  <link rel="stylesheet" href="/cinema.v8.css">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" integrity="sha384-dy2tW8xkhLIj8lZR42MCwZhhDb2cCewZiw0uA65CMpdHiJzL+iubx7HzHcCXU2rW" crossorigin="anonymous"></script>
+  <style>
+    .pw-wrap { position: relative; }
+    .pw-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: #716f68; font-size: 12px; cursor: pointer; }
+    .status { font-weight: 600; margin: 8px 0; }
+    .status.locked { color: #8b0000; }
+    .status.ok { color: #1a5c1a; }
+  </style>
 </head>
-<body>
+<body class="public film">
   <header class="nav">
-    <a class="logo" href="/">INNER TURN</a>
-    <nav><a href="/">Public site</a></nav>
+    <a class="logo" href="/">INNER TURN · INNER RING</a>
+    <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav">
+      <a href="/">Public site</a>
+      <a href="/trust">Trust</a>
+      <a href="/policies">Rules</a>
+    </nav>
   </header>
 
   <main class="login-wrap">
-    <p class="kicker">Owner desk</p>
-    <h1>Sign in with email</h1>
-    <p class="lede">Two systems: Netlify Identity, then a desk unlock phrase. Only <strong>desk@innerturn.com.au</strong> (or the Gmail recovery address). Device PIN is gone.</p>
+    <p class="fine"><a href="/" id="back-link">← Back to the public site</a></p>
+    <p class="kicker">Owner desk · password + emailed code</p>
+    <h1>Sign in</h1>
+    <p class="lede">Existing operator Identity account, then a one-time code emailed to desk@innerturn.com.au. Manager and cleaner access remains code-based and is not on this page. Invite-only. See <a href="/trust">trust</a>.</p>
 
     <form id="form">
       <p class="kicker">1 · Identity</p>
-      <label>Email
+      <label>Operator email
         <input id="email" type="email" autocomplete="username" value="desk@innerturn.com.au" required />
       </label>
-      <label>Password
-        <input id="pass" type="password" autocomplete="current-password" minlength="8" required />
+      <label>Identity password
+        <div class="pw-wrap">
+          <input id="pass" type="password" autocomplete="current-password" minlength="12" required />
+          <button type="button" class="pw-toggle" data-for="pass" aria-label="Show password">Show</button>
+        </div>
       </label>
-      <button type="submit">Sign in</button>
+      <button type="submit">Sign in to desk</button>
+    </form>
+
+    <form id="code-form" hidden>
+      <p class="kicker">2 · Emailed code</p>
+      <p class="note" id="code-hint">Sending a 6-digit sign-in code to desk@innerturn.com.au…</p>
+      <label>Sign-in code
+        <input id="login-code" type="text" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9 ]*" maxlength="7" placeholder="123 456" required />
+      </label>
+      <button type="submit" id="code-btn">Open desk</button>
+      <p class="fine">
+        <button type="button" class="text-btn" id="resend-code">Send a new code</button>
+        · <button type="button" class="text-btn" id="use-phrase">Use the unlock phrase instead</button>
+      </p>
+      <p class="status locked" id="code-status">Locked</p>
     </form>
 
     <form id="lock-form" hidden>
       <p class="kicker">2 · Desk unlock</p>
       <p class="note" id="lock-hint">Enter the desk unlock phrase.</p>
-      <label id="phrase-label"><span id="phrase-caption">Unlock phrase</span>
-        <input id="phrase" type="password" autocomplete="off" minlength="12" required />
+      <label id="current-wrap" hidden>Current phrase
+        <div class="pw-wrap">
+          <input id="current" type="password" autocomplete="off" />
+          <button type="button" class="pw-toggle" data-for="current" aria-label="Show phrase">Show</button>
+        </div>
       </label>
-      <label id="next-wrap" hidden>New phrase (12+ characters)
-        <input id="next-phrase" type="password" autocomplete="off" minlength="12" />
+      <p class="fine" id="code-wrap" hidden>
+        <span>Forgot it? Instead of the current phrase, use a one-time code sent to desk@innerturn.com.au (valid 15 minutes).</span>
+        <button type="button" class="text-btn" id="send-code">Email me a reset code</button>
+        <label>Reset code
+          <input id="code" type="text" autocomplete="one-time-code" inputmode="text" maxlength="11" placeholder="ABCDE-FGHJK" />
+        </label>
+      </p>
+      <label><span id="phrase-label">Desk unlock phrase</span>
+        <div class="pw-wrap">
+          <input id="phrase" type="password" autocomplete="off" required />
+          <button type="button" class="pw-toggle" data-for="phrase" aria-label="Show phrase">Show</button>
+        </div>
       </label>
-      <button type="submit" id="lock-btn">Unlock desk</button>
-      <button type="button" class="text-btn" id="wipe-btn" hidden>Forgot unlock phrase? Reset it</button>
-      <button type="button" class="text-btn" id="change-btn" hidden>Know the current phrase? Change it</button>
-      <button type="button" class="text-btn" id="cancel-change-btn" hidden>Back to unlock</button>
+      <label id="phrase2-wrap" hidden>Type the new phrase again
+        <input id="phrase2" type="password" autocomplete="off" />
+      </label>
+      <button type="submit" id="lock-btn">Unlock existing desk</button>
+      <p class="fine"><button type="button" class="text-btn" id="mode-btn" hidden>Forgot or change phrase</button></p>
+      <p class="fine"><button type="button" class="text-btn" id="use-code">Email me a sign-in code instead</button></p>
+      <p class="status locked" id="status">Locked</p>
     </form>
 
     <p class="note" id="err" hidden></p>
     <p class="note" id="ok" hidden></p>
-    <p class="fine">Forgot Identity password: recover on this same email. Unlock phrase is never emailed. New accounts are invite-only. After a wipe you set a new 12+ character phrase.</p>
+    <p class="fine">Forgot Identity password: recover on desk@ or Gmail. Sign-in codes go only to desk@innerturn.com.au, work once, only for the account that asked, and expire after 10 minutes; five wrong guesses cancel a code. The older unlock phrase still works as a fallback and is never emailed. Five failed tries pause sign-in for a minute; eight failed unlocks lock it for 15 minutes; 20 failures in 24 hours lock the desk until it is cleared by hand. The session lasts 12 hours, or ends after 30 minutes idle. Every sign-in, unlock and failure is logged. Lot codes for managers/cleaners are issued separately and never stored here.</p>
+    <p><button type="button" class="text-btn" id="signout" hidden>Sign out of desk</button></p>
   </main>
+  <footer class="site-ruler">
+    <div class="ruler-inner">
+      <div class="foot-mark">
+        <p class="logo">INNER TURN</p>
+        <p>desk@innerturn.com.au · 0451 224 857</p>
+        <p>ABN 20 235 092 068 · Melbourne VIC</p>
+      </div>
+      <nav class="foot-legal" aria-label="Legal">
+        <a href="/terms">Terms of service</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/policies">Policies</a>
+        <a href="/trust">Trust</a>
+      </nav>
+    </div>
+    <p class="ruler-line">These pages are the rules. Desk and dispatch only. Guest thread stays with the manager.</p>
+  </footer>
 
   <script src="/auth.js"></script>
   <script src="/login.js"></script>
+  <script src="/inner-turn.js" defer></script>
 </body>
 </html>

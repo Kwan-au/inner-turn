@@ -1,0 +1,22 @@
+CREATE TABLE "intakes" (
+	"id" serial PRIMARY KEY,
+	"form_id" text NOT NULL UNIQUE,
+	"kind" text NOT NULL,
+	"status" text DEFAULT 'new' NOT NULL,
+	"contact_name" text,
+	"email" text,
+	"phone" text,
+	"suburb" text,
+	"postcode" text,
+	"service_region" text,
+	"priority" integer DEFAULT 0 NOT NULL,
+	"complete" boolean DEFAULT false NOT NULL,
+	"summary" text,
+	"flags" jsonb DEFAULT '[]' NOT NULL,
+	"follow_up_draft" text,
+	"matched_intake_id" integer,
+	"match_reason" text,
+	"data" jsonb NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);

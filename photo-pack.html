@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Airbnb changeover photo pack spec Melbourne | Inner Turn</title>
+  <meta name="description" content="Photo pack spec for Melbourne Airbnb changeovers: entry, beds, bathroom, kitchen, living, damage. Missing pack = job not done. Use the app thread or email fallback." />
+  <link rel="canonical" href="https://www.innerturn.com.au/photo-pack" />
+  <meta name="theme-color" content="#0b0a09" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="inner-turn.css" />
+  <link rel="stylesheet" href="brand.v1.css" />
+  <link rel="stylesheet" href="/cinema.v8.css">
+  <meta property="og:title" content="Airbnb changeover photo pack spec Melbourne | Inner Turn" />
+  <meta property="og:description" content="Photo pack spec for Melbourne Airbnb changeovers: entry, beds, bathroom, kitchen, living, damage. Missing pack = job not done. Use the app thread or email fallback." />
+  <meta property="og:url" content="https://www.innerturn.com.au/photo-pack" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.innerturn.com.au/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Made bed in a sunlit inner-Melbourne apartment with a phone showing the photo pack" />
+  <meta property="og:site_name" content="Inner Turn" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.innerturn.com.au/og-image.jpg" />
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [{"@type": "LocalBusiness", "@id": "https://www.innerturn.com.au/#business", "name": "Inner Turn", "url": "https://www.innerturn.com.au/", "email": "desk@innerturn.com.au", "telephone": "+61451224857", "areaServed": {"@type": "City", "name": "Melbourne"}, "address": {"@type": "PostalAddress", "addressLocality": "Melbourne", "addressRegion": "VIC", "addressCountry": "AU"}, "identifier": {"@type": "PropertyValue", "name": "ABN", "value": "20 235 092 068"}, "description": "Photo pack spec for Melbourne Airbnb changeovers: entry, beds, bathroom, kitchen, living, damage. Missing pack = job not done. Use the app thread or email fallback."}, {"@type": "Service", "name": "Airbnb changeover photo pack spec Melbourne", "provider": {"@id": "https://www.innerturn.com.au/#business"}, "url": "https://www.innerturn.com.au/photo-pack", "areaServed": "Melbourne"}]}
+</script>
+</head>
+<body class="public film">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav">
+    <a class="logo" href="/">INNER TURN · INNER RING</a>
+    <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav">
+      <a href="/how-it-works">How it works</a>
+      <a href="/policies">Policies</a>
+      <a href="/terms">Terms</a>
+      <a class="ghost" href="/#enquire">Send a lot pack</a>
+    </nav>
+  </header>
+<p class="back-link"><a href="/">← Inner Turn desk</a> · <a href="/areas">Areas</a> · <a href="/pricing">Card</a></p>
+
+
+  <main class="legal" id="main">
+    <p class="kicker">Policy · photo pack</p>
+    <h1>Photo pack spec</h1>
+    <p class="lede">The pack is the record of the turn. It is not a marketing gallery and it is not a claims file. Platform claims stay with the manager. Inner Turn is not the claims agent.</p>
+
+    <div class="pack-grid gap-block">
+      <figure><img src="/proof/entry.jpg" width="960" height="621" alt="Sample entry still"><figcaption>Entry</figcaption></figure>
+      <figure><img src="/proof/bed.jpg" width="960" height="621" alt="Sample bed still"><figcaption>Beds</figcaption></figure>
+      <figure><img src="/proof/bathroom.jpg" width="960" height="621" alt="Sample bathroom still"><figcaption>Bathroom</figcaption></figure>
+      <figure><img src="/proof/kitchen.jpg" width="960" height="621" alt="Sample kitchen still"><figcaption>Kitchen bench</figcaption></figure>
+      <figure><img src="/proof/living.jpg" width="960" height="630" alt="Sample living still"><figcaption>Living</figcaption></figure>
+      <figure><img src="/proof/damage.jpg" width="960" height="621" alt="Sample damage-flag still"><figcaption>Damage flag</figcaption></figure>
+    </div>
+    <p>Sample frames. Not a live lot. Plates and faces blurred.</p>
+
+    <h2 id="upload">Send a pack</h2>
+    <ul class="form-rules">
+      <li>One still per slot. JPEG, PNG, WebP or HEIC.</li>
+      <li>Each file under 1.8 MB. Crop, do not send a 12 MB live photo.</li>
+      <li>Do not put lockbox codes in the filename or the notes.</li>
+      <li>This send is a pack on a thread — not a claim and not a booking.</li>
+      <li>Missing pack = job not DONE. Pay stays HOLD.</li>
+    </ul>
+    <form class="form-block" name="photo-pack" method="POST" action="/thanks.html?from=photo-pack" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="website">
+      <input type="hidden" name="form-name" value="photo-pack" />
+      <p hidden><label>Leave blank <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+      <label>Email
+        <input type="email" name="email" required maxlength="120" autocomplete="email" placeholder="you@agency.com.au" />
+      </label>
+      <label>Suburb
+        <input type="text" name="suburb" required maxlength="80" placeholder="Richmond" />
+      </label>
+      <label>Beds
+        <select name="beds" required>
+          <option value="">Select</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+        </select>
+      </label>
+      <label>Checkout window (optional)
+        <input type="datetime-local" name="checkout" />
+      </label>
+      <div class="drop-zone" aria-label="Photo pack slots">
+        <label class="drop-slot"><strong>01 Entry</strong><span>Door / hall as left</span><input type="file" name="entry" accept="image/jpeg,image/png,image/webp,image/heic" required /></label>
+        <label class="drop-slot"><strong>02 Each bed</strong><span>Remade, linen as agreed</span><input type="file" name="beds_still" accept="image/jpeg,image/png,image/webp,image/heic" required /></label>
+        <label class="drop-slot"><strong>03 Bathroom</strong><span>Wet area guest-ready</span><input type="file" name="bathroom" accept="image/jpeg,image/png,image/webp,image/heic" required /></label>
+        <label class="drop-slot"><strong>04 Kitchen bench</strong><span>Clear, wipe visible</span><input type="file" name="kitchen" accept="image/jpeg,image/png,image/webp,image/heic" required /></label>
+        <label class="drop-slot"><strong>05 Living</strong><span>Floor and main surfaces</span><input type="file" name="living" accept="image/jpeg,image/png,image/webp,image/heic" required /></label>
+        <label class="drop-slot"><strong>06 Visible damage</strong><span>Only what is in shot. Write “none” below if the lot is clean.</span><input type="file" name="damage" accept="image/jpeg,image/png,image/webp,image/heic" /></label>
+      </div>
+      <label>Notes (optional — no codes)
+        <textarea name="notes" rows="3" maxlength="800" placeholder="Damage none / one-line flag. Do not paste lockbox codes."></textarea>
+      </label>
+      <button type="submit">Send photo pack</button>
+    </form>
+    <p class="em-fine">Prefer the app thread: <a href="/app">innerturn.com.au/app</a> — packs stay on the job with history. Email is the fallback only.</p>
+
+    <h2>What must be in the pack</h2>
+    <p>Timestamped stills, on the same thread as the booking, before you message the next guest:</p>
+    <ul>
+      <li>Entry — door / hall as left</li>
+      <li>Each bed — remade, linen as agreed</li>
+      <li>Bathroom — wet area guest-ready</li>
+      <li>Kitchen bench — clear, wipe visible</li>
+      <li>Living — floor and main surfaces</li>
+      <li>Visible damage — only what is in shot at handover, not a hunt</li>
+    </ul>
+    <p>One still per item is enough if the frame is readable. A blur, a dark doorway or a crop that hides the bed is not that item. Video is not a substitute. Guest belongings in frame are not inventoried by the desk.</p>
+
+    <h2>When it is sent</h2>
+    <p>After the contractor leaves, before check-in, on the same email thread. The desk forwards or confirms that pack to you. Do not tell the guest that Inner Turn is the host. Do not open a new thread for the stills if the booking thread exists.</p>
+
+    <h2>When it is missing</h2>
+    <p>The job is not DONE. Contractor pay stays on HOLD until the stills are on the thread or the desk writes a close. A missing pack is a desk dispute. It is not a reason to cut the live card on the next lot. Write the desk the same day.</p>
+
+    <h2>Damage in the pack</h2>
+    <p>Visible damage is flagged on the thread with the still that shows it. That flag is notice, not a claim. Platform claims (Airbnb, Stayz and the like) stay yours to lodge. We can resend the stills we hold. We do not complete the platform form, admit liability for guest belongings, or attend the lot.</p>
+
+    <h2 id="desk-email">Desk email — pack sent, damage flag, pack missing</h2>
+    <p>One thread. One subject. Copy the block. Fill the square brackets. Send from Gmail, Bcc desk@. Do not open a new thread if the booking thread exists.</p>
+    <ul class="form-rules">
+      <li>Subject always starts <code>Inner Turn - [SUBURB] [YYYY-MM-DD]</code> then the tag.</li>
+      <li>Tags only: <code>PACK SENT</code> · <code>DAMAGE FLAG</code> · <code>PACK MISSING</code>.</li>
+      <li>File manager mail under Managers / Jobs. File cleaner mail under Cleaners / Jobs. File FLAG or MISSING under Disputes as well.</li>
+      <li>One party per send. Do not mix manager and cleaner in the same body.</li>
+      <li>No lockbox codes. No guest numbers. No “we are the host”.</li>
+    </ul>
+
+    <article class="copy-card" id="mail-pack-sent">
+      <p class="kicker">01 Manager · DONE</p>
+      <h3>Pack sent</h3>
+      <p class="note">When the stills are on the thread and the lot can be handed to the next guest.</p>
+      <p class="note"><strong>Subject</strong> Inner Turn - [SUBURB] [YYYY-MM-DD] PACK SENT</p>
+      <p class="note"><strong>To</strong> manager · <strong>Bcc</strong> desk@innerturn.com.au</p>
+      <pre class="copy-block" id="copy-pack-sent">FILE
+Job: [SUBURB] [BEDS]bed [YYYY-MM-DD]
+Status: DONE
+Who: manager
+
+[SUBURB], [BEDS] bed.
+Window [CHECKOUT] to [CHECK-IN].
+
+Photo pack is on this thread.
+Stills: entry / beds / bathroom / kitchen / living
+Damage: none   OR   flagged — see DAMAGE FLAG mail
+
+You can message the next guest.
+Do not name Inner Turn as host.
+
+Invoice on the weekly run unless we wrote HOLD.
+
+desk@innerturn.com.au · 0451 224 857</pre>
+      <p class="copy-actions">
+        <button type="button" class="ghost" data-copy="copy-pack-sent">Copy email</button>
+        <a class="ghost" href="mailto:?subject=Inner%20Turn%20-%20SUBURB%20YYYY-MM-DD%20PACK%20SENT&bcc=desk@innerturn.com.au">Open mail app</a>
+      </p>
+      <p class="em-fine">SMS after send (optional): Inner Turn [SUBURB] pack is on the email. You can message the next guest.</p>
+    </article>
+
+    <article class="copy-card" id="mail-damage">
+      <p class="kicker">02 Manager · FLAG</p>
+      <h3>Damage flag</h3>
+      <p class="note">Notice only. Not a claim. Platform forms stay with the manager.</p>
+      <p class="note"><strong>Subject</strong> Inner Turn - [SUBURB] [YYYY-MM-DD] DAMAGE FLAG</p>
+      <p class="note"><strong>To</strong> manager · <strong>Bcc</strong> desk@innerturn.com.au</p>
+      <pre class="copy-block" id="copy-damage">FILE
+Job: [SUBURB] [BEDS]bed [YYYY-MM-DD]
+Status: FLAG
+Who: manager
+
+[SUBURB], [BEDS] bed.
+Window [CHECKOUT] to [CHECK-IN].
+
+Visible damage on the pack: [one line — what the still shows].
+The still is on this thread.
+
+This is a flag, not a claim.
+Platform claims stay with you.
+Inner Turn does not lodge Airbnb / Stayz / insurer forms.
+We do not attend. We do not admit liability for guest belongings.
+
+Reply on this thread if you want the same stills resent today.
+
+desk@innerturn.com.au · 0451 224 857</pre>
+      <p class="copy-actions">
+        <button type="button" class="ghost" data-copy="copy-damage">Copy email</button>
+        <a class="ghost" href="mailto:?subject=Inner%20Turn%20-%20SUBURB%20YYYY-MM-DD%20DAMAGE%20FLAG&bcc=desk@innerturn.com.au">Open mail app</a>
+      </p>
+    </article>
+
+    <article class="copy-card" id="mail-missing-cleaner">
+      <p class="kicker">03 Cleaner · HOLD</p>
+      <h3>Pack missing — cleaner</h3>
+      <p class="note">Pay HOLD until the six stills land on this thread.</p>
+      <p class="note"><strong>Subject</strong> Inner Turn - [SUBURB] [YYYY-MM-DD] PACK MISSING</p>
+      <p class="note"><strong>To</strong> cleaner · <strong>Bcc</strong> desk@innerturn.com.au</p>
+      <pre class="copy-block" id="copy-missing-cleaner">FILE
+Job: [SUBURB] [BEDS]bed [YYYY-MM-DD]
+Status: HOLD
+Who: cleaner
+
+[SUBURB], [BEDS] bed.
+Window [CHECKOUT] to [CHECK-IN].
+
+Pack is not on this thread. Job is not DONE.
+Pay stays HOLD.
+
+Send today, on this thread:
+01 entry
+02 each bed
+03 bathroom
+04 kitchen bench
+05 living
+06 damage still, or write DAMAGE: none
+
+No new thread. No guest message. No codes in the filename.
+
+desk@innerturn.com.au · 0451 224 857</pre>
+      <p class="copy-actions">
+        <button type="button" class="ghost" data-copy="copy-missing-cleaner">Copy email</button>
+        <a class="ghost" href="mailto:?subject=Inner%20Turn%20-%20SUBURB%20YYYY-MM-DD%20PACK%20MISSING&bcc=desk@innerturn.com.au">Open mail app</a>
+      </p>
+      <p class="em-fine">SMS after send: Inner Turn [SUBURB]. Need stills now. Pay HOLD until they are on the email.</p>
+    </article>
+
+    <article class="copy-card" id="mail-missing-manager">
+      <p class="kicker">04 Manager · HOLD</p>
+      <h3>Pack missing — manager</h3>
+      <p class="note">Do not treat the lot as handed over. Separate mail from the cleaner chase.</p>
+      <p class="note"><strong>Subject</strong> Inner Turn - [SUBURB] [YYYY-MM-DD] PACK MISSING</p>
+      <p class="note"><strong>To</strong> manager · <strong>Bcc</strong> desk@innerturn.com.au</p>
+      <pre class="copy-block" id="copy-missing-manager">FILE
+Job: [SUBURB] [BEDS]bed [YYYY-MM-DD]
+Status: HOLD
+Who: manager
+
+[SUBURB], [BEDS] bed.
+Window [CHECKOUT] to [CHECK-IN].
+
+Photo pack is not on this thread yet.
+Do not message the next guest as handed over.
+
+We have asked the contractor for the stills.
+Report follows when the pack lands, or we write a close.
+
+This is a desk hold, not a price cut on the next lot.
+
+desk@innerturn.com.au · 0451 224 857</pre>
+      <p class="copy-actions">
+        <button type="button" class="ghost" data-copy="copy-missing-manager">Copy email</button>
+        <a class="ghost" href="mailto:?subject=Inner%20Turn%20-%20SUBURB%20YYYY-MM-DD%20PACK%20MISSING&bcc=desk@innerturn.com.au">Open mail app</a>
+      </p>
+    </article>
+
+    <p><a href="/policies#photos">Photo-pack policy</a> · <a href="/terms#cancel">Terms — damage</a> · <a href="/how-it-works">How it books</a></p>
+    <p class="lq-cta-line lq-page-line">Want this photo pack on your own listings? <a href="/quote" data-cta="photo-pack">Get a free listing quote</a>.</p>
+    <p class="lq-cta-line">We turn over short-stay lots in <a href="/richmond">Richmond</a>, <a href="/south-yarra">South Yarra</a>, <a href="/southbank">Southbank</a>, <a href="/docklands">Docklands</a>, <a href="/east-melbourne">East Melbourne</a>, <a href="/fitzroy">Fitzroy</a>, <a href="/collingwood">Collingwood</a> and <a href="/st-kilda">St Kilda</a>. See <a href="/areas">every suburb we cover</a>.</p>
+  </main>
+
+  <footer class="site-ruler">
+    <div class="ruler-inner">
+      <div class="foot-mark">
+        <p class="logo">INNER TURN</p>
+        <p>desk@innerturn.com.au · 0451 224 857</p>
+        <p>ABN 20 235 092 068 · Melbourne VIC</p>
+      </div>
+      <nav class="foot-legal">
+        <a href="/policies">Policies</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+    </div>
+    <p class="ruler-line">Platform claims stay with the manager. Desk is not the claims agent.</p>
+  </footer>
+      <script src="/inner-turn.js" defer></script>
+</body>
+</html>

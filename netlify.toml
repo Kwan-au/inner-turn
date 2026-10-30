@@ -1,5 +1,10 @@
 [build]
+  # sync-partials writes the shared quote component into /
+  command = "npm install && node scripts/sync-partials.mjs"
   publish = "."
+
+[functions]
+  directory = "netlify/functions"
 
 [forms]
 
@@ -9,11 +14,189 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
+    X-Permitted-Cross-Domain-Policies = "none"
+    X-DNS-Prefetch-Control = "off"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
     Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     Cross-Origin-Resource-Policy = "same-origin"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://identity.netlify.com; script-src-attr 'none'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://identity.netlify.com https://innerturn.com.au https://www.innerturn.com.au; frame-src https://identity.netlify.com https://www.netlify.com; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://identity.netlify.com; script-src-attr 'none'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identity.netlify.com https://innerturn.com.au https://www.innerturn.com.au; frame-src https://identity.netlify.com https://www.netlify.com https://www.google.com https://maps.google.com https://www.google.com.au; upgrade-insecure-requests"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/brand.v1.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/inner-turn.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/cinema.v1.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v2.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v3.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v4.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v5.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v6.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v7.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cinema.v8.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/proof/coverage-map.v2.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/proof/coverage-map.v2.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/styles.v4.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/styles.v5.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/styles.v6.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/styles.v7.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/site.v4.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/site.v5.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/site.v6.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/site.v7.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/brand.v1.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cleaners.v1.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cleaners.v1.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cleaners.v2.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cleaners.v2.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/film.v2.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/film.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/film-em.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/film-em.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/hero-960.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/hero-640.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/hero-960.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/hero-640.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/proof/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/dash.html"
@@ -45,15 +228,19 @@
     Cache-Control = "no-store, max-age=0"
 
 [[headers]]
-  for = "/api/desk-unlock"
-  [headers.values]
-    Cache-Control = "no-store, max-age=0"
-    X-Robots-Tag = "noindex, nofollow"
-
-[[headers]]
   for = "/dash.js"
   [headers.values]
     Cache-Control = "no-store, max-age=0"
+
+[[headers]]
+  for = "/dash-jobs.js"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+
+[[headers]]
+  for = "/thread.v1.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/dash-boot.js"
@@ -61,7 +248,157 @@
     Cache-Control = "no-store, max-age=0"
 
 [[redirects]]
+  from = "/pricing"
+  to = "/pricing.html"
+  status = 200
+
+[[redirects]]
+  from = "/how-it-works"
+  to = "/how-it-works.html"
+  status = 200
+
+[[redirects]]
+  from = "/areas"
+  to = "/areas.html"
+  status = 200
+
+[[redirects]]
+  from = "/cleaners"
+  to = "/cleaners.html"
+  status = 200
+
+[[redirects]]
+  from = "/photo-pack"
+  to = "/photo-pack.html"
+  status = 200
+
+[[redirects]]
+  from = "/same-day"
+  to = "/same-day.html"
+  status = 200
+
+[[redirects]]
+  from = "/app"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/thread"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/partials/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true
+
+# One hop to the canonical host. Apex → www is already forced by the primary domain.
+[[redirects]]
   from = "https://inner-turn.netlify.app/*"
-  to = "https://innerturn.com.au/:splat"
+  to = "https://www.innerturn.com.au/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "https://innerturn.com.au/*"
+  to = "https://www.innerturn.com.au/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/trust.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+[[redirects]]
+  from = "/policies"
+  to = "/policies.html"
+  status = 200
+[[redirects]]
+  from = "/trust"
+  to = "/trust.html"
+  status = 200
+[[redirects]]
+  from = "/richmond"
+  to = "/richmond.html"
+  status = 200
+[[redirects]]
+  from = "/south-yarra"
+  to = "/south-yarra.html"
+  status = 200
+[[redirects]]
+  from = "/southbank"
+  to = "/southbank.html"
+  status = 200
+[[redirects]]
+  from = "/docklands"
+  to = "/docklands.html"
+  status = 200
+[[redirects]]
+  from = "/east-melbourne"
+  to = "/east-melbourne.html"
+  status = 200
+[[redirects]]
+  from = "/fitzroy"
+  to = "/fitzroy.html"
+  status = 200
+[[redirects]]
+  from = "/collingwood"
+  to = "/collingwood.html"
+  status = 200
+[[redirects]]
+  from = "/st-kilda"
+  to = "/st-kilda.html"
+  status = 200
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/quote"
+  to = "/quote.html"
+  status = 200
+
+[[redirects]]
+  from = "/thanks"
+  to = "/thanks.html"
+  status = 200
+
+[[headers]]
+  for = "/dash-boot.v2.js"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"

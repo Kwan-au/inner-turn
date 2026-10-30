@@ -1,0 +1,236 @@
+/* Film palette — contrast pass */
+:root {
+  --ink: #F3EEE4;
+  --mute: #C9C2B4;
+  --paper: #E8DFD0;
+  --linen: #E0C89A;
+  --ground: #121411;
+  --surface: #1C1F1B;
+  --line: #3A3F38;
+  --garden: #3E6B4C;
+  --garden-2: #4B7D59;
+  --walk: #A34A45;
+}
+/* East Melbourne film page — scoped to body.film */
+body.film {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 16px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+body.film a { color: var(--linen); }
+body.film .skip {
+  position: absolute; left: -999px;
+}
+body.film .nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--ground);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+body.film .logo {
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+body.film .menu {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+}
+body.film .nav nav {
+  display: none;
+}
+body.nav-open.film .nav nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--ground);
+  padding: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+body.film .nav nav a { text-decoration: none; color: var(--ink); }
+
+.em-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.2rem 1rem 2.2rem;
+  position: relative;
+  overflow: hidden;
+}
+.em-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: ken 22s ease-in-out alternate infinite;
+}
+@keyframes ken {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .em-hero img { animation: none; }
+}
+.em-hero .veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11,12,11,0.15) 20%, rgba(11,12,11,0.92) 88%);
+}
+.em-hero .copy { position: relative; z-index: 1; max-width: 36rem; }
+.em-kicker {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--linen);
+  margin: 0 0 0.7rem;
+}
+.em-hero h1 {
+  font-size: clamp(1.7rem, 7vw, 2.6rem);
+  line-height: 1.08;
+  font-weight: 500;
+  margin: 0 0 0.8rem;
+}
+.em-hero .sub { margin: 0 0 1.2rem; color: var(--paper); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.cta {
+  display: inline-block;
+  padding: 0.7rem 1rem;
+  background: var(--garden);
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--garden);
+}
+.cta.ghost {
+  background: transparent;
+  border-color: var(--linen);
+  color: var(--linen);
+}
+.em-fine { font-size: 0.8rem; color: var(--mute); margin: 1rem 0 0; }
+
+.em-scene { padding: 2.2rem 1rem; border-top: 1px solid var(--line); }
+.em-scene h2 {
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+.reel { display: flex; gap: 0.7rem; overflow-x: auto; scroll-snap-type: x mandatory; }
+.reel article {
+  min-width: 78%;
+  scroll-snap-align: start;
+  background: var(--surface);
+  padding: 1rem;
+  border: 1px solid var(--line);
+}
+.reel h3 { margin: 0 0 0.4rem; font-size: 1rem; }
+.cut-line { margin: 1.1rem 0 0; color: var(--linen); }
+
+.hour { list-style: none; padding: 0; margin: 0; }
+.hour li { padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
+.hour b { display: block; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.75rem; color: var(--linen); }
+
+.title-card {
+  background: var(--ground);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+.title-card pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font: inherit;
+  line-height: 1.7;
+}
+.slate { margin: 1.2rem 0 0; color: var(--linen); }
+
+.cuts { display: grid; gap: 0.8rem; }
+.cuts article { padding: 1rem; border: 1px solid var(--line); }
+.cuts .walk { border-color: var(--walk); }
+
+.callsheet label { display: block; margin: 0.7rem 0; }
+.callsheet input, .callsheet select, .callsheet textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 0.55rem 0.6rem;
+  font: inherit;
+}
+.callsheet .err { display: none; color: #E8A090; font-size: 0.8rem; }
+.form-block.tried :invalid + .err { display: block; }
+.preview {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  color: var(--linen);
+}
+.callsheet button {
+  margin-top: 0.8rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--garden);
+  color: var(--ink);
+  border: 0;
+  font: inherit;
+}
+
+.ring { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; }
+.ring a { color: var(--linen); }
+
+#slate-bar {
+  display: none;
+  position: sticky;
+  bottom: 0;
+  z-index: 15;
+  background: var(--garden);
+  color: var(--ink);
+  padding: 0.55rem 1rem;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+}
+#slate-bar.on { display: block; }
+#slate-bar a { color: var(--ink); }
+
+@media (min-width: 860px) {
+  body.film .menu { display: none; }
+  body.film .nav nav {
+    display: flex;
+    gap: 1rem;
+    position: static;
+    padding: 0;
+    border: 0;
+    flex-direction: row;
+  }
+  .reel article { min-width: 30%; }
+  .cuts { grid-template-columns: 1fr 1fr; }
+}
+
+body.film .prose p { max-width: 40rem; }
+body.film .prose h2 { margin-top: 1.6rem; }
+body.film .hidden { position:absolute; left:-9999px; }
+body.film table { width:100%; border-collapse:collapse; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.85rem; }
+body.film th, body.film td { text-align:left; padding:0.4rem 0.3rem; border-bottom:1px solid var(--line); }
+
+body.film .legal, body.film .login-wrap { padding: 1.4rem 1rem 3rem; }
+body.film .lede, body.film .note { color:var(--paper); }
+body.film .kicker { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.68rem; letter-spacing:0.16em; color:var(--linen); }
+body.film h1 { font-size:clamp(1.6rem,6vw,2.4rem); font-weight:500; line-height:1.1; }
+body.film details { border-bottom:1px solid var(--line); padding:0.6rem 0; }
+body.film .btn { display:inline-block; background:var(--garden); color:var(--ink); border:1px solid var(--garden); padding:0.7rem 1rem; text-decoration:none; }
+body.film label { display:block; margin:0.7rem 0; }
+body.film input, body.film select, body.film textarea { width:100%; box-sizing:border-box; background:var(--surface); color:var(--ink); border:1px solid var(--line); padding:0.55rem; }
+body.film .site-ruler { padding:1.2rem 1rem; border-top:1px solid var(--line); font-size:0.85rem; }
+body.film .subs, body.film .need { padding-left:1.1rem; }
