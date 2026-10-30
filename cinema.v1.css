@@ -1,0 +1,215 @@
+/* Inner Turn cinema.v1 — dark editorial overlay. Card numbers stay in HTML. */
+:root{
+  --ink:#0b0a09;
+  --charcoal:#121110;
+  --paper:#0b0a09;
+  --cream:#121110;
+  --surface:#161513;
+  --gold:#c4a072;
+  --gold-2:#b08f46;
+  --champagne:#e8dcc4;
+  --muted:#9a9488;
+  --line:#2a2620;
+  --card:#141311;
+  --walk:#8b3a32;
+}
+html{background:#0b0a09;color-scheme:dark}
+body,body.film,body.public,body.app-shell{
+  background:#0b0a09;
+  color:#e8e4db;
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+}
+h1,h2,h3,.hero h1,.intro h2,.section-head h2,.coverage h2,.enquiry h2,
+.em-hero h1,.legal h1,.app-hero h1{
+  font-family:Iowan Old Style,"Palatino Linotype",Palatino,"Times New Roman",Georgia,serif;
+  font-weight:500;
+  letter-spacing:-.03em;
+  color:#f3eee4;
+}
+a{color:#e8e4db}
+.eyebrow,.em-kicker,.kicker,small,footer small,.rate-head{
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:11px;
+  color:#c4a072;
+}
+header,header.nav{
+  background:rgba(11,10,9,.86);
+  color:#f3eee4;
+  border-bottom:1px solid #c4a07233;
+  backdrop-filter:saturate(1.1) blur(10px);
+}
+header .mark,header .logo{
+  color:#f3eee4;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  font-size:12px;
+  font-weight:600;
+}
+header .mark span,header .logo::after{color:#c4a072}
+header nav a,header.nav nav a{color:#d9d3c6}
+.nav-cta,a.nav-cta,.cta,.ghost{
+  border:1px solid #c4a07299;
+  color:#f3eee4;
+  background:transparent;
+  padding:8px 14px;
+}
+.gold,.btn.gold,.cta{
+  background:#c4a072;
+  color:#161513;
+  border:0;
+}
+.hero{
+  color:#f3eee4;
+}
+.hero-photo{
+  filter:saturate(.78) contrast(1.08) brightness(.72);
+}
+.shade{
+  background:
+    linear-gradient(90deg,#0b0a09f2 0%,#0b0a09cc 38%,#0b0a0926 78%),
+    linear-gradient(0deg,#0b0a09 0%,#0b0a0900 46%);
+}
+.hero .lede,.lede{color:#d7d1c4}
+.proof{
+  background:#0b0a09f0;
+  border-top:1px solid #c4a07233;
+}
+.proof li>b{border-color:#c4a07288;color:#c4a072}
+.trust-strip{
+  background:#121110;
+  border-block:1px solid #c4a07233;
+  color:#d7d1c4;
+}
+.trust-strip ul{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px 28px;
+  list-style:none;
+  margin:0;
+  padding:18px clamp(20px,6vw,80px);
+}
+.trust-strip b{color:#c4a072;margin-right:8px}
+.section,.em-scene,.legal,main.legal{
+  background:#0b0a09;
+  color:#e8e4db;
+}
+.process ol{border-color:#2a2620}
+.process li{border-color:#2a2620}
+.process em{color:#c4a072}
+.process h3,.compare-grid h3{color:#f3eee4}
+.process li p,.intro>p:last-child,.section-head>p,.compare-grid li,.faq details p{color:#9a9488}
+.pricing{background:#10100e}
+.rate-card{
+  background:#141311;
+  border:1px solid #c4a07255;
+  border-left:1px solid #c4a072;
+  box-shadow:0 24px 80px #0008;
+}
+.rate-head{background:#1a1814;color:#9a9488}
+.rate{border-top:1px solid #2a2620;color:#e8e4db}
+.rate>strong{color:#e8dcc4;font-family:Iowan Old Style,Palatino,Georgia,serif}
+.rate-foot{background:#0b0a09;color:#e8e4db}
+.price-notes,.price-notes b,.dark-link{color:#d7d1c4}
+.coverage{background:#0b0a09;color:#f3eee4}
+.coverage-copy>p:not(.eyebrow){color:#c2bcb0}
+.sub-list .tag{color:#9a9488}
+.compare{background:#0b0a09}
+.compare-grid article{
+  background:#141311;
+  border:1px solid #2a2620;
+}
+.compare-grid article:first-child{
+  border:1px solid #c4a07266;
+  background:#161412;
+}
+.faq details{border-color:#2a2620}
+.enquiry{background:#0b0a09}
+.enquiry input,.enquiry select,.enquiry textarea,
+.app-shell .form-block input,
+.app-shell .form-block select,
+.app-shell .form-block textarea{
+  color:#f3eee4;
+  border-bottom:1px solid #6a6356;
+  background:transparent;
+}
+.enquiry label{color:#c4a072}
+.dark-btn,.app-shell .form-block button{
+  background:#c4a072;
+  color:#161513;
+}
+footer,footer#site-foot,.site-ruler{
+  background:#0b0a09;
+  color:#bdb6a8;
+  border-top:1px solid #c4a07233;
+}
+footer a,footer#site-foot a{color:#e8e4db}
+.mobile-cta{background:#c4a072;color:#161513}
+.drawer{
+  background:#0b0a09;
+  color:#f3eee4;
+}
+.drawer-close,.drawer-toggle{color:#f3eee4}
+.drawer-primary{background:#c4a072;color:#161513}
+.drawer-list,.drawer-block{border-color:#2a2620}
+.drawer-links a{color:#e8e4db}
+
+/* Film / suburb pages */
+body.film .nav{background:rgba(11,10,9,.92);border-bottom:1px solid #c4a07233}
+body.film .logo{color:#f3eee4;letter-spacing:.22em}
+body.film .nav nav a{color:#e8e4db}
+.em-hero .veil{
+  background:linear-gradient(90deg,#0b0a09f0,#0b0a0966 55%,transparent);
+}
+.em-hero .copy,.em-scene,.title-card{
+  color:#f3eee4;
+}
+.em-hero img{filter:saturate(.8) contrast(1.06) brightness(.7)}
+.em-fine,.sub,.slate,.cut-line{color:#bdb6a8}
+.reel article,.cuts article,.sample-card{
+  background:#141311;
+  border:1px solid #2a2620;
+  color:#e8e4db;
+}
+.title-card pre{
+  color:#e8dcc4;
+  background:#141311;
+  border:1px solid #c4a07244;
+  padding:22px 24px;
+  letter-spacing:.08em;
+}
+
+/* Legal / pricing / trust */
+.legal,.legal.em-scene{
+  max-width:820px;
+  margin:0 auto;
+  padding:72px 24px 96px;
+  line-height:1.7;
+}
+.legal h1{font-size:clamp(36px,5vw,58px);margin:.2em 0 .4em}
+.legal h2{font-size:clamp(22px,3vw,30px);margin:2em 0 .5em;color:#e8dcc4}
+.legal a{color:#c4a072;border-bottom:1px solid #c4a07255}
+.legal-toc{display:flex;flex-wrap:wrap;gap:12px 18px;margin:24px 0 36px}
+.legal-toc a{font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+
+/* App */
+body.app-shell{background:#0b0a09}
+.app-shell .beats li,.app-shell .slabs article,.app-shell .form-block{
+  background:#141311;
+  border:1px solid #2a2620;
+}
+.app-shell .slabs .price{
+  color:#e8dcc4;
+  font-family:Iowan Old Style,Palatino,Georgia,serif;
+}
+.app-shell .note,.beats-note{color:#9a9488}
+
+/* Areas / proof */
+.pack-grid figure{background:#141311;border:1px solid #2a2620}
+.pack-grid figcaption{color:#c4a072;letter-spacing:.14em;text-transform:uppercase;font-size:11px}
+.ring-map img{filter:saturate(.9) contrast(1.05);border:1px solid #c4a07233}
+
+@media(max-width:850px){
+  header,header.nav{background:#0b0a09}
+  .hero-copy{margin-bottom:170px}
+}

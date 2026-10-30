@@ -1,11 +1,19 @@
 User-agent: *
 Allow: /
+Allow: /quote
+Disallow: /dash
 Disallow: /dash.html
 Disallow: /dash.js
 Disallow: /dash-boot.js
+Disallow: /dash-boot.v2.js
+Disallow: /login
 Disallow: /login.html
 Disallow: /login.js
 Disallow: /auth.js
+Disallow: /thanks
 Disallow: /thanks.html
-Disallow: /api/desk-
-Sitemap: https://innerturn.com.au/sitemap.xml
+Disallow: /api/
+Disallow: /partials/
+Disallow: /scripts/
+Sitemap: https://www.innerturn.com.au/sitemap.xml
+

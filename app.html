@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Airbnb changeover job thread Melbourne | Inner Turn app</title>
+  <meta name="description" content="Open a Melbourne changeover job thread. Managers and cleaners share lot details, photo packs, messages, damage flags and bank-transfer payments on one private thread." />
+  <link rel="canonical" href="https://www.innerturn.com.au/app" />
+  <meta name="theme-color" content="#0b0a09" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Inner Turn" />
+  <link rel="manifest" href="/app-manifest.json" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="stylesheet" href="inner-turn.css" />
+  <link rel="stylesheet" href="brand.v1.css" />
+  <link rel="stylesheet" href="/thread.v1.css" />
+  <!-- cinema.v8.css removed from app to restore previous light colour scheme -->
+  <meta property="og:title" content="Airbnb changeover job thread Melbourne | Inner Turn app" />
+  <meta property="og:description" content="Open a Melbourne changeover job thread. Managers and cleaners share lot details, photo-pack history, damage flags and missing-pack holds — on the app, not email." />
+  <meta property="og:url" content="https://www.innerturn.com.au/app" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.innerturn.com.au/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Made bed in a sunlit inner-Melbourne apartment with a phone showing the photo pack" />
+  <meta property="og:site_name" content="Inner Turn" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.innerturn.com.au/og-image.jpg" />
+</head>
+<body class="app-shell">
+  <a class="skip" href="#main">Skip to thread</a>
+  <header>
+    <a class="mark" href="/">Inner Turn<span>.</span></a>
+    <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span class="menu-bars" aria-hidden="true"></span></button>
+    <nav id="nav" aria-label="Primary">
+      <a href="/pricing">Pricing</a>
+      <a href="/photo-pack">Pack spec</a>
+      <a href="/">Site</a>
+      <a class="nav-cta" href="/app">Job thread</a>
+    </nav>
+  </header>
+  <p class="back-link"><a href="/">← Site</a> · <a href="/photo-pack">Photo pack spec</a> · Card $149 / $189 / $229 / $279</p>
+
+  <main id="main" class="th-app">
+    <p id="th-msg" class="th-toast" role="status" aria-live="polite" hidden></p>
+
+    <section data-screen="home" id="home">
+      <p class="eyebrow dark"><i></i>Job thread</p>
+      <h1>One thread per turn.</h1>
+      <p class="lede">The manager opens the job and sends the cleaner a private link. Photos, messages, flags and payment stay on the thread.</p>
+
+      <div id="my-threads" class="th-mine" hidden>
+        <h2>Your threads</h2>
+        <ul id="my-list" class="th-mine-list"></ul>
+      </div>
+
+      <div class="th-paths">
+        <article class="th-path">
+          <p class="th-kicker">Manager</p>
+          <h2>Start a new job</h2>
+          <p>Add the lot details. You get your own private link and a link to send the cleaner.</p>
+          <button type="button" class="th-btn" data-go="open">Start a job</button>
+        </article>
+        <article class="th-path">
+          <p class="th-kicker">Cleaner or manager</p>
+          <h2>Open a link you were sent</h2>
+          <p>Tap the link in your message, or paste it here.</p>
+          <form id="paste-form" class="th-inline">
+            <label class="sr" for="paste-link">Thread link</label>
+            <input id="paste-link" autocomplete="off" placeholder="https://www.innerturn.com.au/app?code=…" />
+            <button type="submit" class="th-btn ghost">Open</button>
+          </form>
+        </article>
+      </div>
+      <p class="th-fine">Lost your link? Phone the desk on <a href="tel:+61451224857">0451 224 857</a> and we send new ones. Never put lockbox or door codes on a thread.</p>
+    </section>
+
+    <section data-screen="open" id="open" hidden>
+      <button type="button" class="th-back" data-go="home">← Back</button>
+      <h1>Start a job</h1>
+      <p class="lede">This opens a LEAD. The turn is confirmed once the deposit is received and a cleaner has joined.</p>
+      <form id="open-form" class="th-form">
+        <fieldset>
+          <legend>You</legend>
+          <label>Your name<input id="open-name" required maxlength="80" autocomplete="name" /></label>
+          <label>Email<input id="open-email" type="email" required maxlength="120" autocomplete="email" placeholder="you@agency.com.au" /></label>
+        </fieldset>
+        <fieldset>
+          <legend>The lot</legend>
+          <label>Suburb<input id="open-suburb" required maxlength="80" placeholder="Richmond" /></label>
+          <label>Bedrooms
+            <select id="open-beds" required>
+              <option value="">Select</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+            </select>
+          </label>
+          <label>Street <small>optional · no unit or door codes</small><input id="open-street" maxlength="120" placeholder="Street number and name" /></label>
+          <label>Checkout<input id="open-out" type="datetime-local" /></label>
+          <label>Next check-in<input id="open-in" type="datetime-local" /></label>
+          <label>Access
+            <select id="open-access">
+              <option value="">Select</option>
+              <option>Lockbox</option><option>App</option><option>Concierge</option>
+            </select>
+          </label>
+        </fieldset>
+        <p id="open-price" class="th-price" aria-live="polite"></p>
+        <button type="submit" class="th-btn">Open thread</button>
+      </form>
+    </section>
+
+    <section data-screen="links" id="links" hidden>
+      <p class="eyebrow dark"><i></i>Thread <span id="links-code"></span> is open</p>
+      <h1>Two private links</h1>
+      <p class="lede">Anyone with a link can act on this job, so only share the cleaner link with your cleaner.</p>
+      <div class="th-linkcard">
+        <h2>1 · Your manager link</h2>
+        <p>It's saved on this device. Also save it somewhere else, like your notes or email to yourself.</p>
+        <code id="link-manager"></code>
+        <button type="button" class="th-btn ghost" data-copy="link-manager">Copy my link</button>
+      </div>
+      <div class="th-linkcard">
+        <h2>2 · Send this to your cleaner</h2>
+        <code id="link-cleaner"></code>
+        <div class="th-row">
+          <button type="button" class="th-btn" data-share="cleaner">Send to cleaner</button>
+          <button type="button" class="th-btn ghost" data-copy="link-cleaner">Copy</button>
+        </div>
+      </div>
+      <button type="button" class="th-btn" id="links-go">Go to the thread →</button>
+    </section>
+
+    <section data-screen="join" id="join" hidden>
+      <p class="eyebrow dark"><i></i>Joining as <span id="join-role"></span></p>
+      <h1 id="join-title">Join the thread</h1>
+      <p class="lede" id="join-lot"></p>
+      <form id="join-form" class="th-form">
+        <label>Your name<input id="join-name" required maxlength="80" autocomplete="name" /></label>
+        <label>Email <small>optional · shown to the other side of this job</small><input id="join-email" type="email" maxlength="120" autocomplete="email" /></label>
+        <button type="submit" class="th-btn">Join thread</button>
+      </form>
+    </section>
+
+    <section data-screen="thread" id="thread" hidden>
+      <div class="th-top">
+        <button type="button" class="th-back" data-go="home">← All threads</button>
+        <div class="th-title">
+          <h1><span id="th-code">CODE</span> <span id="th-status" class="th-chip">LEAD</span></h1>
+          <p id="th-lot"></p>
+        </div>
+        <p class="th-you">You: <b id="th-you"></b></p>
+      </div>
+      <p id="th-readonly" class="th-banner" hidden>This older thread is read-only. Phone the desk on 0451 224 857 for new private links.</p>
+
+      <ol id="th-steps" class="th-steps" aria-label="Job progress"></ol>
+
+      <nav class="th-tabs" role="tablist" aria-label="Thread sections">
+        <button type="button" role="tab" id="tab-overview" aria-controls="pane-overview" aria-selected="true" data-tab="overview">Overview</button>
+        <button type="button" role="tab" id="tab-photos" aria-controls="pane-photos" aria-selected="false" data-tab="photos">Photos <span class="th-count" id="count-photos"></span></button>
+        <button type="button" role="tab" id="tab-messages" aria-controls="pane-messages" aria-selected="false" data-tab="messages">Messages <span class="th-count" id="count-messages"></span></button>
+        <button type="button" role="tab" id="tab-payment" aria-controls="pane-payment" aria-selected="false" data-tab="payment">Payment <span class="th-dot" id="dot-payment" hidden></span></button>
+      </nav>
+
+      <div class="th-pane" role="tabpanel" id="pane-overview" aria-labelledby="tab-overview">
+        <div class="th-next" id="th-next"></div>
+        <dl class="th-facts" id="th-facts"></dl>
+        <div class="th-share" id="th-share" hidden>
+          <h2>Cleaner link</h2>
+          <p>Send this to the cleaner doing the turn. They'll see the lot details, photos and messages.</p>
+          <div class="th-row">
+            <button type="button" class="th-btn" data-share="cleaner">Send to cleaner</button>
+            <button type="button" class="th-btn ghost" id="copy-cleaner">Copy cleaner link</button>
+            <button type="button" class="th-btn ghost" id="copy-mine">Copy my link</button>
+          </div>
+        </div>
+        <div class="th-act" data-write>
+          <h2>Problems</h2>
+          <div class="th-row">
+            <button type="button" class="th-btn ghost" id="btn-missing">Photo pack missing</button>
+            <button type="button" class="th-btn ghost danger" id="btn-flag">Flag damage</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="th-pane" role="tabpanel" id="pane-photos" aria-labelledby="tab-photos" hidden>
+        <div data-write>
+          <h2>Photo pack for this turn</h2>
+          <p class="th-fine">One photo per room. Entry, beds, bathroom, kitchen and living are required. Damage is only if needed.</p>
+          <div class="th-slots" id="th-slots"></div>
+          <label>Damage <small>leave blank or write none if it's clean</small><input id="pack-damage" maxlength="160" placeholder="e.g. cracked tile at entry" /></label>
+          <label>Note <small>no access codes</small><input id="pack-note" maxlength="200" placeholder="Linen as agreed" /></label>
+          <p id="pack-check" class="th-fine"></p>
+          <button type="button" class="th-btn" id="btn-done">Send photo pack</button>
+        </div>
+        <h2>Past packs</h2>
+        <div id="th-packs" class="th-packs"></div>
+      </div>
+
+      <div class="th-pane" role="tabpanel" id="pane-messages" aria-labelledby="tab-messages" hidden>
+        <form id="note-form" class="th-compose" data-write>
+          <label class="sr" for="note-text">Message</label>
+          <textarea id="note-text" rows="2" maxlength="400" placeholder="Message the other side. No lockbox or door codes."></textarea>
+          <button type="submit" class="th-btn">Send</button>
+        </form>
+        <div class="th-filter" role="group" aria-label="Show">
+          <button type="button" data-feed="all" aria-pressed="true">Everything</button>
+          <button type="button" data-feed="note" aria-pressed="false">Messages only</button>
+        </div>
+        <ul id="th-feed" class="th-feed"></ul>
+      </div>
+
+      <div class="th-pane" role="tabpanel" id="pane-payment" aria-labelledby="tab-payment" hidden>
+        <div id="pay-body"></div>
+      </div>
+    </section>
+    <p class="lq-cta-line lq-page-line">Not ready to open a thread? <a href="/quote" data-cta="app">Get a free listing quote</a> first.</p>
+  </main>
+
+  <footer id="site-foot">
+    <div class="footer-mark">
+      <a class="mark" href="/">Inner Turn<span>.</span></a>
+      <p>Turns only. You keep the guest thread.</p>
+      <p>ABN 20 235 092 068 · Melbourne VIC</p>
+    </div>
+    <div>
+      <small>Desk</small>
+      <a href="tel:+61451224857">0451 224 857</a>
+      <a href="/photo-pack">Pack spec</a>
+      <a href="/login">Desk login</a>
+    </div>
+    <p class="copy">© 2026 Inner Turn · A thread is not a booking until FILE + confirm.</p>
+  </footer>
+  <script src="/inner-turn.js" defer></script>
+  <script src="/app-thread.js" defer></script>
+</body>
+</html>
