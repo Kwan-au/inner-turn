@@ -726,3 +726,8 @@ header .drop-chev,.event-bar .event-bar-x{background:transparent !important;bord
 .lq-more[open]{padding-bottom:18px}
 .lq-steps{margin:0 0 14px;padding-left:20px;color:#ddd6c8}
 @media(max-width:720px){.lq-promise{grid-template-columns:1fr}}
+nav.foot-areas{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;width:100%;margin:0;padding:4px 0 8px;font-size:14px}
+nav.foot-areas small{flex:1 0 100%;display:block;margin:0 0 2px;text-transform:uppercase;letter-spacing:.14em;font-size:11px}
+nav.foot-areas a{border-bottom:1px solid currentColor;padding-bottom:1px}
+footer#site-foot nav.foot-areas,footer.site-ruler nav.foot-areas,footer nav.foot-areas{grid-column:1/-1}
+footer.site-ruler nav.foot-areas{max-width:1120px;margin:0 auto;padding:8px 28px 4px}
