@@ -317,7 +317,25 @@
   status = 404
   force = true
 
-# One hop to the canonical host. Apex → www is already forced by the primary domain.
+# One hop to the canonical host: HTTP and the apex both go to https://www.
+[[redirects]]
+  from = "http://innerturn.com.au/*"
+  to = "https://www.innerturn.com.au/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.innerturn.com.au/*"
+  to = "https://www.innerturn.com.au/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://inner-turn.netlify.app/*"
+  to = "https://www.innerturn.com.au/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "https://inner-turn.netlify.app/*"
   to = "https://www.innerturn.com.au/:splat"

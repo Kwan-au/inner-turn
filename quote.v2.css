@@ -147,3 +147,7 @@ body.has-bar{padding-bottom:64px}
 .hint-tight{margin:-6px 0 14px}
 .mt-0-6{margin:0 0 6px}
 .mt-16{margin-top:16px}
+footer.site-ruler{border-top:1px solid var(--line);padding:8px 16px 28px;margin-top:24px}
+nav.foot-areas{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;max-width:1080px;margin:0 auto;font-size:14px}
+nav.foot-areas small{flex:1 0 100%;display:block;margin:0 0 2px;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--gold)}
+nav.foot-areas a{border-bottom:1px solid currentColor;padding-bottom:1px}
