@@ -1,5 +1,5 @@
 [build]
-  # sync-partials writes the shared quote component into /
+  # sync-partials writes the shared quote and file-trust partials into host pages
   command = "npm install && node scripts/sync-partials.mjs"
   publish = "."
 
