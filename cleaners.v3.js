@@ -132,6 +132,8 @@
       const done = document.getElementById('cf-done');
       done.hidden = false;
       done.focus();
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'cleaner_file_submit' });
       history.replaceState(null, '', '#apply');
     } catch (_) {
       err.innerHTML = 'Sorry, that didn\'t send. Please try again, or email <a href="mailto:desk@innerturn.com.au">desk@innerturn.com.au</a>.';

@@ -231,6 +231,11 @@
       $('#done-est').textContent = typeof est.total === 'number' ? `Your estimate from the card was ${money(est.total)} per turn${est.event ? ` (including ${est.event} +25%)` : ''}. The written quote is what counts.` : (est.total === 'mix' ? 'Your listings are a mix of sizes, so the written quote will price each one by the card.' : 'Your place is 5+ bedrooms or a house, so Kwan will write you a price.');
       form.hidden = true; $('#progress').style.display = 'none'; const bar = $('#est-bar'); if (bar) bar.hidden = true; document.body.classList.remove('has-bar');
       const done = $('#done'); done.hidden = false; done.focus();
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'quote_submit',
+        form_source: (form.elements.source && form.elements.source.value) || (EMBED ? 'home-quote' : 'quote-page')
+      });
       if (!EMBED) history.replaceState(null, '', '#sent');
     } catch (_) {
       err.innerHTML = 'Sorry, that didn\'t send. Please try again, or email <a href="mailto:desk@innerturn.com.au">desk@innerturn.com.au</a>.';

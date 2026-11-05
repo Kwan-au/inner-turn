@@ -140,6 +140,11 @@
       form.hidden = true;
       done.hidden = false;
       done.focus();
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'quote_submit',
+        form_source: (form.elements.source && form.elements.source.value) || 'quote-page'
+      });
     } catch (_) {
       sendErr.textContent = "That didn’t send. Try again, or email desk@innerturn.com.au.";
       sendErr.hidden = false;

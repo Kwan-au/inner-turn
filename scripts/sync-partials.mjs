@@ -3,6 +3,10 @@
 // come from the published card on pricing.html.
 // file-trust: the FILE dispatch offer on marketing pages. Edit the partial,
 // not the copies. Runs in the Netlify build; `--check` fails on drift.
+// gtm: container GTM-P9RTS8RN. Head snippet goes immediately after <head>,
+// noscript immediately after <body>. Public marketing pages only. The
+// <!-- gtm:body --> line in partials/gtm.html splits the two snippets.
+// No direct gtag. App, login, and desk pages are not hosts.
 import { readFile, writeFile } from "node:fs/promises";
 
 const root = new URL("../", import.meta.url);
@@ -30,11 +34,43 @@ const FILE_TRUST_HOSTS = [
   "terms.html",
   "privacy.html"
 ];
+const GTM_HOSTS = [
+  ...FILE_TRUST_HOSTS,
+  "thanks.html",
+  "404.html"
+];
 const PARTS = [
   { name: "listing-quote", partial: "partials/listing-quote.html", hosts: ["index.html"] },
   { name: "file-trust", partial: "partials/file-trust.html", hosts: FILE_TRUST_HOSTS }
 ];
 const check = process.argv.includes("--check");
+
+function markerPair(name, partial) {
+  return {
+    start: `<!-- ${name}:start (generated from ${partial} — edit the partial) -->`,
+    end: `<!-- ${name}:end -->`
+  };
+}
+
+function afterOpenTag(html, tag) {
+  const match = new RegExp(`<${tag}\\b[^>]*>`, "i").exec(html);
+  if (!match) return -1;
+  let at = match.index + match[0].length;
+  if (html[at] === "\r") at += 1;
+  if (html[at] === "\n") at += 1;
+  return at;
+}
+
+function upsertBlock(html, name, partial, body, locate) {
+  const { start, end } = markerPair(name, partial);
+  const a = html.indexOf(start);
+  const b = html.indexOf(end);
+  if (a >= 0 && b > a) return html.slice(0, a + start.length) + "\n" + body + "\n" + html.slice(b);
+  if (a >= 0 || b >= 0) throw new Error(`${name} markers are unbalanced`);
+  const at = locate(html);
+  if (at < 0) throw new Error(`no <${name.endsWith("body") ? "body" : "head"}> for ${name}`);
+  return html.slice(0, at) + `${start}\n${body}\n${end}\n` + html.slice(at);
+}
 
 const card = {};
 for (const m of (await read("pricing.html")).matchAll(/<li>(\d)-bed \$(\d+) · same-day \+\$(\d+)<\/li>/g)) {
@@ -61,5 +97,28 @@ for (const part of PARTS) {
     if (!check) await writeFile(new URL(file, root), next);
     console.log(`${check ? "out of date" : "synced"}: ${file}`);
   }
+}
+const gtmPartial = "partials/gtm.html";
+const gtmRaw = (await read(gtmPartial)).trim();
+const gtmSplit = gtmRaw.indexOf("<!-- gtm:body -->");
+if (gtmSplit < 0) throw new Error(`${gtmPartial} is missing <!-- gtm:body -->`);
+const gtmHead = gtmRaw.slice(0, gtmSplit).trim();
+const gtmBody = gtmRaw.slice(gtmSplit + "<!-- gtm:body -->".length).trim();
+if (!gtmHead.includes("GTM-P9RTS8RN") || !gtmBody.includes("GTM-P9RTS8RN")) {
+  throw new Error(`${gtmPartial} is missing the container id`);
+}
+for (const file of GTM_HOSTS) {
+  const html = await read(file);
+  const next = upsertBlock(
+    upsertBlock(html, "gtm-head", gtmPartial, gtmHead, (doc) => afterOpenTag(doc, "head")),
+    "gtm-body",
+    gtmPartial,
+    gtmBody,
+    (doc) => afterOpenTag(doc, "body")
+  );
+  if (next === html) continue;
+  drift = true;
+  if (!check) await writeFile(new URL(file, root), next);
+  console.log(`${check ? "out of date" : "synced"}: ${file} (gtm)`);
 }
 if (check && drift) process.exit(1);
