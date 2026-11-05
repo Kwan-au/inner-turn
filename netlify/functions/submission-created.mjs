@@ -8,7 +8,10 @@ function pick(data, keys) {
     let v = data ? (data[k] ?? data[k + "[]"]) : null;
     if (Array.isArray(v)) v = v.join(", ");
     if (v != null && typeof v === "object") v = v.url || v.filename || "";
-    if (v != null && String(v).trim()) out[k] = String(v).trim().slice(0, 200);
+    if (v != null && String(v).trim()) {
+      const limit = k === "policy_file" ? 500 : 200;
+      out[k] = String(v).trim().slice(0, limit);
+    }
   }
   return out;
 }
@@ -80,7 +83,8 @@ export default async (req) => {
         "name", "person", "email", "abn", "rate1", "rate2", "rate3", "rate4", "phone",
         // contractor file v2 (/cleaners, 2026-10-18)
         "mobile", "trading_name", "insurer", "insurance_expiry", "areas", "areas_other", "availability",
-        "experience", "linen", "vehicle", "notes", "consent", "police_check"
+        "experience", "linen", "vehicle", "notes", "consent", "police_check",
+        "gst", "coc_confirm", "policy_file"
       ])
     : isQuote
     ? pick(data, [
@@ -97,16 +101,22 @@ export default async (req) => {
     ? fields.person || fields.name || fields.email || "cleaner form"
     : fields.name || fields.email || fields.address || fields.suburb || fields.suburbs || "manager form";
 
+  const rates = [fields.rate1, fields.rate2, fields.rate3, fields.rate4].some(Boolean)
+    ? "rates " + [fields.rate1 || "-", fields.rate2 || "-", fields.rate3 || "-"].join("/") +
+      (fields.rate4 ? "+" + fields.rate4 : "")
+    : "";
   const note = isCleaner
     ? [
         "site form",
         fields.abn && ("ABN " + fields.abn),
+        rates,
+        fields.gst && ("GST " + fields.gst),
+        (fields.policy_file || fields.coc_confirm) && "CoC",
         fields.insurer && ("PL " + fields.insurer + (fields.insurance_expiry ? " exp " + fields.insurance_expiry : "")),
         fields.areas,
         fields.availability,
         fields.experience && ("exp " + fields.experience),
         fields.police_check && ("police check: " + fields.police_check),
-        fields.rate1 && ("1-bed " + fields.rate1),
         fields.mobile || fields.phone
       ]
         .filter(Boolean)
