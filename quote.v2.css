@@ -79,8 +79,11 @@ legend{padding:0}
 @media(min-width:600px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
 .field label,.field .lbl{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
 .tag{font-weight:400;color:var(--muted);font-size:.8rem;margin-left:4px}
-input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea{
-  width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#0f0e0d;color:var(--text);font:inherit;font-size:16px}
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],input[type=time],select,textarea{
+  width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#0f0e0d;color:var(--text);font:inherit;font-size:16px}
+.short-form{display:grid;gap:14px;max-width:32rem}
+.short-form .btn{width:100%;min-height:48px}
+.short-form .err[hidden]{display:none}
 textarea{min-height:96px;resize:vertical}
 input::placeholder,textarea::placeholder{color:#8d877b}
 input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:var(--err)}
