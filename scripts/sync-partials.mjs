@@ -1,13 +1,38 @@
-// Writes the quote partial into the pages that host it: / embeds the same 4-step
-// listing-quote-v2 form as the standalone /quote page. Prices
-// come from the published card on pricing.html. Runs in the Netlify build;
-// `--check` fails on drift.
+// Writes shared partials into the pages that host them.
+// listing-quote: / embeds the same listing-quote-v2 form as /quote. Prices
+// come from the published card on pricing.html.
+// file-trust: the FILE dispatch offer on marketing pages. Edit the partial,
+// not the copies. Runs in the Netlify build; `--check` fails on drift.
 import { readFile, writeFile } from "node:fs/promises";
 
 const root = new URL("../", import.meta.url);
 const read = (p) => readFile(new URL(p, root), "utf8");
+const FILE_TRUST_HOSTS = [
+  "index.html",
+  "cleaners.html",
+  "pricing.html",
+  "areas.html",
+  "richmond.html",
+  "south-yarra.html",
+  "southbank.html",
+  "docklands.html",
+  "east-melbourne.html",
+  "fitzroy.html",
+  "collingwood.html",
+  "st-kilda.html",
+  "how-it-works.html",
+  "photo-pack.html",
+  "trust.html",
+  "events.html",
+  "same-day.html",
+  "quote.html",
+  "policies.html",
+  "terms.html",
+  "privacy.html"
+];
 const PARTS = [
-  { name: "listing-quote", partial: "partials/listing-quote.html", hosts: ["index.html"] }
+  { name: "listing-quote", partial: "partials/listing-quote.html", hosts: ["index.html"] },
+  { name: "file-trust", partial: "partials/file-trust.html", hosts: FILE_TRUST_HOSTS }
 ];
 const check = process.argv.includes("--check");
 

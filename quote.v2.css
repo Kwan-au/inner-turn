@@ -150,7 +150,44 @@ body.has-bar{padding-bottom:64px}
 .hint-tight{margin:-6px 0 14px}
 .mt-0-6{margin:0 0 6px}
 .mt-16{margin-top:16px}
-footer.site-ruler{border-top:1px solid var(--line);padding:8px 16px 28px;margin-top:24px}
+/* Same FILE dispatch offer as the other marketing pages. In flow, above the footer. */
+.file-trust{
+  background:#121110;
+  color:#e4ddd0;
+  border-top:1px solid #d4b37a55;
+  border-bottom:1px solid #d4b37a33;
+  padding:16px clamp(16px,5vw,80px);
+  position:static;
+}
+.file-trust p{
+  max-width:72ch;
+  margin:0 auto;
+  line-height:1.5;
+  overflow-wrap:break-word;
+}
+.file-trust-offer{
+  font-size:15px;
+  color:#f4efe6;
+}
+.file-trust-offer::before{
+  content:"";
+  display:inline-block;
+  width:18px;
+  height:1px;
+  margin:0 12px 0.22em 0;
+  background:#d4b37a;
+  vertical-align:middle;
+}
+.file-trust-check{
+  margin-top:6px;
+  font-size:13px;
+  color:#c9c2b4;
+}
+@media(max-width:850px){
+  .file-trust{padding:16px}
+  .file-trust-offer{font-size:16px}
+}
+footer.site-ruler{border-top:1px solid var(--line);padding:8px 16px 28px;margin-top:0}
 nav.foot-areas{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;max-width:1080px;margin:0 auto;font-size:14px}
 nav.foot-areas small{flex:1 0 100%;display:block;margin:0 0 2px;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--gold)}
 nav.foot-areas a{border-bottom:1px solid currentColor;padding-bottom:1px}
