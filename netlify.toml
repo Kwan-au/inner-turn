@@ -1,5 +1,5 @@
 [build]
-  # sync-partials writes the shared quote and file-trust partials into host pages
+  # sync-partials writes the shared quote, file-trust, and GA4 partials into host pages
   command = "npm install && node scripts/sync-partials.mjs"
   publish = "."
 
@@ -20,7 +20,8 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
     Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     Cross-Origin-Resource-Policy = "same-origin"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://identity.netlify.com; script-src-attr 'none'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://identity.netlify.com https://innerturn.com.au https://www.innerturn.com.au; frame-src https://identity.netlify.com https://www.netlify.com https://www.google.com https://maps.google.com https://www.google.com.au; upgrade-insecure-requests"
+    # GA4 measurement ID G-TCDGFB05Z7 only. The sha256 is the inline gtag snippet in partials/ga4.html. No Google Ads hosts.
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://identity.netlify.com https://www.googletagmanager.com 'sha256-NhJ7CL2urJqTm437kDXtGBjmCaOK6GWE5qAFV07z9TY='; script-src-attr 'none'; style-src 'self'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com; connect-src 'self' https://identity.netlify.com https://innerturn.com.au https://www.innerturn.com.au https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.google.com; frame-src https://identity.netlify.com https://www.netlify.com https://www.google.com https://maps.google.com https://www.google.com.au; upgrade-insecure-requests"
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]

@@ -3,6 +3,8 @@
 // come from the published card on pricing.html.
 // file-trust: the FILE dispatch offer on marketing pages. Edit the partial,
 // not the copies. Runs in the Netlify build; `--check` fails on drift.
+// ga4: Google tag (gtag.js) measurement ID G-TCDGFB05Z7. Public marketing
+// pages only. Edit the partial, not the copies. No Google Ads tag.
 import { readFile, writeFile } from "node:fs/promises";
 
 const root = new URL("../", import.meta.url);
@@ -30,9 +32,15 @@ const FILE_TRUST_HOSTS = [
   "terms.html",
   "privacy.html"
 ];
+const GA4_HOSTS = [
+  ...FILE_TRUST_HOSTS,
+  "thanks.html",
+  "404.html"
+];
 const PARTS = [
   { name: "listing-quote", partial: "partials/listing-quote.html", hosts: ["index.html"] },
-  { name: "file-trust", partial: "partials/file-trust.html", hosts: FILE_TRUST_HOSTS }
+  { name: "file-trust", partial: "partials/file-trust.html", hosts: FILE_TRUST_HOSTS },
+  { name: "ga4", partial: "partials/ga4.html", hosts: GA4_HOSTS }
 ];
 const check = process.argv.includes("--check");
 
