@@ -74,7 +74,50 @@
       <li>A window moved after 8pm the night before is same-day. It needs a written yes from the contractor. The rule and the extras are on <a href="/same-day">same-day</a>. Prices for the card and for same-day stay on <a href="/pricing">pricing</a>.</li>
     </ol>
 
-    <p class="lq-cta-line lq-page-line">Cup week or a stacked checkout on your lots? <a href="/quote" data-cta="events">Get a free listing quote</a>.</p>
+    <h2>Ask about these turns</h2>
+    <p>A form is a lead, not a booking. Prices stay on the <a href="/pricing">live card</a> and the <a href="/same-day">same-day</a> page.</p>
+    <form class="events-form form-block" name="events-enquiry" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="events-enquiry" />
+      <p class="honeypot" hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+      <div class="field">
+        <label for="ev-event">Event</label>
+        <input id="ev-event" name="event" type="text" required maxlength="120" autocomplete="off" aria-describedby="ev-event-err" />
+        <p class="err" id="ev-event-err" role="alert" hidden></p>
+      </div>
+      <div class="field">
+        <label for="ev-dates">Dates</label>
+        <input id="ev-dates" name="dates" type="text" required maxlength="160" autocomplete="off" aria-describedby="ev-dates-err" />
+        <p class="err" id="ev-dates-err" role="alert" hidden></p>
+      </div>
+      <div class="field">
+        <label for="ev-suburb">Suburb</label>
+        <input id="ev-suburb" name="suburb" type="text" required maxlength="80" autocomplete="address-level2" aria-describedby="ev-suburb-err" />
+        <p class="err" id="ev-suburb-err" role="alert" hidden></p>
+      </div>
+      <div class="field">
+        <label for="ev-beds">Beds</label>
+        <select id="ev-beds" name="beds" required aria-describedby="ev-beds-err">
+          <option value="">Choose</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5+</option>
+        </select>
+        <p class="err" id="ev-beds-err" role="alert" hidden></p>
+      </div>
+      <div class="field">
+        <label for="ev-contact">Email or phone</label>
+        <input id="ev-contact" name="contact" type="text" required maxlength="120" inputmode="email" autocomplete="email" aria-describedby="ev-contact-err" />
+        <p class="err" id="ev-contact-err" role="alert" hidden></p>
+      </div>
+      <button type="submit">Send enquiry</button>
+    </form>
+    <section class="done" id="events-done" tabindex="-1" hidden>
+      <h2>Thanks. Your enquiry is in.</h2>
+      <p>This is a lead, not a booking. A turn needs the lot pack, your written confirm, and a contractor on file. No reply? Email <a href="mailto:desk@innerturn.com.au">desk@innerturn.com.au</a> once.</p>
+    </section>
+    <p class="lq-cta-line lq-page-line">Prefer the listing quote? <a href="/quote">Get a free listing quote</a>.</p>
   </main>
 
   <footer class="site-ruler">
@@ -95,5 +138,6 @@
     <p class="ruler-line">A form is a lead, not a booking. Guest thread stays with the manager.</p>
   </footer>
   <script src="/inner-turn.js" defer></script>
+  <script src="/events-form.js" defer></script>
 </body>
 </html>

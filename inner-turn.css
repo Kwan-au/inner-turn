@@ -726,6 +726,11 @@ header .drop-chev,.event-bar .event-bar-x{background:transparent !important;bord
 .lq-more[open]{padding-bottom:18px}
 .lq-steps{margin:0 0 14px;padding-left:20px;color:#ddd6c8}
 @media(max-width:720px){.lq-promise{grid-template-columns:1fr}}
+.events-form{display:grid;gap:14px;max-width:28rem;margin:12px 0 20px}
+.events-form input,.events-form select,.events-form button{min-height:48px;width:100%;font-size:16px}
+.events-form button{cursor:pointer}
+.events-form .err{color:#ff9b8f;font-size:15px;text-transform:none;letter-spacing:0;margin:4px 0 0}
+.events-form .err[hidden],.events-form .honeypot{display:none}
 nav.foot-areas{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;width:100%;margin:0;padding:4px 0 8px;font-size:14px}
 nav.foot-areas small{flex:1 0 100%;display:block;margin:0 0 2px;text-transform:uppercase;letter-spacing:.14em;font-size:11px}
 nav.foot-areas a{border-bottom:1px solid currentColor;padding-bottom:1px}
