@@ -220,11 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isDesk && !document.getElementById('event-bar') && !sessionStorage.getItem('it-event-bar')) {
     document.body.insertAdjacentHTML('afterbegin', `
 <div id="event-bar" class="event-bar" role="status">
-  <p><strong>Event weeks +25%</strong> when checkout or check-in falls in a published window.
-  <span>Next: Cup carnival 31 Oct–7 Nov 2026</span>
-  <span>AO 11–31 Jan 2027</span>
-  <span>F1 1–4 Apr 2027</span>
-  <a href="/pricing">Card</a></p>
+  <p>
+    <span class="event-lead"><strong>Event weeks +25%</strong> when checkout or check-in falls in a published window.</span>
+    <span class="event-next"><span>Next: Cup carnival 31 Oct–7 Nov 2026</span><span>AO 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
+  </p>
   <button type="button" class="event-bar-x" aria-label="Dismiss event bar">×</button>
 </div>`);
     document.querySelector('.event-bar-x')?.addEventListener('click', () => {
@@ -506,21 +505,41 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch (_) { /* ignore */ }
 });
 
-// Keep the fixed bottom CTA off form fields on small screens.
+// Keep the fixed bottom CTA off the hero, the quote form, and focused fields.
 document.addEventListener('DOMContentLoaded', () => {
   const cta = document.querySelector('.mobile-cta');
   if (!cta) return;
+  const hero = document.querySelector('.hero');
   const forms = document.querySelectorAll('form, #quote');
-  const hide = () => document.body.classList.add('cta-tucked');
-  const show = () => document.body.classList.remove('cta-tucked');
-  document.addEventListener('focusin', (e) => { if (e.target.closest('form')) hide(); });
-  document.addEventListener('focusout', (e) => { if (e.target.closest('form') && !e.relatedTarget?.closest?.('form')) show(); });
+  const seen = new Set();
+  let overHero = !!hero;
+  const sync = () => {
+    const typing = !!document.activeElement?.closest?.('form');
+    const overForm = seen.size > 0;
+    document.body.classList.toggle('cta-tucked', typing);
+    document.body.classList.toggle('cta-over-hero', overHero);
+    document.body.classList.toggle('cta-over-form', overForm);
+    document.body.classList.toggle('cta-show', !overHero && !overForm && !typing);
+  };
+  document.addEventListener('focusin', (e) => { if (e.target.closest('form')) sync(); });
+  document.addEventListener('focusout', () => setTimeout(sync, 0));
   if ('IntersectionObserver' in window) {
-    const seen = new Set();
-    const io = new IntersectionObserver((entries) => {
+    if (hero) {
+      const heroIO = new IntersectionObserver((entries) => {
+        overHero = entries.some((en) => en.isIntersecting && en.intersectionRatio > 0.28);
+        sync();
+      }, { threshold: [0, 0.28, 0.6] });
+      heroIO.observe(hero);
+    } else {
+      overHero = false;
+    }
+    const formIO = new IntersectionObserver((entries) => {
       entries.forEach((en) => (en.isIntersecting ? seen.add(en.target) : seen.delete(en.target)));
-      document.body.classList.toggle('cta-over-form', seen.size > 0);
+      sync();
     }, { rootMargin: '0px 0px -10% 0px' });
-    forms.forEach((f) => io.observe(f));
+    forms.forEach((f) => formIO.observe(f));
+  } else {
+    overHero = false;
   }
+  sync();
 });
