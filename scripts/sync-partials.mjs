@@ -25,6 +25,7 @@ const FILE_TRUST_HOSTS = [
   "collingwood.html",
   "st-kilda.html",
   "how-it-works.html",
+  "lot-pack.html",
   "photo-pack.html",
   "trust.html",
   "events.html",

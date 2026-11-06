@@ -103,6 +103,7 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 .js-only{display:none}.js .js-only{display:inline-flex}
 .nojs-submit{display:block}.js .nojs-submit{display:none}
 .fine{font-size:.85rem;color:var(--muted);margin:10px 0 0}
+.prep{max-width:62ch;margin:0 0 18px;color:var(--soft);font-size:.95rem}
 /* review */
 .review dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
 .review dt{color:var(--muted)}
