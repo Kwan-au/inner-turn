@@ -269,6 +269,11 @@
   status = 200
 
 [[redirects]]
+  from = "/lot-pack"
+  to = "/lot-pack.html"
+  status = 200
+
+[[redirects]]
   from = "/areas"
   to = "/areas.html"
   status = 200
