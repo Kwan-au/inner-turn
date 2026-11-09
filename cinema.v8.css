@@ -654,3 +654,9 @@ footer#site-foot nav.foot-areas small{grid-column:1/-1}
   .file-trust{padding:16px}
   .file-trust-offer{font-size:16px}
 }
+.drawer-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.drawer-close{position:relative !important;top:auto !important;left:auto !important;flex:0 0 44px;margin-left:16px}
+.drawer-areas{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.drawer-areas > a{flex:1 1 auto;padding:8px 0}
+.drawer-areas .drawer-toggle{width:44px;min-width:44px;flex:0 0 44px;padding:0;border:0}
+body.film a.drawer-primary,a.drawer-primary{color:#161513 !important;background:#d4b37a}

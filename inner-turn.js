@@ -35,23 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
       <span aria-hidden="true"></span>
     </button>
   </div>
-  <a class="drawer-primary" href="${primaryHref}">${primaryLabel}</a>
   <div class="drawer-list">
     <a href="/">Home</a>
     <a href="/how-it-works">How it works</a>
     <a href="/pricing">Pricing</a>
     <a href="/services">Services</a>
     <a href="/who-we-work-with">Who we work with</a>
+    <div class="drawer-block${suburbOpen || path === '/areas' ? ' open' : ''}" data-acc>
+      <div class="drawer-areas">
+        <a href="/areas">Areas</a>
+        <button class="drawer-toggle" type="button" aria-expanded="${suburbOpen || path === '/areas' ? 'true' : 'false'}" aria-label="Show suburbs"><span></span></button>
+      </div>
+      <div class="drawer-links">
+        ${areaLinks}
+      </div>
+    </div>
     <a href="/lot-pack">For managers</a>
     <a href="/cleaners">For cleaners</a>
-    <a class="drawer-quote" href="${quoteHref}" data-cta="drawer">Get a quote</a>
-  </div>
-  <div class="drawer-block${suburbOpen || path === '/areas' ? ' open' : ''}" data-acc>
-    <button class="drawer-toggle" type="button" aria-expanded="${suburbOpen || path === '/areas' ? 'true' : 'false'}">Inner ring <span></span></button>
-    <div class="drawer-links">
-      ${areaLinks}
-      <a href="/areas"${path === '/areas' ? ' aria-current="page"' : ''}>All areas</a>
-    </div>
+    <a class="drawer-primary" href="${isCleaners ? '#apply' : isApp ? '#open' : quoteHref}" data-cta="drawer">${isCleaners ? 'Join the file' : isApp ? 'Start a job' : 'Get a quote'}</a>
   </div>
   <div class="drawer-list drawer-legal">
     <a href="/photo-pack">Photo pack</a>
@@ -202,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="event-bar" class="event-bar" role="status">
   <p>
     <span class="event-lead"><strong>Event weeks +25%</strong> when checkout or check-in falls in a published window.</span>
-    <span class="event-next"><span>Next: Cup carnival 31 Oct–7 Nov 2026</span><span>AO 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
+    <span class="event-next"><span>Next: Australian Open 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
   </p>
   <button type="button" class="event-bar-x" aria-label="Dismiss event bar">×</button>
 </div>`);
@@ -391,6 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('form[data-netlify], form[name="manager-enquire"]').forEach((f) => {
+    if (f.getAttribute('name') === 'listing-quote-v2') return;
     if (f.querySelector('input[name="started"]')) return;
     const s = document.createElement('input');
     s.type = 'hidden';
