@@ -38,7 +38,8 @@ const FILE_TRUST_HOSTS = [
 const GTM_HOSTS = [
   ...FILE_TRUST_HOSTS,
   "thanks.html",
-  "404.html"
+  "404.html",
+  "app.html"
 ];
 const PARTS = [
   { name: "listing-quote", partial: "partials/listing-quote.html", hosts: ["index.html"] },
