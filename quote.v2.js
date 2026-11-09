@@ -37,7 +37,7 @@
     '5': ['Bigger places vary a lot, so we price them in writing', 'Tell us bedrooms, bathrooms and anything unusual in step 3', 'Same inclusions as the card: contractor on file, guest-ready, photos on the thread'],
     '6': ['Each listing is priced by its size on the card: $149 / $189 / $229 / $279', 'List the mix in step 3 and the written quote shows each one', 'Volume pricing isn\'t published. Ask in the notes if you have a lot of turns']
   };
-  const NOT_INCLUDED = ['Linen supply or laundering', 'Restocking, unless agreed in your written quote', 'Guest messaging, keys, or listing management'];
+  const NOT_INCLUDED = ['Linen supply or laundry, unless you ask for the linen-partner add-on (quoted, not on the card)', 'Restocking, unless you ask in writing and the stock is on site', 'Guest messaging, keys, or listing management'];
 
   /* ---------------- helpers ---------------- */
   const $ = (s, r = document) => r.querySelector(s);
