@@ -228,6 +228,24 @@
     X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]
+  for = "/login"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/thanks"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/dash"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
   for = "/auth.js"
   [headers.values]
     Cache-Control = "no-store, max-age=0"
@@ -315,8 +333,9 @@
 
 [[redirects]]
   from = "/thread"
-  to = "/app.html"
-  status = 200
+  to = "/app"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/package.json"
@@ -377,6 +396,160 @@
   from = "https://innerturn.com.au/*"
   to = "https://www.innerturn.com.au/:splat"
   status = 301
+  force = true
+
+# Indexing cleanup: .html copies of indexable pages 301 once to the clean URL.
+# Netlify does not re-run redirect rules on a 200 rewrite target, so /x -> /x.html (200)
+# and /x.html -> /x (301) do not loop. login/thanks/dash/404 .html files are left as-is (noindex).
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/quote.html"
+  to = "/quote"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pricing.html"
+  to = "/pricing"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/how-it-works.html"
+  to = "/how-it-works"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lot-pack.html"
+  to = "/lot-pack"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/events.html"
+  to = "/events"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/areas.html"
+  to = "/areas"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/richmond.html"
+  to = "/richmond"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/south-yarra.html"
+  to = "/south-yarra"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/southbank.html"
+  to = "/southbank"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docklands.html"
+  to = "/docklands"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/east-melbourne.html"
+  to = "/east-melbourne"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fitzroy.html"
+  to = "/fitzroy"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/collingwood.html"
+  to = "/collingwood"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/st-kilda.html"
+  to = "/st-kilda"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/app.html"
+  to = "/app"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/photo-pack.html"
+  to = "/photo-pack"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/same-day.html"
+  to = "/same-day"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/trust.html"
+  to = "/trust"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cleaners.html"
+  to = "/cleaners"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/policies.html"
+  to = "/policies"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/terms"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacy"
+  status = 301
+  force = true
+
+# The custom 404 page itself must answer HTTP 404, not 200.
+[[redirects]]
+  from = "/404"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/404.html"
+  to = "/404.html"
+  status = 404
   force = true
 
 [[headers]]
