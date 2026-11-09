@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const quoteHref = path === '/' ? '/#quote' : path === '/quote' ? '#quote' : '/quote';
   const QUOTE_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 4h10l4 4v12H5z M14 4v5h5 M8 13h8 M8 17h5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 
-  const primaryHref = isCleaners ? '#apply' : isApp ? '#open' : '/#enquire';
-  const primaryLabel = isCleaners ? 'Join the file' : 'Send a lot pack';
+  const primaryHref = isCleaners ? '#apply' : isApp ? '#open' : quoteHref;
+  const primaryLabel = isCleaners ? 'Join the file' : isApp ? 'Start a job' : 'Get a quote';
 
   const DRAWER = `
 <div id="nav-scrim" class="nav-scrim" hidden></div>
@@ -37,12 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
   <a class="drawer-primary" href="${primaryHref}">${primaryLabel}</a>
   <div class="drawer-list">
+    <a href="/">Home</a>
+    <a href="/how-it-works">How it works</a>
     <a href="/pricing">Pricing</a>
-    <a href="/how-it-works">How it books</a>
-    <a href="/app">App</a>
-    <a href="/photo-pack">Photo pack</a>
-    <a href="/same-day">Same-day / 8pm</a>
-    <a class="drawer-quote" href="${quoteHref}" data-cta="drawer">Free quote</a>
+    <a href="/services">Services</a>
+    <a href="/who-we-work-with">Who we work with</a>
+    <a href="/lot-pack">For managers</a>
+    <a href="/cleaners">For cleaners</a>
+    <a class="drawer-quote" href="${quoteHref}" data-cta="drawer">Get a quote</a>
   </div>
   <div class="drawer-block${suburbOpen || path === '/areas' ? ' open' : ''}" data-acc>
     <button class="drawer-toggle" type="button" aria-expanded="${suburbOpen || path === '/areas' ? 'true' : 'false'}">Inner ring <span></span></button>
@@ -52,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
   <div class="drawer-list drawer-legal">
-    <a href="/cleaners">Cleaners</a>
+    <a href="/photo-pack">Photo pack</a>
+    <a href="/same-day">Same-day / 8pm</a>
     <a href="/trust">Trust</a>
     <a href="/terms">Terms</a>
     <a href="/policies">Policies</a>
@@ -113,53 +116,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function enhanceDesktopNav(nav) {
     if (!nav) return;
-    if (!nav.querySelector('.has-drop')) {
-      const existing = Array.from(nav.querySelectorAll('a')).find((a) => {
-        const href = (a.getAttribute('href') || '').replace(/\.html$/, '');
-        return href === '/areas';
-      });
-      const drop = document.createElement('div');
-      drop.className = 'has-drop';
-      drop.innerHTML = `
-      <a class="drop-parent" href="/areas"${path === '/areas' || suburbOpen ? ' aria-current="page"' : ''}>Areas</a>
+    const areasCurrent = path === '/areas' || suburbOpen ? ' aria-current="page"' : '';
+    nav.innerHTML = `
+    <a href="/">Home</a>
+    <a href="/how-it-works">How it works</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/services">Services</a>
+    <a href="/who-we-work-with">Who we work with</a>
+    <div class="has-drop">
+      <a class="drop-parent" href="/areas"${areasCurrent}>Areas</a>
       <button class="drop-chev" type="button" aria-expanded="false" aria-controls="areas-menu" aria-label="Open inner ring list"></button>
       <div class="drop-panel" id="areas-menu" role="group" aria-label="Inner ring suburbs">
         <p>Inner ring</p>
         <div class="drop-grid">${areaLinks}</div>
         <a class="drop-all" href="/areas">All service areas</a>
-      </div>`;
-      if (existing) existing.replaceWith(drop);
-      else {
-        const cta = nav.querySelector('.nav-cta, .ghost, a[href*="enquire"], a[href="#lot"], a[href="#apply"]');
-        if (cta) nav.insertBefore(drop, cta);
-        else nav.appendChild(drop);
-      }
-    }
+      </div>
+    </div>
+    <a href="/lot-pack">For managers</a>
+    <a href="/cleaners">For cleaners</a>
+    <a class="nav-quote" href="${quoteHref}" data-cta="nav">Get a quote</a>`;
     nav.querySelectorAll('.has-drop').forEach(bindDrop);
-    const want = [
-      ['/pricing', 'Pricing'],
-      ['/how-it-works', 'How it books'],
-      ['/photo-pack', 'Photo pack'],
-      ['/app', 'App']
-    ];
-    want.forEach(([href, label]) => {
-      const hit = Array.from(nav.querySelectorAll('a')).some((a) => (a.getAttribute('href') || '').replace(/\.html$/, '') === href);
-      if (hit) return;
-      const a = document.createElement('a');
-      a.href = href;
-      a.textContent = label;
-      const cta = nav.querySelector('.nav-cta, .ghost, a[href*="enquire"], a[href="#lot"], a[href="#apply"]');
-      if (cta) nav.insertBefore(a, cta);
-      else nav.appendChild(a);
-    });
-    if (!nav.querySelector('.nav-quote')) {
-      const q = document.createElement('a');
-      q.className = 'nav-quote';
-      q.href = quoteHref;
-      q.dataset.cta = 'nav';
-      q.textContent = 'Free quote';
-      nav.appendChild(q);
-    }
     const header = nav.closest('header');
     if (header && !header.querySelector('.head-quote')) {
       const q = document.createElement('a');
@@ -197,13 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
   <div>
     <small>Pages</small>
-    <a href="/quote" data-cta="footer">Free quote</a>
+    <a href="/">Home</a>
+    <a href="/how-it-works">How it works</a>
     <a href="/pricing">Pricing</a>
-    <a href="/how-it-works">How it books</a>
+    <a href="/services">Services</a>
+    <a href="/who-we-work-with">Who we work with</a>
     <a href="/areas">Areas</a>
+    <a href="/lot-pack">For managers</a>
+    <a href="/cleaners">For cleaners</a>
+    <a href="/quote" data-cta="footer">Get a quote</a>
     <a href="/photo-pack">Photo pack</a>
     <a href="/same-day">Same-day / 8pm</a>
-    <a href="/cleaners">Cleaners: join our file</a>
   </div>
   <div>
     <small>Legal</small>

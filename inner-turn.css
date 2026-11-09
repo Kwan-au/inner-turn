@@ -727,6 +727,20 @@ header .drop-chev,.event-bar .event-bar-x{background:transparent !important;bord
 .lq-more[open]{padding-bottom:18px}
 .lq-steps{margin:0 0 14px;padding-left:20px;color:#ddd6c8}
 @media(max-width:720px){.lq-promise{grid-template-columns:1fr}}
+/* Full primary nav fits from 1200px. Below that, the existing drawer is the menu. */
+@media(max-width:1199px){
+  header nav#nav, header nav#site-nav, body.film .nav nav{display:none !important}
+  header .menu, header.nav .menu, body.film .menu{display:block !important}
+}
+@media(min-width:1200px){
+  header nav#nav, header nav#site-nav, body.film .nav nav{
+    display:flex !important;
+    flex-wrap:nowrap;
+    gap:14px;
+    font-size:13px;
+  }
+  header .menu, header.nav .menu, body.film .menu{display:none !important}
+}
 .events-form{display:grid;gap:14px;max-width:28rem;margin:12px 0 20px}
 .events-form input,.events-form select,.events-form button{min-height:48px;width:100%;font-size:16px}
 .events-form button{cursor:pointer}
