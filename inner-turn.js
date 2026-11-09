@@ -1,3 +1,20 @@
+(function loadMotion() {
+  var path = (location.pathname.replace(/\.html$/, '') || '/').replace(/\/+$/, '') || '/';
+  if (path === '/app' || path === '/dash' || path === '/login') return;
+  function load() {
+    var lib = document.createElement('script');
+    lib.src = '/vendor/motion-12.23.24.js';
+    lib.onload = function () {
+      var app = document.createElement('script');
+      app.src = '/motion-cinematic.js';
+      document.body.appendChild(app);
+    };
+    document.body.appendChild(lib);
+  }
+  if (document.readyState === 'complete') load();
+  else window.addEventListener('load', load);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   const AREAS = [
     ['/richmond', 'Richmond'],
@@ -230,17 +247,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = rawBtn;
   paintHamburger(btn);
 
+  const showDrawer = (opening) => {
+    const settle = (show) => {
+      if (drawer) drawer.hidden = !show;
+      if (scrim) scrim.hidden = !show;
+    };
+    const hook = window.IT_MOTION && window.IT_MOTION.drawer;
+    if (typeof hook !== 'function') {
+      settle(opening);
+      return;
+    }
+    try {
+      hook(drawer, scrim, opening, settle);
+    } catch (_) {
+      settle(opening);
+    }
+  };
   const close = () => {
     document.body.classList.remove('nav-open');
-    if (drawer) drawer.hidden = true;
-    if (scrim) scrim.hidden = true;
+    showDrawer(false);
     btn?.setAttribute('aria-expanded', 'false');
     btn?.setAttribute('aria-label', 'Open menu');
   };
   const open = () => {
     document.body.classList.add('nav-open');
-    if (drawer) drawer.hidden = false;
-    if (scrim) scrim.hidden = false;
+    showDrawer(true);
     btn?.setAttribute('aria-expanded', 'true');
     btn?.setAttribute('aria-label', 'Close menu');
     drawer?.querySelector('.drawer-close')?.focus();

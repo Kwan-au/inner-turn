@@ -660,3 +660,79 @@ footer#site-foot nav.foot-areas small{grid-column:1/-1}
 .drawer-areas > a{flex:1 1 auto;padding:8px 0}
 .drawer-areas .drawer-toggle{width:44px;min-width:44px;flex:0 0 44px;padding:0;border:0}
 body.film a.drawer-primary,a.drawer-primary{color:#161513 !important;background:#d4b37a}
+
+/* Cinematic pass. Scoped off the desk. One ease. Transform and opacity only. */
+@media (prefers-reduced-motion: no-preference) {
+  body:not(.desk-body)::before {
+    content: "";
+    position: fixed;
+    z-index: 90;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #d4b37a;
+    transform-origin: 0 50%;
+    animation: motion-load .7s cubic-bezier(.22, 1, .36, 1) forwards;
+    pointer-events: none;
+  }
+  @keyframes motion-load {
+    0% { transform: scaleX(0); opacity: 1; }
+    68% { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+  body:not(.desk-body) .event-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: #d4b37a;
+    pointer-events: none;
+    animation: event-pulse 4.8s ease-in-out infinite;
+  }
+  @keyframes event-pulse {
+    0%, 100% { opacity: .25; }
+    50% { opacity: .95; }
+  }
+  body:not(.desk-body) .rate-card,
+  body:not(.desk-body) .compare-grid > article,
+  body:not(.desk-body) .path-split > article,
+  body:not(.desk-body) .reel > article,
+  body:not(.desk-body) .cuts > article,
+  body:not(.desk-body) main.title-card > ul > li {
+    transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+  }
+  body:not(.desk-body) .rate-card:hover,
+  body:not(.desk-body) .compare-grid > article:hover,
+  body:not(.desk-body) .path-split > article:hover,
+  body:not(.desk-body) .reel > article:hover,
+  body:not(.desk-body) .cuts > article:hover {
+    transform: translateY(-4px);
+  }
+  body:not(.desk-body) main.title-card > ul > li:hover { transform: translateY(-2px); }
+}
+html.motion-on body:not(.desk-body) .motion-hold {
+  opacity: 0;
+  transform: translateY(16px);
+}
+@media (prefers-reduced-motion: reduce) {
+  html.motion-on body:not(.desk-body) .motion-hold,
+  body:not(.desk-body) .step-mark {
+    opacity: 1;
+    transform: none;
+  }
+}
+body:not(.desk-body) li.has-step-mark { position: relative; }
+body:not(.desk-body) .step-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #d4b37a;
+  transform: scaleY(0);
+  transform-origin: top center;
+  pointer-events: none;
+}
