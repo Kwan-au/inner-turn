@@ -420,6 +420,18 @@
   force = true
 
 [[redirects]]
+  from = "/services.html"
+  to = "/services"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/who-we-work-with.html"
+  to = "/who-we-work-with"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/how-it-works.html"
   to = "/how-it-works"
   status = 301
