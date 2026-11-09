@@ -31,9 +31,10 @@ body.nav-open{overflow:hidden}
 
 :root{--sans:"Avenir Next",Avenir,"Segoe UI",sans-serif;--display:"Helvetica Neue",Helvetica,"Nimbus Sans L",sans-serif}
 
-.compare{background:#fff}.compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}.compare-grid article{border:1px solid var(--line);padding:26px 24px;background:var(--paper)}.compare-grid article:first-child{border-left:5px solid var(--gold);background:#fff}.compare-grid h3{margin:0 0 14px;font:600 18px var(--display)}.compare-grid ul{margin:0;padding:0;list-style:none}.compare-grid li{padding:8px 0;border-top:1px solid var(--line);font-size:14px;color:#4a4742}.compare-note{margin:22px 0 0;color:var(--muted);font-size:13px}
+.callout{background:var(--ink);color:#f4efe6;padding:96px clamp(20px,8vw,124px)}.callout h2{color:#fff8ec;max-width:16ch}.callout p{max-width:640px;color:#e4ddd0}.callout p+p{margin-top:16px}@media(max-width:850px){.callout{padding:72px 20px}}
+.compare{background:#fff}.compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}.compare-grid article{border:1px solid var(--line);padding:26px 24px;background:var(--paper)}.compare-grid article:first-child{border-left:5px solid var(--gold);background:#fff}.compare-grid h3{margin:0 0 14px;font:600 18px var(--display)}.compare-grid ul{margin:0;padding:0;list-style:none}.compare-grid li{padding:8px 0;border-top:1px solid var(--line);font-size:14px;color:#4a4742}.compare-note{margin:22px 0 0;color:var(--muted);font-size:13px}#compare .compare-grid{grid-template-columns:1fr 1fr}
 .faq details{border-bottom:1px solid var(--line);padding:16px 0}.faq summary{cursor:pointer;font:600 18px var(--display);letter-spacing:-.02em}.faq details p{margin:10px 0 4px;color:var(--muted);max-width:640px}
-@media(max-width:850px){.compare-grid{grid-template-columns:1fr}}
+@media(max-width:850px){.compare-grid,#compare .compare-grid{grid-template-columns:1fr}}
 
 .mid-east{top:38%;right:22%}
 .app-shell{background:var(--paper);min-height:100svh}
