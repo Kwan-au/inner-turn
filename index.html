@@ -299,6 +299,7 @@ Notes: linen on site. Restock only if asked in writing, and the stock is already
       <input type="hidden" name="form_version" value="v2-2026-10-18">
       <input type="hidden" name="source" value="home-quote">
       <input type="hidden" name="started" value="">
+      <input type="hidden" name="job_type" value="">
       <input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value="">
       <input type="hidden" name="referrer" value="">
       <!-- Calculator output, filled by JS so the desk sees what the prospect saw -->
@@ -325,6 +326,8 @@ Notes: linen on site. Restock only if asked in writing, and the stock is already
             <span><strong>Event-week capacity</strong><small>Cup carnival, the Australian Open, F1. Event-week rates are on the card (+25%).</small></span></label>
           <label class="opt"><input type="radio" name="interest" value="Same-day backup">
             <span><strong>Same-day backup</strong><small>A back-up when a cleaner drops out or a window moves late. Only with a contractor's written yes.</small></span></label>
+          <label class="opt"><input type="radio" name="interest" value="Quoted job: bigger place or outside our suburbs">
+            <span><strong>Quoted job: bigger place or outside our suburbs</strong><small>5+ bedrooms, houses, or a suburb outside the eight on the card. Quoted in writing before anything is booked.</small></span></label>
         </div>
         <p class="err" id="need-err" hidden>Choose one option so we know what to price.</p>
         <div class="nav"><span></span><button type="button" class="btn js-only" data-next>Next: choose a package</button></div>
@@ -335,6 +338,12 @@ Notes: linen on site. Restock only if asked in writing, and the stock is already
         <legend class="step-head"><span class="step-status js-only" aria-hidden="true">Step 2 of 4</span>
           <h2 tabindex="-1">Choose a package</h2></legend>
         <p class="hint-tight hint" id="pkg-hint">Prices per turn from the published card. GST not charged. Tap <em>What's included</em> on any card.</p>
+
+        <div class="quoted-pack" id="quoted-pack" hidden>
+          <p>No card price for this one. The desk replies with a written quote.</p>
+          <p><a href="/quoted-jobs">How quoted jobs work</a></p>
+          <p><a class="btn" href="/quote?type=quoted#lq">Continue to the written quote</a></p>
+        </div>
 
         <div class="packs">
           <div class="pack"><label><input type="radio" name="package" value="1 bedroom" data-beds="1" required><span class="name">1 bedroom</span><span class="price">$149 <small>/ turn</small></span><span class="per">GST not charged</span><span class="sd">Same-day +$40</span></label>
