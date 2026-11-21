@@ -108,6 +108,7 @@ form{margin:0}
 .lq2 .btn[disabled]{opacity:.6;cursor:progress}
 .lq2 .js-only{display:none}
 .js .lq2 .js-only{display:inline-flex}
+.js-only[hidden]{display:none !important}
 .lq2 .nojs-submit{display:block}
 .js .lq2 .nojs-submit{display:none}
 .lq2 .fine{font-size:.85rem;color:var(--muted);margin:10px 0 0}
