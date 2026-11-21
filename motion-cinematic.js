@@ -152,7 +152,8 @@
       "main.legal > .path-split",
       ".em-scene",
       "main > section.section",
-      ".file-trust"
+      ".file-trust",
+      ".quoted-callout"
     ];
     var seen = new Set();
     var all = [];

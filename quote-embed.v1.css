@@ -50,6 +50,11 @@ form{margin:0}
 .lq2 .opt strong{display:block}
 .lq2 .opt small{display:block;color:var(--muted);font-size:.88rem;margin-top:2px}
 .lq2 /* package cards */
+.lq2 .quoted-pack{margin:0 0 16px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.lq2 .quoted-pack p{margin:0 0 12px}
+.lq2 .quoted-pack a:not(.btn){color:var(--gold);border-bottom:1px solid var(--gold)}
+.lq2 .quoted-pack .btn{display:inline-flex;align-items:center;text-decoration:none}
+.lq2 .packs[hidden],.lq2 .sub-block[hidden],.lq2 .quoted-pack[hidden],.lq2 .btn[hidden],.lq2 .hint[hidden]{display:none}
 .lq2 .packs{display:grid;gap:10px;grid-template-columns:1fr 1fr;align-items:start}
 @media(min-width:760px){.lq2 .packs{grid-template-columns:repeat(3,1fr)}
 }

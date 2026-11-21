@@ -87,7 +87,42 @@
   $('#f-suburb').addEventListener('input', (e) => { const c = coverage(e.target.value); $('#suburb-cover').textContent = c.msg; setHidden('coverage_band', c.band); });
 
   /* ---------------- estimate ---------------- */
+  const QUOTED_INTEREST = 'Quoted job: bigger place or outside our suburbs';
+  function isQuotedInterest() { return val('interest') === QUOTED_INTEREST; }
+  function syncQuoted() {
+    const on = isQuotedInterest();
+    const panel = $('#quoted-pack');
+    if (panel) panel.hidden = !on;
+    const packs = $('.packs', form);
+    if (packs) packs.hidden = on;
+    const hint = $('#pkg-hint');
+    if (hint) hint.hidden = on;
+    $$('.sub-block', form).forEach((el) => { el.hidden = on; });
+    const next2 = form.querySelector('[data-step="2"] [data-next]');
+    if (next2) next2.hidden = on;
+    const h2 = form.querySelector('[data-step="2"] h2');
+    if (h2) h2.textContent = on ? 'Quoted job' : 'Choose a package';
+    const next1 = form.querySelector('[data-step="1"] [data-next]');
+    if (next1) next1.textContent = on ? 'Next' : 'Next: choose a package';
+    $$('[name=package]', form).forEach((r) => { r.required = !on && r.dataset.beds === '1'; });
+    $$('[name=linen]', form).forEach((r) => { r.required = !on && r.value.indexOf('Host supplies') === 0; });
+    if (form.elements.job_type) form.elements.job_type.value = on ? 'quoted' : 'card';
+    if (on) {
+      $$('[name=package]', form).forEach((r) => { r.checked = false; });
+    }
+  }
+
   function estimate() {
+    if (isQuotedInterest()) {
+      const totalEl = $('#est-total'), lines = $('#est-lines'), warn = $('#est-warn');
+      totalEl.textContent = 'No card price';
+      lines.innerHTML = '<li><span>Written quote</span><span>The desk replies</span></li>';
+      warn.innerHTML = '';
+      const bar = $('#est-bar'); if (bar && $('#done').hidden) { bar.hidden = false; document.body.classList.add('has-bar'); $('#est-bar-total').textContent = 'No card price'; }
+      setHidden('est_base', ''); setHidden('est_same_day', ''); setHidden('est_event', '');
+      setHidden('est_event_uplift', ''); setHidden('est_per_turn', ''); setHidden('est_trial_note', '');
+      return { base: '', same: '', event: '', uplift: '', total: '', trial: '' };
+    }
     const pk = form.querySelector('[name=package]:checked');
     const beds = pk ? pk.dataset.beds : '';
     const sameOn = !!val('same_day');
@@ -152,11 +187,14 @@
   $('#f-start').min = today;
   function radioOk(name, errId) { const ok = !!form.querySelector(`[name="${name}"]:checked`); document.getElementById(errId).hidden = ok; return ok; }
   function syncMix() { const b = (form.querySelector('[name=package]:checked') || {}).dataset?.beds; const need = b === '5+' || b === 'mix'; $('#mix-tag').textContent = need ? 'required for this package' : 'optional'; form.elements.beds_mix.required = need; }
-  form.addEventListener('change', (e) => { if (e.target.name === 'package') syncMix(); if (e.target.name === 'interest' && form.dataset.tried1) radioOk('interest', 'need-err'); if ((e.target.name === 'package' || e.target.name === 'linen') && form.dataset.tried2) { radioOk('package', 'pkg-err'); radioOk('linen', 'linen-err'); } });
+  form.addEventListener('change', (e) => { if (e.target.name === 'package') syncMix(); if (e.target.name === 'interest') { syncQuoted(); if (form.dataset.tried1) radioOk('interest', 'need-err'); } if ((e.target.name === 'package' || e.target.name === 'linen') && form.dataset.tried2) { radioOk('package', 'pkg-err'); radioOk('linen', 'linen-err'); } });
 
   function validateStep(i) {
     if (i === 1) { form.dataset.tried1 = 1; const ok = radioOk('interest', 'need-err'); if (!ok) form.querySelector('[name=interest]').focus(); return ok; }
-    if (i === 2) { form.dataset.tried2 = 1; const a = radioOk('package', 'pkg-err'), b = radioOk('linen', 'linen-err'); if (!a) form.querySelector('[name=package]').focus(); else if (!b) form.querySelector('[name=linen]').focus(); return a && b; }
+    if (i === 2) {
+      if (isQuotedInterest()) return true;
+      form.dataset.tried2 = 1; const a = radioOk('package', 'pkg-err'), b = radioOk('linen', 'linen-err'); if (!a) form.querySelector('[name=package]').focus(); else if (!b) form.querySelector('[name=linen]').focus(); return a && b;
+    }
     if (i === 3) {
       form.dataset.tried3 = 1;
       const bad = Object.keys(rules).filter((n) => !check(n));
@@ -183,7 +221,11 @@
     if (focus) { const h = $(`[data-step="${n}"] h2`); h.focus(); h.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
     if (!EMBED) history.replaceState(null, '', '#step-' + n);
   }
-  $$('[data-next]').forEach((b) => b.addEventListener('click', () => { if (validateStep(current)) go(current + 1); }));
+  $$('[data-next]').forEach((b) => b.addEventListener('click', () => {
+    if (!validateStep(current)) return;
+    if (current === 2 && isQuotedInterest()) { location.href = '/quote?type=quoted#lq'; return; }
+    go(current + 1);
+  }));
   $$('[data-back]').forEach((b) => b.addEventListener('click', () => go(current - 1)));
 
   function buildReview() {
@@ -194,7 +236,8 @@
       ['Name', val('name'), 3], ['Company', val('company') || '—', 3], ['Email', val('email'), 3], ['Mobile', val('mobile') || '—', 3],
       ['Suburb / postcode', val('suburb'), 3], ['Listings', val('listings'), 3], ['Turns per week', val('turns_per_week') || '—', 3],
       ['First turn', val('start_date') || '—', 3], ['Usual window', val('turn_window') || '—', 3], ['Mix / layout', val('beds_mix') || '—', 3],
-      ['Estimate per turn', typeof e.total === 'number' ? money(e.total) + (e.event ? ` (incl. ${e.event} +25%)` : '') : (e.total === 'mix' ? '$149–$279 by size' : 'Quoted'), 2]
+      ['Job type', val('job_type') === 'quoted' ? 'quoted' : 'card', 1],
+      ['Estimate per turn', isQuotedInterest() ? 'No card price' : (typeof e.total === 'number' ? money(e.total) + (e.event ? ` (incl. ${e.event} +25%)` : '') : (e.total === 'mix' ? '$149–$279 by size' : 'Quoted')), 2]
     ];
     const dl = $('#review-list'); dl.style.display = 'grid';
     dl.innerHTML = rows.map(([k, v, s]) => `<dt>${esc(k)}</dt><dd>${esc(v)} <a href="#" class="edit" data-go="${s}">Edit<span class="sr-only"> ${esc(k)}</span></a></dd>`).join('');
@@ -234,7 +277,8 @@
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'quote_submit',
-        form_source: (form.elements.source && form.elements.source.value) || (EMBED ? 'home-quote' : 'quote-page')
+        form_source: (form.elements.source && form.elements.source.value) || (EMBED ? 'home-quote' : 'quote-page'),
+        job_type: isQuotedInterest() ? 'quoted' : 'card'
       });
       if (!EMBED) history.replaceState(null, '', '#sent');
     } catch (_) {
@@ -248,5 +292,5 @@
   const size = qs.get('size'); if (size) { const r = form.querySelector(`[name=package][data-beds="${CSS.escape(size)}"]`); if (r) r.checked = true; }
   const intMap = { single: 'Single listing turns', portfolio: 'Portfolio or overflow cover', event: 'Event-week capacity', sameday: 'Same-day backup' };
   const it = intMap[qs.get('interest')]; if (it) { const r = form.querySelector(`[name=interest][value="${it}"]`); if (r) r.checked = true; }
-  syncMix(); estimate(); go(it ? 2 : 1, false); // skip step 1 when an outreach link already says what they want
+  syncMix(); syncQuoted(); estimate(); go(it ? 2 : 1, false); // skip step 1 when an outreach link already says what they want
 })();

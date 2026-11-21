@@ -12,8 +12,42 @@
     contact: "Add an email or a phone number so we can reply.",
     email: "That email doesn’t look complete. Try name@domain.com.au.",
     mobile: "Use a phone number we can call or text, like 0412 345 678.",
-    past: "That date has already passed. Pick today or a later day."
+    past: "That date has already passed. Pick today or a later day.",
+    bedrooms: "Choose how many bedrooms.",
+    bathrooms: "Choose how many bathrooms.",
+    property_type: "Choose the property type."
   };
+
+  // Server-side spam check (submission-created) expects `started` on listing-quote-v2.
+  if (form.elements.started) form.elements.started.value = String(Date.now());
+
+  // Job type: card job (1–4 beds, card suburbs) or quoted job (5+ beds, house,
+  // or outside the card suburbs). /quote?type=quoted or /quote#quoted preselects quoted.
+  const cardRadio = document.getElementById("jt-card");
+  const quotedRadio = document.getElementById("jt-quoted");
+  const cardFields = document.getElementById("card-fields");
+  const quotedGroups = [document.getElementById("quoted-fields"), document.getElementById("quoted-extras")];
+
+  function isQuoted() {
+    return !!(quotedRadio && quotedRadio.checked);
+  }
+
+  function applyJobType() {
+    const quoted = isQuoted();
+    if (cardFields) cardFields.hidden = quoted;
+    quotedGroups.forEach((el) => { if (el) el.hidden = !quoted; });
+  }
+
+  const params = new URLSearchParams(location.search);
+  const wantQuoted = params.get("type") === "quoted" || location.hash === "#quoted";
+  if (wantQuoted && quotedRadio) quotedRadio.checked = true;
+  [cardRadio, quotedRadio].forEach((radio) => {
+    if (radio) radio.addEventListener("change", () => {
+      applyJobType();
+      if (form.dataset.tried) check(false);
+    });
+  });
+  applyJobType();
 
   const dateInput = form.elements.start_date;
   const today = new Date();
@@ -65,9 +99,26 @@
     if (!suburb.value.trim()) fail(suburb, "suburb-err", messages.suburb);
     else clearError(suburb, "suburb-err");
 
+    const quoted = isQuoted();
     const beds = form.elements.package;
-    if (!beds.value) fail(beds, "package-err", messages.package);
+    if (!quoted && !beds.value) fail(beds, "package-err", messages.package);
     else clearError(beds, "package-err");
+
+    const bedrooms = form.elements.bedrooms;
+    const ptype = form.elements.property_type;
+    const baths = form.elements.bathrooms;
+    if (baths) {
+      if (quoted && !baths.value) fail(baths, "bathrooms-err", messages.bathrooms);
+      else clearError(baths, "bathrooms-err");
+    }
+    if (bedrooms) {
+      if (quoted && !bedrooms.value) fail(bedrooms, "bedrooms-err", messages.bedrooms);
+      else clearError(bedrooms, "bedrooms-err");
+    }
+    if (ptype) {
+      if (quoted && !ptype.value) fail(ptype, "ptype-err", messages.property_type);
+      else clearError(ptype, "ptype-err");
+    }
 
     const date = form.elements.start_date;
     if (!date.value) fail(date, "date-err", messages.start_date);
@@ -103,7 +154,7 @@
     return ok;
   }
 
-  form.querySelectorAll("input, select").forEach((input) => {
+  form.querySelectorAll("input, select, textarea").forEach((input) => {
     const refresh = () => {
       if (form.dataset.tried) check(false);
     };
@@ -135,7 +186,7 @@
       const email = form.elements.email.value.trim();
       const mobile = form.elements.mobile.value.trim();
       const line = document.getElementById("done-email");
-      if (email) line.textContent = "Kwan will reply to " + email + " with a written price.";
+      if (email) line.textContent = "Kwan will reply to " + email + " with a written " + (isQuoted() ? "quote." : "price.");
       else line.textContent = "Kwan will reply using " + mobile + ".";
       form.hidden = true;
       done.hidden = false;
@@ -143,7 +194,8 @@
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'quote_submit',
-        form_source: (form.elements.source && form.elements.source.value) || 'quote-page'
+        form_source: (form.elements.source && form.elements.source.value) || 'quote-page',
+        job_type: isQuoted() ? 'quoted' : 'card'
       });
     } catch (_) {
       sendErr.textContent = "That didn’t send. Try again, or email desk@innerturn.com.au.";

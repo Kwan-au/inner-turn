@@ -66,18 +66,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="lead-only" role="note"><span aria-hidden="true">ⓘ</span><span><strong>This asks for a price. It doesn't book a clean.</strong> A turn is only booked once you've sent a lot pack, confirmed in writing, and a contractor on file has said yes.</span></p>
   <p class="prep">Before you send: suburb, bedrooms, and the checkout window are enough for a price. Street, access, and whether linen is on site belong there when you <a href="/lot-pack">send a lot pack</a> after you accept that price. Codes stay off this form. Read the <a href="/pricing">live card</a>. Same-day is a separate extra, and only with a written yes from the contractor (<a href="/same-day">8pm rule</a>).</p>
 
+  <aside class="quoted-callout" aria-labelledby="qc-quote">
+    <h2 class="qc-title" id="qc-quote">Bigger place or outside our suburbs? It's quoted.</h2>
+    <p>5+ bedrooms, houses, and suburbs outside the eight on the card get a written quote. There is no price until it is in writing.</p>
+    <p class="qc-links"><a href="/quoted-jobs" data-cta="quoted-quote">How quoted jobs work</a> <a href="/quote?type=quoted#lq" data-cta="quoted-quote-form">Ask for a written quote</a></p>
+  </aside>
+
   <form class="short-form" name="listing-quote-v2" method="POST" action="/thanks.html?from=quote" data-netlify="true" netlify-honeypot="bot-field" novalidate id="lq">
     <input type="hidden" name="form-name" value="listing-quote-v2">
     <input type="hidden" name="form_version" value="v2-2026-10-18">
     <input type="hidden" name="source" value="quote-page">
+    <input type="hidden" name="started" value="">
     <p class="honeypot" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
+    <fieldset class="field job-type">
+      <legend class="lbl">Job type</legend>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="job_type" value="Card job" id="jt-card" checked><span><strong>Card job</strong><small>1 to 4 bedrooms in one of the eight suburbs on the card.</small></span></label>
+        <label class="opt"><input type="radio" name="job_type" value="Quoted job: 5+ beds / house / outside card suburbs" id="jt-quoted"><span><strong>Quoted job</strong><small>5+ bedrooms, a house, or a suburb outside the card. The desk replies with a written quote.</small></span></label>
+      </div>
+    </fieldset>
     <div class="field">
       <label for="f-suburb">Suburb</label>
       <input id="f-suburb" name="suburb" type="text" required maxlength="200" autocomplete="address-level2" aria-describedby="suburb-err">
       <p class="err" id="suburb-err" role="alert" hidden></p>
     </div>
-    <div class="field">
+    <div class="field" id="card-fields">
       <label for="f-package">Bedrooms</label>
       <select id="f-package" name="package" required aria-describedby="package-err">
         <option value="">Choose</option>
@@ -89,6 +103,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </select>
       <p class="err" id="package-err" role="alert" hidden></p>
     </div>
+    <div class="quoted-fields" id="quoted-fields">
+      <p class="hint">For a quoted job. No price is shown here. The desk replies with a written quote. <a href="/quoted-jobs">How quoted jobs work</a>.</p>
+      <div class="field">
+        <label for="f-ptype">Property type</label>
+        <select id="f-ptype" name="property_type" aria-describedby="ptype-err">
+          <option value="">Choose</option>
+          <option value="Apartment or unit">Apartment or unit</option>
+          <option value="Townhouse">Townhouse</option>
+          <option value="House">House</option>
+        </select>
+        <p class="err" id="ptype-err" role="alert" hidden></p>
+      </div>
+      <div class="field">
+        <label for="f-bedrooms">Bedrooms</label>
+        <select id="f-bedrooms" name="bedrooms" aria-describedby="bedrooms-err">
+          <option value="">Choose</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6 or more">6 or more</option>
+        </select>
+        <p class="err" id="bedrooms-err" role="alert" hidden></p>
+      </div>
+      <div class="field">
+        <label for="f-bathrooms">Bathrooms</label>
+        <select id="f-bathrooms" name="bathrooms" aria-describedby="bathrooms-err">
+          <option value="">Choose</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4 or more">4 or more</option>
+        </select>
+        <p class="err" id="bathrooms-err" role="alert" hidden></p>
+      </div>
+    </div>
     <div class="field">
       <label for="f-start">Checkout date</label>
       <input id="f-start" name="start_date" type="date" required autocomplete="off" aria-describedby="date-err">
@@ -98,6 +149,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <label for="f-window">Checkout time</label>
       <input id="f-window" name="turn_window" type="time" required aria-describedby="time-err">
       <p class="err" id="time-err" role="alert" hidden></p>
+    </div>
+    <div class="quoted-fields" id="quoted-extras">
+      <p class="hint">Optional for a quoted job.</p>
+      <div class="field">
+        <label for="f-checkin">Next check-in time <span class="tag">optional</span></label>
+        <input id="f-checkin" name="checkin_time" type="time">
+      </div>
+      <div class="field">
+        <label for="f-linen">Linen <span class="tag">optional</span></label>
+        <select id="f-linen" name="linen">
+          <option value="">Choose</option>
+          <option value="Linen on site">Linen on site</option>
+          <option value="Quote the linen add-on">Quote the linen add-on</option>
+          <option value="Not sure">Not sure</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-name">Name <span class="tag">optional</span></label>
+        <input id="f-name" name="name" type="text" maxlength="80" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="f-notes">Notes <span class="tag">optional</span></label>
+        <textarea id="f-notes" name="notes" rows="3" maxlength="800" placeholder="Don't send door, lockbox or gate codes. The desk holds no keys."></textarea>
+      </div>
     </div>
     <div class="field">
       <label for="f-email">Email</label>
@@ -131,7 +206,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </aside>
 <!-- file-trust:end -->
 <footer class="site-ruler">
-  <nav class="foot-areas" aria-label="Areas we cover"><small>Areas we cover</small><a href="/pricing">Pricing</a><a href="/quote" aria-current="page">Free listing quote</a><a href="/areas">Areas</a><a href="/how-it-works">How it books</a><a href="/trust">Trust</a><a href="/events">Event weeks</a><a href="/richmond">Richmond</a><a href="/south-yarra">South Yarra</a><a href="/docklands">Docklands</a><a href="/east-melbourne">East Melbourne</a><a href="/fitzroy">Fitzroy</a><a href="/collingwood">Collingwood</a><a href="/st-kilda">St Kilda</a><a href="/southbank">Southbank</a></nav>
+  <nav class="foot-areas" aria-label="Areas we cover"><small>Areas we cover</small><a href="/pricing">Pricing</a><a href="/quote" aria-current="page">Free listing quote</a><a href="/quoted-jobs">Quoted jobs</a><a href="/areas">Areas</a><a href="/how-it-works">How it books</a><a href="/trust">Trust</a><a href="/events">Event weeks</a><a href="/richmond">Richmond</a><a href="/south-yarra">South Yarra</a><a href="/docklands">Docklands</a><a href="/east-melbourne">East Melbourne</a><a href="/fitzroy">Fitzroy</a><a href="/collingwood">Collingwood</a><a href="/st-kilda">St Kilda</a><a href="/southbank">Southbank</a></nav>
 </footer>
 <script src="/inner-turn.js" defer></script>
 <script src="/quote-short.js" defer></script>

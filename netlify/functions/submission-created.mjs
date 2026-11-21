@@ -93,7 +93,9 @@ export default async (req) => {
         "interest", "same_day", "linen", "restock", "suburb", "listings", "turns_week", "first_turn",
         "checkout_time", "checkin_time", "heard", "utm_source", "utm_campaign", "estimate_total",
         // field names used by the standalone /quote page
-        "turns_per_week", "start_date", "turn_window", "heard_about", "utm_medium", "est_per_turn"
+        "turns_per_week", "start_date", "turn_window", "heard_about", "utm_medium", "est_per_turn",
+        // quoted-job path on /quote (5+ beds, house, or outside the card suburbs)
+        "job_type", "property_type", "bedrooms", "bathrooms"
       ])
     : pick(data, ["address", "suburb", "beds", "checkout", "checkin", "access", "email", "phone", "notes", "source"]);
 
@@ -124,8 +126,13 @@ export default async (req) => {
     : isQuote
     ? [
         "quote",
+        fields.job_type,
         fields.need || fields.interest,
         fields.package,
+        fields.property_type,
+        fields.bedrooms && (fields.bedrooms + " bed"),
+        fields.bathrooms && (fields.bathrooms + " bath"),
+        fields.checkin_time && ("next in " + fields.checkin_time),
         fields.same_day && "same-day",
         fields.linen && ("linen: " + fields.linen),
         fields.suburbs || fields.suburb,
