@@ -292,6 +292,11 @@
   status = 200
 
 [[redirects]]
+  from = "/quoted-jobs"
+  to = "/quoted-jobs.html"
+  status = 200
+
+[[redirects]]
   from = "/how-it-works"
   to = "/how-it-works.html"
   status = 200
@@ -422,6 +427,12 @@
 [[redirects]]
   from = "/services.html"
   to = "/services"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/quoted-jobs.html"
+  to = "/quoted-jobs"
   status = 301
   force = true
 

@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <a class="drawer-primary" href="${isCleaners ? '#apply' : isApp ? '#open' : quoteHref}" data-cta="drawer">${isCleaners ? 'Join the file' : isApp ? 'Start a job' : 'Get a quote'}</a>
   </div>
   <div class="drawer-list drawer-legal">
+    <a href="/quoted-jobs">Quoted jobs</a>
     <a href="/photo-pack">Photo pack</a>
     <a href="/same-day">Same-day / 8pm</a>
     <a href="/trust">Trust</a>
@@ -200,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <a href="/lot-pack">For managers</a>
     <a href="/cleaners">For cleaners</a>
     <a href="/quote" data-cta="footer">Get a quote</a>
+    <a href="/quoted-jobs">Quoted jobs</a>
     <a href="/photo-pack">Photo pack</a>
     <a href="/same-day">Same-day / 8pm</a>
   </div>

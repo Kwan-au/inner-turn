@@ -759,3 +759,17 @@ footer.site-ruler nav.foot-areas{max-width:1120px;margin:0 auto;padding:8px 28px
 .drawer-areas > a{flex:1 1 auto;padding:8px 0}
 .drawer-areas .drawer-toggle{width:44px;min-width:44px;flex:0 0 44px;padding:0;border:0}
 a.drawer-primary,body.film a.drawer-primary{color:#161513 !important;background:#d4b37a}
+
+/* Quoted-jobs callout (pricing, areas, quote). No price for quoted jobs: written quote only. */
+main .quoted-callout{margin:32px 0;padding:22px 24px;border:1px solid #d4b37a77;border-left:3px solid #d4b37a;max-width:720px}
+main aside.quoted-callout h2.qc-title{font-size:clamp(22px,2.4vw,28px);font-weight:500;line-height:1.15;letter-spacing:-.02em;margin:0 0 10px;max-width:none}
+main .quoted-callout p{margin:0 0 10px;font-size:15px;max-width:none}
+main .quoted-callout .qc-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin:14px 0 0}
+main .quoted-callout .qc-links a{color:#b8913f !important;border-bottom:1px solid #b8913f88;padding-bottom:2px;font-weight:600}
+.areas-grid + .lq-cta-line + .quoted-callout{margin-left:auto;margin-right:auto}
+/* /quote job type: card job or quoted job. Script toggles [hidden]; without JS both groups show. */
+#card-fields[hidden],#quoted-fields[hidden],#quoted-extras[hidden]{display:none !important}
+.short-form .job-type{border:0;padding:0;margin:0 0 4px}
+.short-form .job-type .lbl{padding:0;margin-bottom:8px}
+.short-form .quoted-fields{display:grid;gap:inherit;border-left:3px solid #d4b37a;padding-left:16px}
+.short-form .quoted-fields > .hint{margin:0}
