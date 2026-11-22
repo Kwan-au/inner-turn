@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="event-bar" class="event-bar" role="status">
   <p>
     <span class="event-lead"><strong>Event weeks +25%</strong> when checkout or check-in falls in a published window.</span>
-    <span class="event-next"><span>Next: Harry Styles at Marvel Stadium 27 Nov, 28 Nov, 2 Dec and 4 Dec 2026</span><span>AO 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
+    <span class="event-next"><span>Next: Harry Styles 27–28 Nov, 2 & 4 Dec</span><span>AO 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
   </p>
   <button type="button" class="event-bar-x" aria-label="Dismiss event bar">×</button>
 </div>`);
@@ -318,10 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'Caulfield Cup', start: '2026-10-17', end: '2026-10-17' },
     { name: 'Cox Plate', start: '2026-10-24', end: '2026-10-24' },
     { name: 'Cup carnival', start: '2026-10-31', end: '2026-11-07' },
-    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-27', end: '2026-11-27' },
-    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-28', end: '2026-11-28' },
-    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-02', end: '2026-12-02' },
-    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-04', end: '2026-12-04' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-27', end: '2026-11-27', days: true },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-28', end: '2026-11-28', days: true },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-02', end: '2026-12-02', days: true },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-04', end: '2026-12-04', days: true },
     { name: 'AO', start: '2027-01-11', end: '2027-01-31' },
     { name: 'F1', start: '2027-04-01', end: '2027-04-04' }
   ];
@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (ev) {
         const bump = Math.round(sum * 0.25);
         sum += bump;
-        bits.push(`<li>Event ${ev.name} +25% · +$${bump}</li>`);
+        bits.push(`<li>Event ${ev.name}${ev.days ? ' concert day' : ''} +25% · +$${bump}</li>`);
       }
       bits.push('<li>GST not charged</li>');
       totalEl.textContent = '$' + sum;
