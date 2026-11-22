@@ -16,7 +16,10 @@
     { name: 'Caulfield Cup', start: '2026-10-17', end: '2026-10-17', label: 'Caulfield Cup · Sat 17 Oct 2026' },
     { name: 'Cox Plate', start: '2026-10-24', end: '2026-10-24', label: 'Cox Plate · Sat 24 Oct 2026' },
     { name: 'Cup carnival', start: '2026-10-31', end: '2026-11-07', label: 'Melbourne Cup carnival · 31 Oct – 7 Nov 2026' },
-    { name: 'Boxing Day Test', start: '2026-12-26', end: '2026-12-30', label: 'Boxing Day Test · 26 – 30 Dec 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-27', end: '2026-11-27', days: true, label: 'Harry Styles at Marvel Stadium · Fri 27 Nov 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-28', end: '2026-11-28', days: true, label: 'Harry Styles at Marvel Stadium · Sat 28 Nov 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-02', end: '2026-12-02', days: true, label: 'Harry Styles at Marvel Stadium · Wed 2 Dec 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-04', end: '2026-12-04', days: true, label: 'Harry Styles at Marvel Stadium · Fri 4 Dec 2026' },
     { name: 'Australian Open', start: '2027-01-11', end: '2027-01-31', label: 'Australian Open · 11 – 31 Jan 2027' },
     { name: 'F1 Grand Prix', start: '2027-04-01', end: '2027-04-04', label: 'F1 Albert Park · 1 – 4 Apr 2027' }
   ];
@@ -140,14 +143,16 @@
       const total = base + same + uplift;
       const L = [`<li><span>${beds}-bed turn</span><span>${money(base)}</span></li>`];
       if (same) L.push(`<li><span>Same-day extra</span><span>+${money(same)}</span></li>`);
-      if (uplift) L.push(`<li><span>${esc(ev.name)} week +25%</span><span>+${money(uplift)}</span></li>`);
+      if (uplift) L.push(`<li><span>${esc(ev.name)} ${ev.days ? 'concert day' : 'week'} +25%</span><span>+${money(uplift)}</span></li>`);
       L.push('<li><span>GST</span><span>Not charged</span></li>');
       L.push(`<li class="maybe"><span>First-turn trial (may apply)</span><span>−${money(TRIAL_OFF)}</span></li>`);
       totalEl.innerHTML = `${money(total)} <small>per turn</small>`;
       lines.innerHTML = L.join('');
       out = { base, same, event: ev ? ev.name : '', uplift, total, trial: `Trial -$${TRIAL_OFF} may apply once (first turn could be ${money(total - TRIAL_OFF)})` };
     }
-    if (ev) warn.innerHTML = `<p class="warn">Your start date is in <strong>${esc(ev.name)}</strong> week. Turns with checkout or check-in in that window are +25% on the base rate.</p>`;
+    if (ev) warn.innerHTML = ev.days
+      ? `<p class="warn">Your start date is a <strong>${esc(ev.name)}</strong> concert day. Turns with checkout or check-in in that window are +25% on the base rate.</p>`
+      : `<p class="warn">Your start date is in <strong>${esc(ev.name)}</strong> week. Turns with checkout or check-in in that window are +25% on the base rate.</p>`;
     else if (start) {
       const next = EVENTS.find((w) => w.start > start);
       if (next) { const days = Math.round((new Date(next.start) - new Date(start)) / 864e5); if (days <= 45) warn.innerHTML = `<p class="warn">Heads-up: ${esc(next.label)} is ${days} day${days === 1 ? '' : 's'} after your start date. Turns in that window are +25%.</p>`; }

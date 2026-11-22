@@ -10,7 +10,7 @@ const MODEL = "claude-haiku-5-5";
 const FACTS = `Inner Turn: Airbnb / short-stay changeover cleaning dispatch for inner Melbourne (Richmond, South Yarra, Southbank, Docklands, East Melbourne, Fitzroy, Collingwood, St Kilda, CBD ring).
 Operator: Kwan Ajak, sole trader, ABN 20 235 092 068. Not registered for GST, so GST is not charged; the card price is the invoice.
 Published card: 1-bed $149 (same-day +$40), 2-bed $189 (+$50), 3-bed $229 (+$60), 4-bed $279 (+$70). 5+ bed and houses are quoted.
-Event weeks +25%: Cup carnival 31 Oct-7 Nov 2026, AO 11-31 Jan 2027, F1 1-4 Apr 2027. Trial -$15 once.
+Event weeks +25%: Cup carnival 31 Oct-7 Nov 2026, Harry Styles at Marvel Stadium 27 Nov, 28 Nov, 2 Dec and 4 Dec 2026, AO 11-31 Jan 2027, F1 1-4 Apr 2027. Trial -$15 once.
 Includes: dispatch of an insured contractor, the turn, timestamped photo pack. Linen/restock only if written into the lot pack and accepted.
 Excludes: listing takeover, guest chat, holding keys. The desk holds no keys. VIC short-stay levy.
 A form is a lead, not a booking. To book a turn we need: suburb/street, beds, checkout time, check-in time, access method.
