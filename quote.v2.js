@@ -16,7 +16,10 @@
     { name: 'Caulfield Cup', start: '2026-10-17', end: '2026-10-17', label: 'Caulfield Cup · Sat 17 Oct 2026' },
     { name: 'Cox Plate', start: '2026-10-24', end: '2026-10-24', label: 'Cox Plate · Sat 24 Oct 2026' },
     { name: 'Cup carnival', start: '2026-10-31', end: '2026-11-07', label: 'Melbourne Cup carnival · 31 Oct – 7 Nov 2026' },
-    { name: 'Boxing Day Test', start: '2026-12-26', end: '2026-12-30', label: 'Boxing Day Test · 26 – 30 Dec 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-27', end: '2026-11-27', label: 'Harry Styles at Marvel Stadium · Fri 27 Nov 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-28', end: '2026-11-28', label: 'Harry Styles at Marvel Stadium · Sat 28 Nov 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-02', end: '2026-12-02', label: 'Harry Styles at Marvel Stadium · Wed 2 Dec 2026' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-04', end: '2026-12-04', label: 'Harry Styles at Marvel Stadium · Fri 4 Dec 2026' },
     { name: 'Australian Open', start: '2027-01-11', end: '2027-01-31', label: 'Australian Open · 11 – 31 Jan 2027' },
     { name: 'F1 Grand Prix', start: '2027-04-01', end: '2027-04-04', label: 'F1 Albert Park · 1 – 4 Apr 2027' }
   ];

@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="event-bar" class="event-bar" role="status">
   <p>
     <span class="event-lead"><strong>Event weeks +25%</strong> when checkout or check-in falls in a published window.</span>
-    <span class="event-next"><span>Next: Australian Open 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
+    <span class="event-next"><span>Next: Harry Styles at Marvel Stadium 27 Nov, 28 Nov, 2 Dec and 4 Dec 2026</span><span>AO 11–31 Jan 2027</span><span>F1 1–4 Apr 2027</span><a href="/pricing">Card</a></span>
   </p>
   <button type="button" class="event-bar-x" aria-label="Dismiss event bar">×</button>
 </div>`);
@@ -318,7 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'Caulfield Cup', start: '2026-10-17', end: '2026-10-17' },
     { name: 'Cox Plate', start: '2026-10-24', end: '2026-10-24' },
     { name: 'Cup carnival', start: '2026-10-31', end: '2026-11-07' },
-    { name: 'Boxing Day Test', start: '2026-12-26', end: '2026-12-30' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-27', end: '2026-11-27' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-11-28', end: '2026-11-28' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-02', end: '2026-12-02' },
+    { name: 'Harry Styles at Marvel Stadium', start: '2026-12-04', end: '2026-12-04' },
     { name: 'AO', start: '2027-01-11', end: '2027-01-31' },
     { name: 'F1', start: '2027-04-01', end: '2027-04-04' }
   ];
