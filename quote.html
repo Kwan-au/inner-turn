@@ -77,13 +77,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <input type="hidden" name="form_version" value="v2-2026-10-18">
     <input type="hidden" name="source" value="quote-page">
     <input type="hidden" name="started" value="">
+    <input type="hidden" name="job_type" value="card">
     <p class="honeypot" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
     <fieldset class="field job-type">
-      <legend class="lbl">Job type</legend>
+      <legend class="lbl">What are you interested in?</legend>
       <div class="opts">
-        <label class="opt"><input type="radio" name="job_type" value="Card job" id="jt-card" checked><span><strong>Card job</strong><small>1 to 4 bedrooms in one of the eight suburbs on the card.</small></span></label>
-        <label class="opt"><input type="radio" name="job_type" value="Quoted job: 5+ beds / house / outside card suburbs" id="jt-quoted"><span><strong>Quoted job</strong><small>5+ bedrooms, a house, or a suburb outside the card. The desk replies with a written quote.</small></span></label>
+        <label class="opt"><input type="radio" name="interest" value="Single listing turns" data-mode="card" id="jt-card" checked required><span><strong>Turns for one or two listings</strong><small>A regular changeover between guests. You keep the listing and the guest chat.</small></span></label>
+        <label class="opt"><input type="radio" name="interest" value="Portfolio or overflow cover" data-mode="card"><span><strong>Portfolio or overflow cover</strong><small>Extra hands across several listings when your own cleaners are full or away.</small></span></label>
+        <label class="opt"><input type="radio" name="interest" value="Event-week capacity" data-mode="card"><span><strong>Event-week capacity</strong><small>Cup carnival, the Australian Open, F1. Event-week rates are on the card (+25%).</small></span></label>
+        <label class="opt"><input type="radio" name="interest" value="Same-day backup" data-mode="card"><span><strong>Same-day backup</strong><small>A back-up when a cleaner drops out or a window moves late. Only with a contractor's written yes.</small></span></label>
+        <label class="opt"><input type="radio" name="interest" value="Quoted job: bigger place or outside our suburbs" data-mode="quoted" id="jt-quoted"><span><strong>Quoted job: bigger place or outside our suburbs</strong><small>5+ bedrooms, houses, or a suburb outside the eight on the card. Quoted in writing before anything is booked.</small></span></label>
+        <label class="opt"><input type="radio" name="interest" value="Ongoing contract: quoted" data-mode="contract" id="jt-contract"><span><strong>Ongoing contract: quoted</strong><small>Regular turns across several listings on an agreed schedule. Quoted in writing after we see your lot pack.</small></span></label>
       </div>
     </fieldset>
     <div class="field">

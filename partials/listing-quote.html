@@ -50,6 +50,8 @@
             <span><strong>Same-day backup</strong><small>A back-up when a cleaner drops out or a window moves late. Only with a contractor's written yes.</small></span></label>
           <label class="opt"><input type="radio" name="interest" value="Quoted job: bigger place or outside our suburbs">
             <span><strong>Quoted job: bigger place or outside our suburbs</strong><small>5+ bedrooms, houses, or a suburb outside the eight on the card. Quoted in writing before anything is booked.</small></span></label>
+          <label class="opt"><input type="radio" name="interest" value="Ongoing contract: quoted">
+            <span><strong>Ongoing contract: quoted</strong><small>Regular turns across several listings on an agreed schedule. Quoted in writing after we see your lot pack.</small></span></label>
         </div>
         <p class="err" id="need-err" hidden>Choose one option so we know what to price.</p>
         <div class="nav"><span></span><button type="button" class="btn js-only" data-next>Next: choose a package</button></div>
@@ -64,7 +66,7 @@
         <div class="quoted-pack" id="quoted-pack" hidden>
           <p>No card price for this one. The desk replies with a written quote.</p>
           <p><a href="/quoted-jobs">How quoted jobs work</a></p>
-          <p><a class="btn" href="/quote?type=quoted#lq">Continue to the written quote</a></p>
+          <p><a class="btn" id="quoted-continue" href="/quote?type=quoted#lq">Continue to the written quote</a></p>
         </div>
 
         <div class="packs">

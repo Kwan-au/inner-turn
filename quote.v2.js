@@ -88,9 +88,17 @@
 
   /* ---------------- estimate ---------------- */
   const QUOTED_INTEREST = 'Quoted job: bigger place or outside our suburbs';
-  function isQuotedInterest() { return val('interest') === QUOTED_INTEREST; }
+  const CONTRACT_INTEREST = 'Ongoing contract: quoted';
+  function quoteMode() {
+    const picked = val('interest');
+    if (picked === QUOTED_INTEREST) return 'quoted';
+    if (picked === CONTRACT_INTEREST) return 'contract';
+    return 'card';
+  }
+  function isOffCard() { return quoteMode() !== 'card'; }
   function syncQuoted() {
-    const on = isQuotedInterest();
+    const mode = quoteMode();
+    const on = mode !== 'card';
     const panel = $('#quoted-pack');
     if (panel) panel.hidden = !on;
     const packs = $('.packs', form);
@@ -99,21 +107,26 @@
     if (hint) hint.hidden = on;
     $$('.sub-block', form).forEach((el) => { el.hidden = on; });
     const next2 = form.querySelector('[data-step="2"] [data-next]');
-    if (next2) next2.hidden = on;
+    if (next2) {
+      next2.hidden = on;
+      next2.style.display = on ? 'none' : '';
+    }
     const h2 = form.querySelector('[data-step="2"] h2');
-    if (h2) h2.textContent = on ? 'Quoted job' : 'Choose a package';
+    if (h2) h2.textContent = mode === 'contract' ? 'Ongoing contract' : (mode === 'quoted' ? 'Quoted job' : 'Choose a package');
     const next1 = form.querySelector('[data-step="1"] [data-next]');
     if (next1) next1.textContent = on ? 'Next' : 'Next: choose a package';
+    const cont = $('#quoted-continue');
+    if (cont) cont.href = mode === 'contract' ? '/quote?type=contract#lq' : '/quote?type=quoted#lq';
     $$('[name=package]', form).forEach((r) => { r.required = !on && r.dataset.beds === '1'; });
     $$('[name=linen]', form).forEach((r) => { r.required = !on && r.value.indexOf('Host supplies') === 0; });
-    if (form.elements.job_type) form.elements.job_type.value = on ? 'quoted' : 'card';
+    if (form.elements.job_type) form.elements.job_type.value = mode;
     if (on) {
       $$('[name=package]', form).forEach((r) => { r.checked = false; });
     }
   }
 
   function estimate() {
-    if (isQuotedInterest()) {
+    if (isOffCard()) {
       const totalEl = $('#est-total'), lines = $('#est-lines'), warn = $('#est-warn');
       totalEl.textContent = 'No card price';
       lines.innerHTML = '<li><span>Written quote</span><span>The desk replies</span></li>';
@@ -192,7 +205,7 @@
   function validateStep(i) {
     if (i === 1) { form.dataset.tried1 = 1; const ok = radioOk('interest', 'need-err'); if (!ok) form.querySelector('[name=interest]').focus(); return ok; }
     if (i === 2) {
-      if (isQuotedInterest()) return true;
+      if (isOffCard()) return true;
       form.dataset.tried2 = 1; const a = radioOk('package', 'pkg-err'), b = radioOk('linen', 'linen-err'); if (!a) form.querySelector('[name=package]').focus(); else if (!b) form.querySelector('[name=linen]').focus(); return a && b;
     }
     if (i === 3) {
@@ -223,7 +236,7 @@
   }
   $$('[data-next]').forEach((b) => b.addEventListener('click', () => {
     if (!validateStep(current)) return;
-    if (current === 2 && isQuotedInterest()) { location.href = '/quote?type=quoted#lq'; return; }
+    if (current === 2 && isOffCard()) { location.href = quoteMode() === 'contract' ? '/quote?type=contract#lq' : '/quote?type=quoted#lq'; return; }
     go(current + 1);
   }));
   $$('[data-back]').forEach((b) => b.addEventListener('click', () => go(current - 1)));
@@ -236,8 +249,8 @@
       ['Name', val('name'), 3], ['Company', val('company') || '—', 3], ['Email', val('email'), 3], ['Mobile', val('mobile') || '—', 3],
       ['Suburb / postcode', val('suburb'), 3], ['Listings', val('listings'), 3], ['Turns per week', val('turns_per_week') || '—', 3],
       ['First turn', val('start_date') || '—', 3], ['Usual window', val('turn_window') || '—', 3], ['Mix / layout', val('beds_mix') || '—', 3],
-      ['Job type', val('job_type') === 'quoted' ? 'quoted' : 'card', 1],
-      ['Estimate per turn', isQuotedInterest() ? 'No card price' : (typeof e.total === 'number' ? money(e.total) + (e.event ? ` (incl. ${e.event} +25%)` : '') : (e.total === 'mix' ? '$149–$279 by size' : 'Quoted')), 2]
+      ['Job type', val('job_type') || 'card', 1],
+      ['Estimate per turn', isOffCard() ? 'No card price' : (typeof e.total === 'number' ? money(e.total) + (e.event ? ` (incl. ${e.event} +25%)` : '') : (e.total === 'mix' ? '$149–$279 by size' : 'Quoted')), 2]
     ];
     const dl = $('#review-list'); dl.style.display = 'grid';
     dl.innerHTML = rows.map(([k, v, s]) => `<dt>${esc(k)}</dt><dd>${esc(v)} <a href="#" class="edit" data-go="${s}">Edit<span class="sr-only"> ${esc(k)}</span></a></dd>`).join('');
@@ -278,7 +291,7 @@
       window.dataLayer.push({
         event: 'quote_submit',
         form_source: (form.elements.source && form.elements.source.value) || (EMBED ? 'home-quote' : 'quote-page'),
-        job_type: isQuotedInterest() ? 'quoted' : 'card'
+        job_type: quoteMode()
       });
       if (!EMBED) history.replaceState(null, '', '#sent');
     } catch (_) {
