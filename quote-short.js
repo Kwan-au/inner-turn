@@ -21,28 +21,40 @@
   // Server-side spam check (submission-created) expects `started` on listing-quote-v2.
   if (form.elements.started) form.elements.started.value = String(Date.now());
 
-  // Job type: card job (1–4 beds, card suburbs) or quoted job (5+ beds, house,
-  // or outside the card suburbs). /quote?type=quoted or /quote#quoted preselects quoted.
-  const cardRadio = document.getElementById("jt-card");
-  const quotedRadio = document.getElementById("jt-quoted");
+  // Same six options as the homepage picker. interest is the option value.
+  // job_type is card, quoted, or contract. /quote?type=quoted, #quoted,
+  // /quote?type=contract, or #contract preselects the off-card paths.
   const cardFields = document.getElementById("card-fields");
   const quotedGroups = [document.getElementById("quoted-fields"), document.getElementById("quoted-extras")];
 
-  function isQuoted() {
-    return !!(quotedRadio && quotedRadio.checked);
+  function pickedInterest() {
+    return form.querySelector('[name="interest"]:checked');
+  }
+
+  function mode() {
+    const picked = pickedInterest();
+    return (picked && picked.getAttribute("data-mode")) || "card";
+  }
+
+  function isOffCard() {
+    return mode() !== "card";
   }
 
   function applyJobType() {
-    const quoted = isQuoted();
-    if (cardFields) cardFields.hidden = quoted;
-    quotedGroups.forEach((el) => { if (el) el.hidden = !quoted; });
+    const off = isOffCard();
+    if (cardFields) cardFields.hidden = off;
+    quotedGroups.forEach((el) => { if (el) el.hidden = !off; });
+    if (form.elements.job_type) form.elements.job_type.value = mode();
   }
 
   const params = new URLSearchParams(location.search);
-  const wantQuoted = params.get("type") === "quoted" || location.hash === "#quoted";
-  if (wantQuoted && quotedRadio) quotedRadio.checked = true;
-  [cardRadio, quotedRadio].forEach((radio) => {
-    if (radio) radio.addEventListener("change", () => {
+  const asked = params.get("type") || (location.hash === "#quoted" ? "quoted" : location.hash === "#contract" ? "contract" : "");
+  if (asked === "quoted" || asked === "contract") {
+    const match = form.querySelector('[name="interest"][data-mode="' + asked + '"]');
+    if (match) match.checked = true;
+  }
+  form.querySelectorAll('[name="interest"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
       applyJobType();
       if (form.dataset.tried) check(false);
     });
@@ -99,7 +111,7 @@
     if (!suburb.value.trim()) fail(suburb, "suburb-err", messages.suburb);
     else clearError(suburb, "suburb-err");
 
-    const quoted = isQuoted();
+    const quoted = isOffCard();
     const beds = form.elements.package;
     if (!quoted && !beds.value) fail(beds, "package-err", messages.package);
     else clearError(beds, "package-err");
@@ -186,7 +198,7 @@
       const email = form.elements.email.value.trim();
       const mobile = form.elements.mobile.value.trim();
       const line = document.getElementById("done-email");
-      if (email) line.textContent = "Kwan will reply to " + email + " with a written " + (isQuoted() ? "quote." : "price.");
+      if (email) line.textContent = "Kwan will reply to " + email + " with a written " + (isOffCard() ? "quote." : "price.");
       else line.textContent = "Kwan will reply using " + mobile + ".";
       form.hidden = true;
       done.hidden = false;
@@ -195,7 +207,7 @@
       window.dataLayer.push({
         event: 'quote_submit',
         form_source: (form.elements.source && form.elements.source.value) || 'quote-page',
-        job_type: isQuoted() ? 'quoted' : 'card'
+        job_type: mode()
       });
     } catch (_) {
       sendErr.textContent = "That didn’t send. Try again, or email desk@innerturn.com.au.";
